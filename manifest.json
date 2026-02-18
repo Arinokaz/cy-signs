@@ -1,0 +1,15 @@
+{
+  "short_name": "CyprusSigns",
+  "name": "Cyprus Driving Test Quiz",
+  "icons": [
+    {
+      "src": "img/main-icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f1f2f6",
+  "theme_color": "#2c3e50"
+}

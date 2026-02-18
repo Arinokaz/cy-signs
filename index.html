@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cyprus Driving Test</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --bg: #f1f2f6;
+            --hint-bg: #fff3cd;
+            --hint-text: #856404;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #app {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Экран викторины */
+        .sign-box {
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: #fafafa;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            padding: 15px;
+        }
+
+        .sign-img {
+            max-height: 150px;
+            max-width: 90%;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        /* Стили кнопок */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 20px;
+            border: 2px solid #eee;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
+            outline: none;
+        }
+
+        button:hover:not(:disabled) {
+            background: #f8f9fa;
+            border-color: var(--accent);
+        }
+
+        button.correct {
+            background: var(--success) !important;
+            color: white;
+            border-color: var(--success);
+        }
+
+        button.wrong {
+            background: var(--danger) !important;
+            color: white;
+            border-color: var(--danger);
+        }
+
+        /* Тот самый хит-бокс (один вариант) */
+        .hint-box {
+            background: var(--hint-bg);
+            color: var(--hint-text);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 1em;
+            border: 1px solid #ffeeba;
+            line-height: 1.4;
+            display: none;
+            /* Скрыт по умолчанию */
+            text-align: left;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Категории */
+        .category-btn {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            margin: 4px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .category-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .main-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Лог результатов */
+        .result-item {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            gap: 15px;
+        }
+
+        .result-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        /* Стили для тумблера */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--accent);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div id="start-screen">
+            <h1>Cyprus Signs Test</h1>
+
+            <div style="margin: 20px 0; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <label class="switch">
+                    <input type="checkbox" id="fav-only">
+                    <span class="slider"></span>
+                </label>
+                <span>Только избранные знаки ⭐</span>
+            </div>
+
+            <p>Категория:</p>
+            <div id="category-selector">
+                <button class="category-btn active" onclick="setCat('all', this)">Все знаки</button>
+                <button class="category-btn" onclick="setCat('warning', this)">⚠ Опасность</button>
+                <button class="category-btn" onclick="setCat('regulatory', this)">🚫 Запрет</button>
+                <button class="category-btn" onclick="setCat('mandatory', this)">🔵 Предписания</button>
+                <button class="category-btn" onclick="setCat('police', this)">👮 Полиция</button>
+            </div>
+
+            <p>Вопросов:</p>
+            <select id="question-count" style="padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 20px;">
+                <option value="10">10 вопросов</option>
+                <option value="20" selected>20 вопросов</option>
+                <option value="50">50 вопросов</option>
+                <option value="all">Весь список</option>
+            </select>
+
+            <button class="main-btn" onclick="start()">Начать тренировку</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div class="progress" id="progress"></div>
+            <div class="sign-box">
+                <img id="q-img" src="" class="sign-img">
+            </div>
+            <div id="options" class="options"></div>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <h2>Ваш счет: <span id="score"></span> / <span id="total-q"></span></h2>
+            <div id="log" style="max-height: 450px; overflow-y: auto;"></div>
+            <button class="main-btn" onclick="location.reload()">В главное меню</button>
+        </div>
+    </div>
+
+    <script>
+        // Регистрация Service Worker для работы оффлайн
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW зарегистрирован!', reg))
+                    .catch(err => console.log('Ошибка SW:', err));
+            });
+        }
+
+        // 1. Твоя база данных (сокращено для примера, добавь сюда остальные знаки)
+        const allSigns = [
+            { name: "Built-up area (Граница населенного пункта)", file: "City_speed_limit_sign_in_Polis,_Cyprus.svg", cat: "information", hint: "Означает начало застроенной зоны. Скорость ограничена 50 км/ч (30 миль/ч), если не указано иное.", fav: false },
+            { name: "STOP and give way (СТОП и уступи дорогу)", file: "Cyprus_road_sign_-_STOP.svg", cat: "regulatory", hint: "Вы должны полностью остановиться перед стоп-линией, даже если на дороге никого нет.", fav: false },
+            { name: "Emergency telephone (Телефон экстренной связи)", file: "Cyprus_road_sign_SOS.svg", cat: "information", hint: "Указывает расстояние или местоположение телефона для связи со службами помощи.", fav: false },
+            { name: "Bus stop (Автобусная остановка)", file: "Cyprus_road_sign_bus_stop.svg", cat: "information", hint: "Место остановки маршрутных автобусов. Остановка других ТС запрещена.", fav: false },
+            { name: "Route confirmation sign (Подтверждение маршрута)", file: "Cyprus_road_sign_confirm.svg", cat: "information", hint: "Указывает номер дороги и расстояние до населенных пунктов впереди по маршруту.", fav: false },
+            { name: "Box junction ahead (Перекресток с желтой сеткой впереди)", file: "Cyprus_road_sign_cross_guided.svg", cat: "warning", hint: "Предупреждает о приближении к перекрестку с нанесенной желтой разметкой («коробкой»). Запрещается выезжать на такую разметку, если ваш выезд с нее не свободен.", fav: false },
+            { name: "No through road (Тупик)", file: "Cyprus_road_sign_cul_de_sac.svg", cat: "information", hint: "Дорога, не имеющая сквозного проезда.", fav: false },
+            { name: "No through road on the left (Тупик слева)", file: "Cyprus_road_sign_cul_de_sac_ahead_left.svg", cat: "information", hint: "Поворот налево приведет в тупик.", fav: false },
+            { name: "No through road on the right (Тупик справа)", file: "Cyprus_road_sign_cul_de_sac_ahead_right.svg", cat: "information", hint: "Поворот направо приведет в тупик.", fav: false },
+            { name: "Stop — Customs (СТОП — Таможня)", file: "Cyprus_road_sign_customs.svg", cat: "regulatory", hint: "Обязательная остановка для прохождения таможенного контроля.", fav: false },
+            { name: "Direction to motorway (Направление к автомагистрали)", file: "Cyprus_road_sign_destinations_blue.svg", cat: "information", hint: "Синий фон используется исключительно для указателей на автомагистрали (motorway).", fav: false },
+            { name: "Advance direction sign (Предварительный указатель направлений)", file: "Cyprus_road_sign_destinations_road_crossing.svg", cat: "information", hint: "Указывает направления на предстоящем перекрестке.", fav: false },
+            { name: "Direction to primary/local routes (Направление местных дорог)", file: "Cyprus_road_sign_destinations_white.svg", cat: "information", hint: "Белые знаки указывают на второстепенные дороги или объекты местного значения.", fav: false },
+            { name: "Informatory sign for special messages (Информационный щит для специальных сообщений)", file: "Cyprus_road_sign_drive_on_the_left.svg", cat: "information", hint: "Общий формат информационного щита с желтыми проблесковыми маячками. Используется для донесения важных текстовых сообщений (например, напоминание о левостороннем движении или предупреждение о дорожных работах).", fav: false },
+            { name: "End of maximum speed limit (Конец ограничения скорости)", file: "Cyprus_road_sign_end_maximum_speed.svg", cat: "regulatory", hint: "Обозначает конец участка с ограничением скорости, указанным ранее.", fav: false },
+            { name: "End of the no overtaking restriction (Конец запрета обгона)", file: "Cyprus_road_sign_end_no_overpass.svg", cat: "regulatory", hint: "Обгон разрешен при условии безопасности маневра.", fav: false },
+            { name: "End of no parking zone (Конец зоны запрета парковки)", file: "Cyprus_road_sign_end_no_parking_zone.svg", cat: "regulatory", hint: "Конец территории, на которой действовали особые правила парковки.", fav: false },
+            { name: "End of priority road (Конец главной дороги)", file: "Cyprus_road_sign_end_priority_road.svg", cat: "regulatory", hint: "Вы больше не имеете приоритета на перекрестках. Действует правило правой руки или знаки приоритета.", fav: false },
+            { name: "End of speed road (Конец автомагистрали)", file: "Cyprus_road_sign_end_road_for_motorvehicles.svg", cat: "information", hint: "Конец скоростной трассы. Снизьте скорость и будьте готовы к встречному движению.", fav: false },
+            { name: "General speed limits (Общие ограничения скорости)", file: "Cyprus_road_sign_general_limits.svg", cat: "information", hint: "Информирует о национальных лимитах: 50 в городе, 80 на дорогах вне города, 100 на хайвее.", fav: false },
+            { name: "GIVE WAY to traffic on major road (Уступите дорогу)", file: "Cyprus_road_sign_give_way.svg", cat: "regulatory", hint: "Вы должны уступить дорогу транспорту на пересекаемой дороге.", fav: false },
+            { name: "Route to be used by horse riders only (Дорога только для лошадей)", file: "Cyprus_road_sign_horse_street.svg", cat: "mandatory", hint: "Указывает на обязательную дорожку для всадников на лошадях или пони. Движение других транспортных средств по этой дорожке запрещено.", fav: false },
+            { name: "Warning sign with supplementary plate. Speed hump at pedestrian crossing (Переход с искусственной неровностью)", file: "Cyprus_road_sign_humped_crossing.svg", cat: "warning", hint: "Комбинированный знак, предупреждающий о пешеходном переходе, расположенном на искусственной неровности («лежачем полицейском»). Желтый фон указывает на необходимость повышенного внимания.", fav: false },
+            { name: "Warning sign with supplementary plate. Pelican crossing on speed hump (Регулируемый переход на неровности)", file: "Cyprus_road_sign_humped_pellcan_crossing.svg", cat: "warning", hint: "Предупреждает о регулируемом переходе типа «Пеликан» (светофор с кнопкой для пешеходов), который расположен на искусственной неровности («лежачем полицейском»).", fav: false },
+            { name: "Compulsory use of wheel chains (Цепи противоскольжения обязательны)", file: "Cyprus_road_sign_mandatory_chains.svg", cat: "mandatory", hint: "Проезд разрешен только автомобилям с установленными цепями на колесах (актуально для гор).", fav: false },
+            { name: "Ahead or left only (Обязательно прямо или налево)", file: "Cyprus_road_sign_mandatory_go_or_left.svg", cat: "mandatory", hint: "Предписывающий знак. Движение разрешено только в указанных направлениях.", fav: false },
+            { name: "Ahead or right only (Обязательно прямо или направо)", file: "Cyprus_road_sign_mandatory_go_or_right.svg", cat: "mandatory", hint: "Предписывающий знак. Движение разрешено только в указанных направлениях.", fav: false },
+            { name: "Ahead only (Обязательно прямо)", file: "Cyprus_road_sign_mandatory_go_streight.svg", cat: "mandatory", hint: "Движение разрешено только прямо. Повороты на боковые дороги запрещены.", fav: false },
+            { name: "Turn left or right only (Обязательно налево или направо)", file: "Cyprus_road_sign_mandatory_left_or_right.svg", cat: "mandatory", hint: "Движение прямо запрещено. Вы обязаны повернуть.", fav: false },
+            { name: "Pedestrian route (Пешеходная дорожка)", file: "Cyprus_road_sign_mandatory_pedestrian_way.svg", cat: "mandatory", hint: "Обозначает путь, предназначенный исключительно для пешеходов.", fav: false },
+            { name: "No vehicles over weight shown (Запрет движения транспортных средств, масса которых превышает указанную)", file: "Cyprus_road_sign_maximum_heavy.svg", cat: "regulatory", hint: "Запрещает движение любых транспортных средств, чья фактическая общая масса превышает 5.5 тонн. Часто устанавливается перед мостами или участками дорог с ограниченной несущей способностью.", fav: false },
+            { name: "No vehicles over height shown (Ограничение высоты)", file: "Cyprus_road_sign_maximum_height.svg", cat: "regulatory", hint: "Обычно вешается перед мостами или тоннелями. Учитывайте высоту груза и антенн.", fav: false },
+            { name: "No vehicles over width shown (Ограничение ширины)", file: "Cyprus_road_sign_maximum_large.svg", cat: "regulatory", hint: "Запрещен проезд ТС, ширина которых (с зеркалами или грузом) больше указанной.", fav: false },
+            { name: "No vehicles or combination of vehicles over length shown (Ограничение длины)", file: "Cyprus_road_sign_maximum_lenght.svg", cat: "regulatory", hint: "Ограничение для длинномерных ТС, часто на узких поворотах в горах или старых городах.", fav: false },
+            { name: "No vehicles over maximum axle weight shown (Ограничение нагрузки на ось)", file: "Cyprus_road_sign_maximum_single_weight.svg", cat: "regulatory", hint: "Запрет проезда ТС, у которых нагрузка на любую из осей выше лимита.", fav: false },
+            { name: "Maximum speed limit (Максимальное ограничение скорости)", file: "Cyprus_road_sign_maximum_speed.svg", cat: "regulatory", hint: "Число в красном круге — это абсолютный предел. Превышение наказывается штрафом.", fav: false },
+            { name: "Minimum distance to be kept with the vehicle in front (Минимальная дистанция)", file: "Cyprus_road_sign_minimum_distance.svg", cat: "regulatory", hint: "Обязывает водителей держать безопасный зазор не менее указанного.", fav: false },
+            { name: "Directional sign (Указатель направлений и расстояний)", file: "Cyprus_road_sign_next_destinations.svg", cat: "information", hint: "Информирует о километраже до городов по выбранному маршруту.", fav: false },
+            { name: "No agricultural vehicles (Движение сельхозтехники запрещено)", file: "Cyprus_road_sign_no_agricle_vehicles.svg", cat: "regulatory", hint: "Запрещает движение тракторов и других тихоходных аграрных машин.", fav: false },
+            { name: "No animal-drawn vehicles (Движение гужевых повозок запрещено)", file: "Cyprus_road_sign_no_animal_vehicles.svg", cat: "regulatory", hint: "Запрет на движение телег, запряженных животными.", fav: false },
+            { name: "No wheelbarrows (Движение с ручными тележками запрещено)", file: "Cyprus_road_sign_no_hand_vehicles.svg", cat: "regulatory", hint: "Запрещает движение пешеходов с грузовыми тележками.", fav: false },
+            { name: "No goods vehicles (Движение грузовых автомобилей запрещено)", file: "Cyprus_road_sign_no_heavy_vehicles.svg", cat: "regulatory", hint: "Запрет для всех грузовиков. Обычно ставится в жилых зонах.", fav: false },
+            { name: "No use of horn (Подача звукового сигнала запрещена)", file: "Cyprus_road_sign_no_horn.svg", cat: "regulatory", hint: "Использование сигнала разрешено только для предотвращения ДТП.", fav: false },
+            { name: "No mopeds (Движение мопедов запрещено)", file: "Cyprus_road_sign_no_mopeds.svg", cat: "regulatory", hint: "Запрещает движение ТС с объемом двигателя до 50 см³.", fav: false },
+            { name: "No motor vehicles except two-wheeled vehicles (Движение механических ТС запрещено)", file: "Cyprus_road_sign_no_motor_vehicles.svg", cat: "regulatory", hint: "Запрет для всех авто кроме мотоциклов. Часто используется в пешеходных зонах.", fav: false },
+            { name: "No motorbikes (Движение мотоциклов запрещено)", file: "Cyprus_road_sign_no_motorcycles.svg", cat: "regulatory", hint: "Запрещает движение только двухколесных моторных ТС.", fav: false },
+            { name: "No overtaking by goods vehicles (Запрет обгона для грузовиков)", file: "Cyprus_road_sign_no_overpass_heavy_vehicles.svg", cat: "regulatory", hint: "Грузовым автомобилям запрещено совершать обгон.", fav: false },
+            { name: "Parking in rotation. No parking on odd days of the month (Стоянка запрещена по нечетным числам)", file: "Cyprus_road_sign_no_park_impares.svg", cat: "regulatory", hint: "Одна полоска — нельзя парковаться 1, 3, 5 и т.д. числа каждого месяца.", fav: false },
+            { name: "Parking in rotation. No parking on even days of the month (Стоянка запрещена по четным числам)", file: "Cyprus_road_sign_no_park_pares.svg", cat: "regulatory", hint: "Две полоски — нельзя парковаться 2, 4, 6 и т.д. числа.", fav: false },
+            { name: "No parking (Зона запрета парковки)", file: "Cyprus_road_sign_no_parking_zone.svg", cat: "regulatory", hint: "Парковка запрещена на всем протяжении зоны (включая обочины) до знака отмены.", fav: false },
+            { name: "No carrying materials that can pollute water (Запрет ТС с загрязнителями воды)", file: "Cyprus_road_sign_no_water_heavy_vehicles.svg", cat: "regulatory", hint: "Запрещен проезд ТС с веществами, способными загрязнить воду (часто у дамб и водохранилищ).", fav: false },
+            { name: "Passageway sign from left or right (Указатель проезда препятствия слева или справа)", file: "Cyprus_road_sign_obstacle.svg", cat: "warning", hint: "Предупреждает о наличии физического объекта на проезжей часть. Будьте готовы снизить скорость и проехать по указоному направлению.", fav: false },
+            { name: "One-way traffic (Одностороннее движение на пересекаемой дороге)", file: "Cyprus_road_sign_one_way_lateral_road.svg", cat: "information", hint: "Указывает, что на дороге, на которую вы выезжаете, движение разрешено только в одну сторону (по стрелке).", fav: false },
+            { name: "One-way traffic (Дорога с односторонним движением)", file: "Cyprus_road_sign_one_way_road.svg", cat: "information", hint: "Движение по всей ширине дороги разрешено только в одном направлении (вперед).", fav: false },
+            { name: "Parking place (Место стоянки)", file: "Cyprus_road_sign_parking.svg", cat: "information", hint: "Разрешенная парковка. Проверяйте таблички на наличие ограничений по времени (Time Limit) или оплате.", fav: false },
+            { name: "Residential area (Жилая зона)", file: "Vienna_Convention_road_sign_E17a-EA.svg.png", cat: "information", hint: "Этот знак обозначает начало территории, где пешеходы имеют преимущество и могут передвигаться по всей ширине дороги. Скорость движения ограничена (обычно до 20 км/ч), а парковка разрешена только в специально отведенных местах.", fav: false },
+            { name: "End of residential area (Конец жилой зоны)", file: "120px-Vienna_Convention_road_sign_E17b-EA.svg.png", cat: "information", hint: "Обозначает выход из жилой зоны. После этого знака общие правила приоритета восстанавливаются, и водители больше не обязаны уступать дорогу пешеходам на всей проезжей части.", fav: false },
+            { name: "Pedestrian crossing (Пешеходный переход)", file: "Cyprus_road_sign_pedonal_crossing.svg", cat: "information", hint: "Обозначает место, где пешеходы переходят дорогу. Водитель обязан уступить дорогу.", fav: false },
+            { name: "Stop — Police (СТОП — Полиция)", file: "Cyprus_road_sign_police.svg", cat: "regulatory", hint: "Обязательная остановка перед постом полиции. Проезд без разрешения запрещен.", fav: false },
+            { name: "Priority road (Главная дорога)", file: "Cyprus_road_sign_priority_road.svg", cat: "information", hint: "Вы имеете преимущество на перекрестках до тех пор, пока не встретите знак конца главной дороги.", fav: false },
+            { name: "Warning sign with supplementary plate. Road humps ahead in 30m (Искусственная неровность через 30м)", file: "Cyprus_road_sign_road_bump_30.svg", cat: "warning", hint: "Комбинированный указатель, предупреждающий об искусственных неровностях («лежачих полицейских») впереди. Сопровождается знаком ограничения скорости до 30 км/ч, которая является рекомендуемой или обязательной для безопасного проезда препятствия.", fav: false },
+            { name: "Speed road (Начало автомагистрали)", file: "Cyprus_road_sign_road_for_motorvehicles.svg", cat: "information", hint: "Обозначает начало дороги, на которой действуют правила скоростного движения. Здесь запрещено движение пешеходов, велосипедистов, мопедов, а также сельскохозяйственной техники и гужевого транспорта.", fav: false },
+            { name: "Warning sign with supplementary plate. Road humps (Искусственные неровности)", file: "Cyprus_road_sign_road_humps.svg", cat: "warning", hint: "Впереди участок дороги с искусственными неровностями для принудительного снижения скорости.", fav: false },
+            { name: "Warning sign with supplementary plate. Road hump on the left (Искусственная неровность слева)", file: "Cyprus_road_sign_road_humps_left.svg", cat: "warning", hint: "Неровность расположена на левой стороне дороги или съезде.", fav: false },
+            { name: "Warning sign with supplementary plate. Road hump on the right (Искусственная неровность справа)", file: "Cyprus_road_sign_road_humps_right.svg", cat: "warning", hint: "Неровность расположена на правой стороне дороги или съезде.", fav: false },
+            { name: "Direction to destinations at a roundabout (Направления на круговом движении)", file: "Cyprus_road_sign_roundabound_destinations.svg", cat: "information", hint: "Карта-схема выездов с круговой развязки.", fav: false },
+            { name: "Warning sign with supplementary plate. School ahead (Школа впереди)", file: "Cyprus_road_sign_school.svg", cat: "warning", hint: "Будьте осторожны: возможно появление детей на дороге. Снизьте скорость.", fav: false },
+            { name: "Toll post (Пункт взимания платы)", file: "Cyprus_road_sign_toll_post.svg", cat: "regulatory", hint: "Место, где необходимо оплатить проезд (редко на самом Кипре, но в тестах есть).", fav: false },
+            { name: "Informatory sign for special messages. Section of road open or closed (Проезжаемость участка)", file: "Cyprus_road_sign_transitability.svg", cat: "information", hint: "Общий формат щита для важных уведомлений. В данном случае он сообщает, что дорога на Олимпос открыта (OPEN), но из-за снега или гололеда обязательны цепи противоскольжения (символ шины в цепях).", fav: false },
+            { name: "Warning sign with supplementary plate. Exit for emergency/special vehicles (Выезд транспортных средств)", file: "Cyprus_road_sign_vehicles_exit.svg", cat: "warning", hint: "Общий формат предупреждения об опасности впереди. Конкретно здесь он указывает на выезд транспортных средств (например, из депо, стройки или пожарной части). Будьте готовы к внезапному появлению машин на основной дороге.", fav: false },
+            { name: "Children ahead (Дети впереди)", file: "Cyprus_warning_road_sign_child.svg", cat: "warning", hint: "Общее предупреждение о местах возможного появления детей (игровые площадки и т.д.).", fav: false },
+            { name: "Crossroad with priority over vehicles from the right (Перекресток равнозначных дорог)", file: "Cyprus_warning_road_sign_crossroads.svg", cat: "warning", hint: "Пересечение дорог. Если нет знаков приоритета, уступайте транспорту, приближающемуся справа.", fav: false },
+            { name: "Distance to level crossing (Расстояние до ж/д переезда)", file: "Cyprus_warning_road_sign_distance_to_level_crossing.svg", cat: "warning", hint: "Наклонные полосы указывают на приближение к путям (каждая полоса обычно 50-80 метров).", fav: false },
+            { name: "Soft verge on right (Мягкая обочина справа)", file: "Cyprus_warning_road_sign_friable_street.svg", cat: "warning", hint: "Край дороги нестабилен. Избегайте съезда на обочину.", fav: false },
+            { name: "Give way ahead with distance (Уступите дорогу впереди с растоянием до знака)", file: "Cyprus_warning_road_sign_give_way_ahead.svg", cat: "warning", hint: "Предупреждает о приближении к знаку 'Give Way'.", fav: false },
+            { name: "Passageway sign from left (Указатель проезда препятствия слева)", file: "Cyprus_warning_road_sign_obstacle_left.svg", cat: "mandatory", hint: "Белая стрелка указывает сторону, с которой необходимо объезжать препятствие или островок.", fav: false },
+            { name: "Passageway sign from right (Указатель проезда препятствия справа)", file: "Cyprus_warning_road_sign_obstacle_right.svg", cat: "mandatory", hint: "Белая стрелка указывает, что объезжать островок или дорожные работы нужно строго с правой стороны.", fav: false },
+            { name: "Stop ahead (Знак СТОП впереди)", file: "Cyprus_warning_road_sign_stop_ahead.svg", cat: "warning", hint: "Предупреждает о приближении к перекрестку, где обязательна полная остановка.", fav: false },
+            { name: "Arrows depicting lane direction on a 3 lane roundabout (Схема движения по полосам на круге)", file: "Default-roundabout-lane-1.jpg", cat: "markings", hint: "Соблюдайте рядность согласно стрелкам. Не меняйте полосу внутри круга без необходимости.", fav: false },
+            { name: "Arrows depicting lane direction on a 2 lane roundabout (Схема движения по полосам на круге)", file: "Default-roundabout-lane.jpg", cat: "markings", hint: "Соблюдайте рядность согласно стрелкам. Не меняйте полосу внутри круга без необходимости.", fav: false },
+            { name: "Double yellow lines: No parking or stoppin (Двойная желтая линия)", file: "Depicts-the-side-of-the-carriageway-–-No-parking-or-stopping.jpg", cat: "markings", hint: "Запрет на парковку и остановку.", fav: false },
+            { name: "Single white line: No parking (Одна белая линия)", file: "Depicts-the-side-of-the-carriageway-–-No-parking.jpg", cat: "markings", hint: "Линия обозначает край дороги; парковка вдоль этой линии запрещены в любое время.", fav: false },
+            { name: "Arrows depicting lane direction on roundabouts (Стрелками показано направление движения по полосам на круговых перекрестках)", file: "Directions-on-roundabout.jpg", cat: "markings", hint: "Заблаговременно показывает выезды и соответствующие им населенные пункты.", fav: false },
+            { name: "Give way T-junction: give way to traffic on major road (Разметка: Уступите дорогу)", file: "Give-way-to-traffic-on-main-road.jpg", cat: "markings", hint: "Пунктирная линия поперек дороги. Вы должны пропустить транспорт, движущийся по главной.", fav: false },
+            { name: "Start of motorway (Начало автомагистрали)", file: "Highway_begin_in_Cyprus.png", cat: "information", hint: "Въезд на хайвей. Запрещено движение пешеходам, велосипедам, мопедам и тракторам.", fav: false },
+            { name: "Motorway directional information (Информационный указатель на магистрали)", file: "Informational_sign_on_a_motorway_in_Cyprus.svg", cat: "information", hint: "Синий фон подтверждает, что вы находитесь на хайвее. Указывает направления и расстояния.", fav: false },
+            { name: "Motorway exit sign (Указатель выхода с магистрали)", file: "Motorway_exit_sign_in_Cyprus.png", cat: "information", hint: "Указывает номер развязки и направление съезда с хайвея.", fav: false },
+            { name: "Double white lines: no parking or overtaking (Двойная сплошная белая линия)", file: "No-parking-or-overtaking-1.jpg", cat: "markings", hint: "Запрещено пересекать эти линии или заезжать на них. Они разделяют транспортные потоки противоположных направлений, где обгон крайне опасен.", fav: false },
+            { name: "Single white line: no parking or overtaking (Одинарная сплошная белая линия)", file: "No-parking-or-overtaking.jpg", cat: "markings", hint: "Запрещено пересекать эту линию или заезжать на нее. Она разделяет транспортные потоки противоположных направлений, где обгон крайне опасен.", fav: false },
+            { name: "Zigzag lines: No parking, waiting or overtaking", file: "No-parking-or-waiting-or-overtaking.jpg", cat: "markings", hint: "Запрещена парковка, остановка и обгон в этой зоне. Разметка наносится перед пешеходными переходами для обеспечения прямой видимости между водителями и пешеходами.", fav: false },
+            { name: "Double white lines, with a broken line on one side (Двойная белая линия, прерывистая с одной стороны)", file: "Overtaking-allowed-from-right.jpg", cat: "markings", hint: "Вам разрешено пересекать линию для обгона, если прерывистая линия находится с вашей стороны и маневр безопасен. Транспорту с противоположной стороны пересекать линию запрещено.", fav: false },
+            { name: "Lane dividers: overtaking is allowed (Разметка разрешающая обгон)", file: "Overtaking-is-allowed.jpg", cat: "markings", hint: "Разделяет потоки попутного или встречного направления, обгон разрешен.", fav: false },
+            { name: "Police: Proceed for traffic from behind (Проезд разрешен для транспорта сзади)", file: "Proceed-to-traffic-approaching-from-the-behind.jpg", cat: "police", hint: "Жест регулировщика, разрешающий движение тем, кто едет за ним.", fav: false },
+            { name: "Police: Proceed for traffic from the front (Проезд разрешен для транспорта спереди)", file: "Proceed-to-traffic-approaching-from-the-front.jpg", cat: "police", hint: "Манящий жест рукой, разрешающий вам движение прямо на него или мимо.", fav: false },
+            { name: "Police: Proceed for traffic from the side (Проезд разрешен для тех, кто сбоку)", file: "Proceed-to-traffic-approaching-from-the-side.jpg", cat: "police", hint: "Регулировщик стоит боком, разрешая потоку двигаться вдоль его плеч.", fav: false },
+            { name: "Direction to a roundabout (Направления движения на круговой развязке)", file: "Roundabout_road_sign_in_Cyprus1.svg", cat: "informational", hint: "Заранее информирует о направлениях и населенных пунктах на предстоящем кольце. Синий фон указывает на дорогу общего пользования.", fav: false },
+            { name: "Stop T-juncion: stop and give way (Стоп-линия)", file: "Stop-and-give-way.jpg", cat: "markings", hint: "Сплошная широкая линия. Вы обязаны полностью остановить движение колес перед ней.", fav: false },
+            { name: "Police: Stop for traffic from behind (СТОП для тех, кто сзади)", file: "Stop-for-traffic-approaching-from-behind.jpg", cat: "police", hint: "Вытянутая в сторону рука полицейского — сигнал остановки для тех, кто сзади.", fav: false },
+            { name: "Police: Stop for traffic from the front and from behind (СТОП для тех, кто спереди и сзади)", file: "Stop-for-traffic-approaching-from-both-front-and-behind.jpg", cat: "police", hint: "Движение перекрыто для обоих направлений (встречного и попутного).", fav: false },
+            { name: "Police: Stop for traffic from the front (СТОП для тех, кто спереди)", file: "Stop-for-traffic-approaching-from-the-front.jpg", cat: "police", hint: "Поднятая вверх рука ладонью к вам — сигнал обязательной остановки.", fav: false },
+            { name: "First aid station (Пункт первой медицинской помощи)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-32.svg", cat: "informational", hint: "Указывает на наличие поблизости пункта или станции оказания первой медицинской помощи.", fav: false },
+            { name: "Workshops (Техническая помощь)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-33.svg", cat: "informational", hint: "Информирует о близости пункта технического обслуживания или службы помощи при поломке автомобиля.", fav: false },
+            { name: "Telephone (Общественный телефон)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-34.svg", cat: "informational", hint: "Указывает на наличие поблизости общественного телефона или телефона экстренной связи.", fav: false },
+            { name: "Petrol pump (Автозаправочная станция)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-35.svg", cat: "informational", hint: "Информирует о близости заправочной станции. Полезно планировать дозаправку, особенно перед выездом на протяженные участки трасс.", fav: false },
+            { name: "Hotel or motel (Отель или мотель)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-36.svg", cat: "informational", hint: "Указывает на наличие гостиницы, отеля или мотеля неподалеку от дороги.", fav: false },
+            { name: "Restaurant (Ресторан)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-37.svg", cat: "informational", hint: "Информирует о близости ресторана или места общественного питания.", fav: false },
+            { name: "Cafeteria (Кафе или буфет)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-38.svg", cat: "informational", hint: "Информирует о близости кафе или места, где можно купить легкие закуски и напитки.", fav: false },
+            { name: "Picnic area (Место для пикника)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-39.svg", cat: "information", hint: "Указывает на наличие специально оборудованной площадки для отдыха и пикника вблизи дороги.", fav: false },
+            { name: "Hiking starting point (Место начала пешего туристического маршрута)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-40.svg", cat: "informational", hint: "Указывает на место начала обозначенного пешеходного маршрута или тропы для хайкинга.", fav: false },
+            { name: "Camping site (Место для кемпинга)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-41.svg", cat: "informational", hint: "Указывает на наличие площадки, предназначенной исключительно для установки палаток. В отличие от комбинированных стоянок, здесь может не быть условий для размещения тяжелых автофургонов.", fav: false },
+            { name: "Caravan site (Место стоянки для караванов / жилых автофургонов)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-42.svg", cat: "informational", hint: "Указывает на наличие площадки, специально оборудованной для стоянки жилых прицепов и автодомов.", fav: false },
+            { name: "Camping and caravan site (Место для кемпинга и автофургонов)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-43.svg", cat: "information", hint: "Указывает на наличие площадки, где разрешена установка палаток и стоянка жилых автоприцепов.", fav: false },
+            { name: "Youth hostel (Молодежный хостел / Туристическая база)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-44.svg", cat: "informational", hint: "Информирует о близости молодежного хостела или сертифицированной туристической базы для бюджетного проживания.", fav: false },
+            { name: "Tourist information (Информационный центр)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-45.svg", cat: "informational", hint: "Указывает на наличие официального информационного пункта или бюро для туристов.", fav: false },
+            { name: "Public toilets (Общественные туалеты)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-47.svg", cat: "informational", hint: "Указывает на наличие общественного туалета поблизости.", fav: false },
+            { name: "Airport (Аэропорт)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-50.svg", cat: "informational", hint: "Указывает направление к аэропорту или на его близость. На Кипре этот знак критически важен для навигации к международным узлам в Ларнаке и Пафосе.", fav: false },
+            { name: "Helipad (Вертолетная площадка)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-51.svg", cat: "informational", hint: "Указывает на наличие площадки для взлета и посадки вертолетов. Часто встречается вблизи крупных госпиталей или в труднодоступных горных районах Кипра для нужд экстренных служб.", fav: false },
+            { name: "Subway exit (Выход из подземного пешеходного перехода)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-61.svg", cat: "information", hint: "Указывает на наличие выхода из подземного перехода.", fav: false },
+            { name: "Subway entrance (Вход в подземный пешеходный переход)", file: "Traffic_Sign_GR_-_KOK_2009_-_P-62.svg", cat: "information", hint: "Указывает на наличие входа в подземный переход.", fav: false },
+            { name: "Ramp for pedestrians", file: "Traffic_Sign_GR_-_KOK_2009_-_P-63.svg", cat: "information", hint: "Указывает на наличие пандуса для пешеходов.", fav: false },
+            { name: "T-junction (Т-образный перекресток)", file: "UK_traffic_sign_505.1_(left).svg", cat: "warning", hint: "Перекресток, где дорога заканчивается. Вы должны будете повернуть направо или налево.", fav: false },
+            { name: "Side road junction (Примыкание второстепенной дороги)", file: "UK_traffic_sign_506.1_(variant_1,_right).svg", cat: "warning", hint: "Предупреждает о перекрестке, где второстепенная дорога примыкает к главной.", fav: false },
+            { name: "Staggered junction (Перекресток со смещением)", file: "UK_traffic_sign_507.1_(variant_1,_right).svg", cat: "warning", hint: "Два примыкания дорог, расположенные близко друг к другу с разных сторон.", fav: false },
+            { name: "Traffic merges from left (Слияние потоков слева)", file: "UK_traffic_sign_508.1.svg", cat: "warning", hint: "Поток транспорта вливается в основную дорогу с левой стороны.", fav: false },
+            { name: "Traffic merges onto the main carriageway (Слияние транспортных потоков)", file: "UK_traffic_sign_509.1.svg", cat: "warning", hint: "Предупреждает о примыкании второстепенной дороги под острым углом, где транспортный поток сливается с основным направлением. Водителям следует соблюдать осторожность при перестроении.", fav: false },
+            { name: "Roundabout (Круговое движение)", file: "UK_traffic_sign_510.svg", cat: "warning", hint: "Предупреждает о приближении к кольцевой развязке.", fav: false },
+            { name: "Junction on a bend - left (Перекресток на изгибе дороги)", file: "UK_traffic_sign_512.1_(right).svg", cat: "warning", hint: "Предупреждает о примыкании второстепенной дороги на участке, где основная дорога делает поворот. Требует повышенного внимания из-за ограниченной видимости.", fav: false },
+            { name: "Junction on a bend - right (Перекресток на изгибе дороги)", file: "UK_traffic_sign_512.2_(right).svg", cat: "warning", hint: "Предупреждает о примыкании второстепенной дороги на участке, где основная дорога делает поворот. Требует повышенного внимания из-за ограниченной видимости.", fav: false },
+            { name: "Bend to the right (Опасный поворот направо)", file: "UK_traffic_sign_512_(right).svg", cat: "warning", hint: "Предупреждение о повороте дороги направо.", fav: false },
+            { name: "Double bend, first to the left (Двойной изгиб, первый налево)", file: "UK_traffic_sign_513_(left).svg", cat: "warning", hint: "Предупреждает о серии опасных поворотов, где первое изменение направления будет левым. Водителям следует снизить скорость для безопасного прохождения маневров.", fav: false },
+            { name: "Road narrows on both sides (Сужение дороги с обеих сторон)", file: "UK_traffic_sign_516.svg", cat: "warning", hint: "Дорога становится уже. Будьте осторожны при разъезде со встречным крупногабаритным транспортом.", fav: false },
+            { name: "Road narrows on the right (Сужение дороги справа)", file: "UK_traffic_sign_517_(right).svg", cat: "warning", hint: "Проезжая часть сужается с правой стороны.", fav: false },
+            { name: "Dual carriageway ends (Конец дороги с разделительной полосой)", file: "UK_traffic_sign_520.svg", cat: "warning", hint: "Вы переходите на дорогу с двусторонним движением без барьера между потоками.", fav: false },
+            { name: "Two-way traffic straight ahead (Двустороннее движение впереди)", file: "UK_traffic_sign_521.svg", cat: "warning", hint: "Предупреждение: вы выезжаете на участок, где транспорт движется навстречу.", fav: false },
+            { name: "Two-way traffic crosses a one-way road (Двустороннее движение на пересекаемой дороге)", file: "UK_traffic_sign_522.svg", cat: "warning", hint: "Дорога, которую вы пересекаете, имеет движение в обоих направлениях.", fav: false },
+            { name: "Steep descent (Крутой спуск)", file: "UK_traffic_sign_523.1.svg", cat: "warning", hint: "Спуск с крутизной, указанной в процентах. Используйте пониженную передачу для торможения двигателем.", fav: false },
+            { name: "Steep ascent (Крутой подъем)", file: "UK_traffic_sign_524.1.svg", cat: "warning", hint: "Впереди крутой подъем. Убедитесь, что выбрана правильная передача.", fav: false },
+            { name: "Hump bridge (Горбатый мост)", file: "UK_traffic_sign_528.svg", cat: "warning", hint: "Предупреждает о крутом подъеме и спуске на мосту, что может ограничить видимость или привести к подбросу автомобиля на скорости.", fav: false },
+            { name: "Tunnel ahead (Тоннель впереди)", file: "UK_traffic_sign_529.1.svg", cat: "warning", hint: "Предупреждает о приближении к тоннелю. Водителям необходимо включить ближний свет фар и соблюдать дистанцию.", fav: false },
+            { name: "Opening or swing bridge (Разводной мост)", file: "UK_traffic_sign_529.svg", cat: "warning", hint: "Предупреждает о приближении к разводному или поворотному мосту. Водителям следует быть готовыми к остановке движения для пропуска судов.", fav: false },
+            { name: "Traffic signals (Светофорное регулирование)", file: "UK_traffic_sign_543.svg", cat: "warning", hint: "Впереди светофор. Часто ставится там, где его трудно заметить заранее.", fav: false },
+            { name: "Pedestrians in road ahead (Пешеходы на проезжей части)", file: "UK_traffic_sign_544.1.svg", cat: "warning", hint: "Участок дороги, где часто ходят пешеходы (например, там, где нет тротуара).", fav: false },
+            { name: "Frail pedestrians likely to cross (Возможное появление пожилых пешеходов или людей с ограниченными возможностями)", file: "UK_traffic_sign_544.2.svg", cat: "warning", hint: "Предупреждает о возможном переходе дороги пожилыми людьми или пешеходами с нарушением опорно-двигательного аппарата. Водителю следует быть готовым к их медленному движению.", fav: false },
+            { name: "Zebra crossing (Пешеходный переход)", file: "UK_traffic_sign_544.svg", cat: "warning", hint: "Предупреждает о приближении к пешеходному переходу («зебре»). Водитель должен быть готов снизить скорость или остановиться, чтобы пропустить пешеходов.", fav: false },
+            { name: "Cattle (Крупный рогатый скот)", file: "UK_traffic_sign_548.svg", cat: "warning", hint: "Предупреждает о возможном появлении домашнего скота на проезжей части. Водителю следует снизить скорость и быть готовым к остановке.", fav: false },
+            { name: "Accompanied horses or ponies (Лошади под седлом или в сопровождении)", file: "UK_traffic_sign_550.1.svg", cat: "warning", hint: "Предупреждает о вероятном появлении на дороге всадников или людей, ведущих лошадей. Водителю рекомендуется проезжать мимо медленно и не подавать звуковых сигналов, чтобы не напугать животных.", fav: false },
+            { name: "Horse-drawn vehicles ahead (Гужевой транспорт)", file: "UK_traffic_sign_550.2.svg", cat: "warning", hint: "Будьте готовы встретить медленные повозки, запряженные животными.", fav: false },
+            { name: "Wild horses or ponies (Дикие лошади или пони)", file: "UK_traffic_sign_550.svg", cat: "warning", hint: "Предупреждает о возможном появлении диких лошадей или пони на проезжей части. Водителю следует быть крайне внимательным, так как поведение диких животных непредсказуемо.", fav: false },
+            { name: "Wild animals (Дикие животные)", file: "UK_traffic_sign_551.svg", cat: "warning", hint: "Предупреждает о возможном появлении диких животных (например, оленей или муфлонов) на проезжей части. Водителю следует быть готовым к экстренному торможению, особенно в темное время суток.", fav: false },
+            { name: "Agricultural vehicles (Сельскохозяйственная техника)", file: "UK_traffic_sign_553.1.svg", cat: "warning", hint: "Предупреждение о тракторах и другой медленной технике, выезжающей на дорогу.", fav: false },
+            { name: "Ice or snow (Гололед или снег)", file: "UK_traffic_sign_554.2.svg", cat: "warning", hint: "Предупреждает о возможности обледенения проезжей части или наличии снежного покрова. На Кипре актуален для горных районов Троодоса в зимний период.", fav: false },
+            { name: "Quayside or river bank (Набережная или берег реки)", file: "UK_traffic_sign_555.svg", cat: "warning", hint: "Предупреждает о том, что дорога ведет к неогражденному краю набережной, берега реки или обрыву у воды. Водителям следует проявлять крайнюю осторожность, особенно в условиях плохой видимости.", fav: false },
+            { name: "Water course alongside road (Водный объект вдоль дороги)", file: "UK_traffic_sign_555.1.svg", cat: "warning", hint: "Предупреждает о наличии глубокого водоема, канала или реки, проходящих непосредственно вдоль края проезжей части. Водителям следует соблюдать осторожность, чтобы избежать съезда в воду при маневрировании.", fav: false },
+            { name: "Uneven road (Неровная дорога)", file: "UK_traffic_sign_556.svg", cat: "warning", hint: "Предупреждает о наличии на проезжей части дефектов, выпуклостей или серии неровностей. Водителю следует снизить скорость, чтобы избежать потери управления или повреждения подвески автомобиля.", fav: false },
+            { name: "Soft verges (Опасная обочина)", file: "UK_traffic_sign_556.1.svg", cat: "warning", hint: "Предупреждает о наличии мягких или неукрепленных обочин. Водителям следует избегать съезда на обочину, так как это может привести к потере устойчивости или застреванию автомобиля.", fav: false },
+            { name: "Slippery road (Скользкая дорога)", file: "UK_traffic_sign_557.svg", cat: "warning", hint: "Предупреждает о том, что участок дороги впереди имеет повышенную скользкость из-за особенностей покрытия или возможных погодных условий. Водителю необходимо снизить скорость и избегать резких торможений или ускорений.", fav: false },
+            { name: "Low-flying aircraft or sudden aircraft noise (Низколетящие самолеты)", file: "UK_traffic_sign_558.svg", cat: "warning", hint: "Предупреждает о близости аэродрома, где самолеты или вертолеты могут пролетать на низкой высоте. Возможен внезапный сильный шум, который может напугать водителя или животных.", fav: false },
+            { name: "Low-flying helicopters or sudden helicopter noise (Низколетящие вертолеты)", file: "UK_traffic_sign_558.1.svg", cat: "warning", hint: "Предупреждает о возможном появлении низколетящих вертолетов. Как и в случае с самолетами, основная опасность — внезапный сильный шум, который может отвлечь водителя или испугать животных на дороге.", fav: false },
+            { name: "Falling or fallen rocks (Падение или обвал камней)", file: "UK_traffic_sign_559_(left).svg", cat: "warning", hint: "Предупреждает об участке дороги, на котором возможны обвалы, оползни или наличие камней на проезжей части. Водителю следует быть внимательным и избегать остановки в зоне действия знака.", fav: false },
+            { name: "Other danger (Прочие опасности)", file: "UK_traffic_sign_562.svg", cat: "warning", hint: "Опасность, для которой нет специального знака. Сопровождается пояснительной табличкой.", fav: false },
+            { name: "Side winds (Боковой ветер)", file: "UK_traffic_sign_581.svg", cat: "warning", hint: "Предупреждает об участке дороги, подверженном сильным порывам бокового ветра. Водителю следует крепче держать руль и быть готовым к отклонению автомобиля от курса, особенно при выезде с закрытых участков на открытые или при обгоне большегрузов.", fav: false },
+            { name: "Slow-moving military vehicles (Медленно движущаяся военная техника)", file: "UK_traffic_sign_582.svg", cat: "warning", hint: "Предупреждает о возможном появлении на дороге танков или другой тяжелой военной техники. Такие машины движутся медленно, имеют большие габариты и ограниченный обзор, поэтому водителю следует соблюдать дистанцию и быть готовым к их медленному маневрированию.", fav: false },
+            { name: "Slow-moving vehicles on hill (Медленно движущиеся транспортные средства на подъеме)", file: "UK_traffic_sign_583.svg", cat: "warning", hint: "Предупреждает о том, что на крутом подъеме впереди могут находиться тяжелые грузовики или другие транспортные средства, движущиеся с очень низкой скоростью. Водителю следует заранее оценить возможность обгона и быть готовым к замедлению потока.", fav: false },
+            { name: "Traffic queues likely ahead (Вероятность возникновения дорожных заторов)", file: "UK_traffic_sign_584.svg", cat: "warning", hint: "Предупреждает об участке дороги, где часто образуются очереди из автомобилей или заторы. Водителю следует заранее снизить скорость и быть готовым к полной остановке движения.", fav: false },
+            { name: "Stop, crossroads by children (Стоп, перекресток, дети)", file: "UK_traffic_sign_605.2.svg", cat: "regulatory", hint: "Этот знак обязывает водителя немедленно остановиться. Его использует уполномоченный сотрудник (школьный патруль), чтобы безопасно перевести детей через дорогу. Водитель должен оставаться на месте до тех пор, пока патрульный не опустит знак и не освободит проезжую часть.", fav: false },
+            { name: "Turn left (Поверните налево)", file: "UK_traffic_sign_606_(left).svg", cat: "mandatory", hint: "Движение разрешено только в направлении стрелки (налево).", fav: false },
+            { name: "Turn right (Поверните направо)", file: "UK_traffic_sign_606_(right).svg", cat: "mandatory", hint: "Движение разрешено только в направлении стрелки (направо).", fav: false },
+            { name: "Turn left ahead (Поворот налево впереди)", file: "UK_traffic_sign_609_(left).svg", cat: "mandatory", hint: "Вы обязаны повернуть налево на ближайшем перекрестке.", fav: false },
+            { name: "Turn right ahead (Поворот направо впереди)", file: "UK_traffic_sign_609_(right).svg", cat: "mandatory", hint: "Вы обязаны повернуть направо на ближайшем перекрестке.", fav: false },
+            { name: "Keep left (Держитесь левее)", file: "UK_traffic_sign_610_(left).svg", cat: "mandatory", hint: "Объезжайте островок или препятствие с левой стороны.", fav: false },
+            { name: "Keep right (Держитесь правее)", file: "UK_traffic_sign_610_(right).svg", cat: "mandatory", hint: "Объезжайте островок или препятствие с правой стороны.", fav: false },
+            { name: "Vehicles may pass on either side (Объезд с любой стороны)", file: "UK_traffic_sign_611.svg", cat: "mandatory", hint: "Разрешено объезжать островок или разделитель как слева, так и справа.", fav: false },
+            { name: "Mini-roundabout (Мини-кольцевое движение)", file: "UK_traffic_sign_611.1.svg", cat: "mandatory", hint: "Предписывает движение по кругу в направлении, указанном стрелками. Водители должны уступать дорогу транспорту, приближающемуся справа. В отличие от обычного кольца, центральный остров здесь может быть просто нарисован на асфальте.", fav: false },
+            { name: "No left turn (Поворот налево запрещен)", file: "UK_traffic_sign_612.svg", cat: "regulatory", hint: "Запрещает поворот налево на данном перекрестке.", fav: false },
+            { name: "No right turn (Поворот направо запрещен)", file: "UK_traffic_sign_613.svg", cat: "regulatory", hint: "Запрещает поворот направо на данном перекрестке.", fav: false },
+            { name: "No U-turns (Разворот запрещен)", file: "UK_traffic_sign_614.svg", cat: "regulatory", hint: "Запрещено разворачивать автомобиль в обратном направлении.", fav: false },
+            { name: "Give priority to vehicles from opposite direction (Уступите дорогу встречным)", file: "UK_traffic_sign_615.svg", cat: "regulatory", hint: "В узких местах вы должны пропустить встречный транспорт. У них приоритет (белая стрелка), у вас — красный круг.", fav: false },
+            { name: "No entry for vehicular traffic (Въезд запрещен)", file: "UK_traffic_sign_616.svg", cat: "regulatory", hint: "Запрещает въезд всех транспортных средств. Обычно стоит на выезде с дорог с односторонним движением.", fav: false },
+            { name: "Road closed to all vehicles in both directions (Движение любых ТС запрещено)", file: "UK_traffic_sign_617.svg", cat: "regulatory", hint: "Пустой красный круг. Означает, что дорога закрыта для всех видов транспорта в обоих направлениях.", fav: false },
+            { name: "No motor vehicles (Движение механических ТС запрещено)", file: "UK_traffic_sign_619.svg", cat: "regulatory", hint: "Запрет для всех автомобилей и мотоциклов. Часто разрешено только велосипедам.", fav: false },
+            { name: "No goods vehicles over maximum gross weight shown (Движение грузовых автомобилей запрещено)", file: "UK_traffic_sign_622.1A.svg", cat: "regulatory", hint: "Запрещает проезд грузового транспорта.", fav: false },
+            { name: "No towed caravans (Движение с прицепами-дачами запрещено)", file: "UK_traffic_sign_622.7.svg", cat: "regulatory", hint: "Ограничение для легковых авто с жилыми прицепами (кемперами).", fav: false },
+            { name: "No vehicles carrying explosives (Въезд транспортных средств с взрывчатыми веществами запрещен)", file: "UK_traffic_sign_622.8.svg", cat: "regulatory", hint: "Запрещает движение транспортных средств, перевозящих взрывчатые или легковоспламеняющиеся вещества. Часто устанавливается перед тоннелями, густонаселенными районами или экологически чувствительными зонами.", fav: false },
+            { name: "No overtaking (Обгон запрещен)", file: "UK_traffic_sign_632.svg", cat: "regulatory", hint: "Запрещено обгонять любые транспортные средства (кроме двухколесных велосипедов без колясок).", fav: false },
+            { name: "No parking (Парковка запрещена)", file: "UK_traffic_sign_636.svg", cat: "regulatory", hint: "Запрещена длительная стоянка. Разрешена кратковременная остановка для посадки/высадки.", fav: false },
+            { name: "No stopping or parking (Clearway) (Остановка и стоянка запрещена)", file: "UK_traffic_sign_642.svg", cat: "regulatory", hint: "Строжайший запрет на любую остановку даже на секунду. Действует до знака отмены или перекрестка.", fav: false },
+            { name: "End of all local restrictions (Конец всех ограничений)", file: "UK_traffic_sign_671.svg", cat: "regulatory", hint: "Этот знак указывает на то, что действие всех ранее введенных локальных запретов или ограничений (например, запрета на обгон или специфического ограничения скорости) закончено. Теперь вступают в силу общие правила дорожного движения для данного типа дороги.", fav: false },
+            { name: "Minimum speed limit (Минимальное ограничение скорости)", file: "UK_traffic_sign_672.svg", cat: "mandatory", hint: "Этот знак обязывает водителя двигаться со скоростью не ниже указанной (в данном случае 30 км/ч), за исключением случаев, когда это невозможно по условиям безопасности. Обычно устанавливается для поддержания активного транспортного потока на скоростных трассах или в тоннелях.", fav: false },
+            { name: "End of minimum speed limit (Конец зоны ограничения минимальной скорости)", file: "UK_traffic_sign_673.svg", cat: "mandatory", hint: "Этот знак отменяет действие ранее установленного синего знака 'Минимальная скорость'. С этого момента вы можете двигаться медленнее 30 км/ч (если это безопасно), что часто встречается при приближении к сложным развязкам или съездам с магистралей.", fav: false },
+            { name: "Road works ahead (Дорожные работы впереди)", file: "UK_traffic_sign_7001.svg", cat: "warning", hint: "Временный знак, предупреждающий о людях и технике на проезжей части.", fav: false },
+            { name: "Loose chippings (Выброс гравия)", file: "UK_traffic_sign_7009.svg", cat: "warning", hint: "Временный знак. Снизьте скорость, чтобы камни не отлетали в другие машины.", fav: false },
+            { name: "Manually operated temporary GO sign (Регулируемый временный знак 'Движение разрешено')", file: "UK_traffic_sign_7024.svg", cat: "regulatory", hint: "Используется при проведении дорожных работ для ручного управления потоком машин. Этот знак показывает, что проезд разрешен. Обычно он работает в паре со знаком 'STOP' на другой стороне участка с реверсивным движением.", fav: false },
+            { name: "Level crossing with gate or barrier ahead (Переезд со шлагбаумом)", file: "UK_traffic_sign_770.svg", cat: "warning", hint: "Предупреждает о железнодорожном переезде, защищенном барьером.", fav: false },
+            { name: "Level crossing without gate or barrier ahead (Переезд без шлагбаума)", file: "UK_traffic_sign_771.svg", cat: "warning", hint: "Впереди ж/д переезд без заграждений. Символ паровоза требует особой бдительности.", fav: false },
+            { name: "Tramway (Трамвайная линия)", file: "UK_traffic_sign_772.svg", cat: "warning", hint: "Предупреждает о пересечении дороги с трамвайными путями или о движении трамваев впереди. Водителям следует помнить, что трамваи имеют приоритет во многих ситуациях, а их тормозной путь значительно длиннее, чем у автомобиля.", fav: false },
+            { name: "Level crossing without gate or barrier (Переезд без шлагбаума)", file: "UK_traffic_sign_774.svg", cat: "warning", hint: "Устанавливается непосредственно перед железнодорожными путями (Андреевский крест). Означает, что переезд не оборудован шлагбаумом.", fav: false },
+            { name: "Overhead electric cable (Электрические кабели над дорогой)", file: "UK_traffic_sign_779.svg", cat: "warning", hint: "Предупреждает о наличии высоковольтных электрических кабелей над проезжей частью. Под знаком обычно указывается максимально допустимая высота транспортного средства. Водителям крупногабаритного транспорта следует быть предельно внимательными, чтобы не задеть провода.", fav: false },
+            { name: "Risk of grounding (Риск задевания днищем)", file: "UK_traffic_sign_782.svg", cat: "warning", hint: "Предупреждает о резком перепаде профиля дороги (например, на ж/д переездах или крутых въездах), где длиннобазные или низкие транспортные средства могут зацепиться днищем за дорожное полотно.", fav: false },
+            { name: "Traffic from the opposite direction must give way (Ваш приоритет перед встречными)", file: "UK_traffic_sign_811.svg", cat: "information", hint: "В узком месте дороги вы имеете преимущество. Встречные машины должны вас пропустить.", fav: false },
+            { name: "Speed camera (Камера контроля скорости)", file: "UK_traffic_sign_879.svg", cat: "information", hint: "Предупреждение о радаре или камерах фиксации нарушений. Сбавьте скорость.", fav: false },
+            { name: "Cycles (Велосипедисты)", file: "UK_traffic_sign_950.svg", cat: "warning", hint: "Указывает на участок, где велосипедисты могут находиться на проезжей части или пересекать её.", fav: false },
+            { name: "No cycles (Движение на велосипедах запрещено)", file: "UK_traffic_sign_951.svg", cat: "regulatory", hint: "Запрещает движение велосипедов на данном участке дороги.", fav: false },
+            { name: "Buses and cycles only (Только автобусы и велосипеды)", file: "UK_traffic_sign_953.svg", cat: "mandatory", hint: "Выделенная полоса. Проезд частного автотранспорта запрещен.", fav: false },
+            { name: "Route for use by cycles only (Дорожка только для велосипедов)", file: "UK_traffic_sign_955.svg", cat: "mandatory", hint: "Специальная дорожка, предназначенная исключительно для велосипедистов.", fav: false },
+            { name: "Shared route for pedestrians and cyclists (Общая дорожка для пешеходов и велосипедистов)", file: "UK_traffic_sign_956.svg", cat: "mandatory", hint: "Пешеходы и велосипедисты используют одну и ту же зону без разделения.", fav: false },
+            { name: "Divided route for pedestrians and cyclists (Раздельная дорожка для пешеходов и велосипедистов)", file: "UK_traffic_sign_957.svg", cat: "mandatory", hint: "Дорожка разделена разметкой на две части: одна для пешеходов, другая для велосипедов.", fav: false },
+            { name: "Divided route for pedestrians and cyclists (Раздельная дорожка для пешеходов и велосипедистов)", file: "UK_traffic_sign_957R.svg", cat: "mandatory", hint: "Дорожка разделена разметкой на две части: одна для пешеходов, другая для велосипедов.", fav: false },
+            { name: "Distance to hazard or regulation (Расстояние до объекта)", file: "Vienna_Convention_road_sign_H1-V1-1.svg", cat: "information", hint: "Показывает, через сколько метров/километров начнется действие знака или встретится объект.", fav: false },
+            { name: "Length of hazard or regulation (Зона действия)", file: "Vienna_Convention_road_sign_H2-V1-1.svg", cat: "information", hint: "Стрелки указывают протяженность участка, на котором действует ограничение или опасность.", fav: false },
+            { name: "Validity of no stopping and parking sign (Зона действия запрета остановки и стоянки)", file: "Vienna_Convention_road_sign_H3a-V1-1.svg", cat: "regulatory", hint: "Этот знак определяет зону действия запрета, когда основной знак установлен параллельно оси улицы. Действие распространяется от места установки знака в направлении стрелки на указанное расстояние (в данном случае 10 метров).", fav: false },
+            { name: "Distance to hazard in both directions (Расстояние до опасности в обоих направлениях)", file: "Vienna_Convention_road_sign_H3b-V1-1.svg", cat: "regulatory", hint: "Эта табличка используется вместе с основным предупреждающим знаком. Она указывает, что обозначенная опасность (например, скользкая дорога или дорожные работы) распространяется на указанное расстояние (в данном случае 5 метров) в обе стороны от места установки знака.", fav: false },
+            { name: "Direction of validity for no stopping/parking (Направление действия запрета остановки/стоянки)", file: "Vienna_Convention_road_sign_H4a-V1-1.svg", cat: "regulatory", hint: "Эта табличка используется со знаками запрета остановки или стоянки, когда они установлены перпендикулярно оси улицы. Стрелка указывает, что ограничение действует в направлении движения по этой стороне дороги.", fav: false },
+            { name: "Repetition of no stopping/parking prohibition (Повторение запрета остановки/стоянки)", file: "Vienna_Convention_road_sign_H4b-V1-1.svg", cat: "regulatory", hint: "Эта табличка используется для подтверждения того, что запрет на остановку или стоянку продолжает действовать на данном участке дороги. Она устанавливается перпендикулярно оси улицы между начальным и конечным знаками ограничения.", fav: false },
+            { name: "End of validity of no stopping/parking (Конец зоны запрета остановки/стоянки)", file: "Vienna_Convention_road_sign_H4c-V1-1.svg", cat: "regulatory", hint: "Эта табличка используется со знаками запрета остановки или стоянки, установленными перпендикулярно дороге. Стрелка, указывающая вниз, означает завершение зоны действия запрета. После этого знака остановка и стоянка разрешены (если нет других ограничений).", fav: false },
+            { name: "Disabled badge holders only (Только для транспортных средств инвалидов)", file: "Vienna_Convention_road_sign_H7-V1-1.svg", cat: "regulatory", hint: "Дополнительная табличка к знаку, подтверждающая обязанность уступить встречным.", fav: false },
+            { name: "Direction of priority road (Направление главной дороги)", file: "Vienna_Convention_road_sign_H8b-V1-1.svg", cat: "regulatory", hint: "Схема перекрестка, где жирная линия показывает путь главной дороги.", fav: false },
+            { name: "Icy road (Гололедица)", file: "Vienna_Convention_road_sign_H9-V1-1.svg", cat: "information", hint: "Указывает на возможность обледенения проезжей части. Используется вместе с предупреждающими знаками (например, 'Скользкая дорога'), чтобы уточнить причину опасности в зимний период.", fav: false },
+            { name: "General warning (Общая опасность)", file: "Warning_sign_in_Cyprus.png", cat: "warning", hint: "Внимание! Впереди опасность, не предусмотренная другими знаками. Снизьте скорость." }
+        ];
+
+        let current = 0;
+        let points = 0;
+        let testSet = [];
+        let results = [];
+        let selectedCategory = 'all';
+
+        // Функция выбора категории
+        function setCat(cat, btn) {
+            selectedCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // Запуск теста
+        function start() {
+            const isFavOnly = document.getElementById('fav-only').checked;
+
+            // 1. Сначала фильтруем по избранному (если включено)
+            let base = isFavOnly ? allSigns.filter(s => s.fav) : allSigns;
+
+            base = (selectedCategory === 'all')
+                ? base
+                : base.filter(s => s.cat === selectedCategory);
+
+            if (base.length === 0) {
+                alert("В этой категории пока нет знаков!");
+                return;
+            }
+
+            const countSelect = document.getElementById('question-count').value;
+            let requestedCount = (countSelect === 'all') ? base.length : parseInt(countSelect);
+            let totalQuestions = Math.min(requestedCount, base.length);
+
+            // Перемешивание Фишера-Йейтса для честного рандома
+            testSet = [...base].sort(() => 0.5 - Math.random()).slice(0, totalQuestions);
+
+            current = 0;
+            points = 0;
+            results = [];
+
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            render();
+        }
+
+        // Отрисовка вопроса
+        function render() {
+            const q = testSet[current];
+            document.getElementById('progress').innerText = `Вопрос ${current + 1} из ${testSet.length}`;
+            document.getElementById('q-img').src = "./img/" + q.file;
+
+            // Удаляем старые подсказки и кнопки "Далее", если они были
+            const oldHint = document.getElementById('active-hint');
+            if (oldHint) oldHint.remove();
+            const oldNext = document.getElementById('next-btn-manual');
+            if (oldNext) oldNext.remove();
+
+            // Генерируем варианты
+            let opts = [q.name];
+            let others = allSigns
+                .filter(s => s.name !== q.name)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3)
+                .map(s => s.name);
+            opts = [...opts, ...others].sort(() => 0.5 - Math.random());
+
+            const container = document.getElementById('options');
+            container.innerHTML = '';
+            opts.forEach(o => {
+                const b = document.createElement('button');
+                b.innerText = o;
+                b.onclick = () => check(o, b);
+                container.appendChild(b);
+            });
+        }
+
+        // Проверка ответа
+        function check(ans, btn) {
+            const q = testSet[current];
+            const correct = q.name;
+            const btns = document.querySelectorAll('#options button');
+            btns.forEach(b => b.disabled = true); // Блокируем кнопки
+
+            const isOk = (ans === correct);
+            results.push({ q: q, isOk: isOk, userChoice: ans });
+
+            if (isOk) {
+                btn.classList.add('correct');
+                points++;
+                // Если правильно — идем дальше через секунду
+                setTimeout(next, 1000);
+            } else {
+                btn.classList.add('wrong');
+                btns.forEach(b => { if (b.innerText === correct) b.classList.add('correct'); });
+
+                // Показываем подсказку
+                const hintDiv = document.createElement('div');
+                hintDiv.id = 'active-hint';
+                hintDiv.className = 'hint-box';
+                hintDiv.style.display = 'block';
+                hintDiv.innerText = "💡 Подсказка: " + (q.hint || "Запомните этот знак для экзамена.");
+                document.getElementById('quiz-screen').appendChild(hintDiv);
+
+                // Создаем кнопку "Далее"
+                const nextBtn = document.createElement('button');
+                nextBtn.id = 'next-btn-manual';
+                nextBtn.innerText = "Понятно, дальше";
+                nextBtn.className = "main-btn";
+                nextBtn.style.marginTop = "15px";
+                nextBtn.onclick = next;
+                document.getElementById('options').appendChild(nextBtn);
+            }
+        }
+
+        function next() {
+            current++;
+            if (current < testSet.length) render();
+            else finish();
+        }
+
+        function finish() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('score').innerText = points;
+            document.getElementById('total-q').innerText = testSet.length;
+
+            const log = document.getElementById('log');
+            log.innerHTML = '<h3 style="padding:10px">Разбор ошибок:</h3>';
+
+            results.forEach(r => {
+                const row = document.createElement('div');
+                row.className = 'result-item';
+                row.innerHTML = `
+            <img src="img/${r.q.file}">
+            <div>
+                <div style="color:${r.isOk ? '#27ae60' : '#e74c3c'}; font-weight:bold">
+                    ${r.isOk ? 'Правильно' : 'Ошибка'}
+                </div>
+                <div style="font-size:13px">${r.q.name}</div>
+                ${!r.isOk ? `<div style="color:#888; font-size:11px">Вы выбрали: ${r.userChoice}</div>` : ''}
+                <div style="color:#856404; font-size:11px; font-style:italic; margin-top:4px">${r.q.hint || ''}</div>
+            </div>
+        `;
+                log.appendChild(row);
+            });
+        }
+    </script>
+
+</body>
+
+</html>
