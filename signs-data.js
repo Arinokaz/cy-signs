@@ -1,0 +1,3793 @@
+const allSigns = [
+    {
+        name: {
+            en: "Built-up area",
+            uk: "Межа населеного пункту",
+            el: "Κατοικημένη περιοχή",
+            ru: "Граница населенного пункта"
+        },
+        hint: {
+            en: "Indicates the start of a built-up area. The speed limit is 50 km/h (30 mph) unless otherwise stated.",
+            uk: "Означає початок забудованої зони. Швидкість обмежена 50 км/год, якщо не вказано інше.",
+            el: "Υποδηλώνει την αρχή κατοικημένης περιοχής. Το όριο ταχύτητας είναι 50 χλμ/ώρα, εκτός αν ορίζεται διαφορετικά.",
+            ru: "Означает начало застроенной зоны. Скорость ограничена 50 км/ч, если не указано иное."
+        },
+        file: "City_speed_limit_sign_in_Polis,_Cyprus.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "STOP and give way",
+            uk: "СТОП та дати дорогу",
+            el: "Πινακίδα ΣΤΟΠ (Υποχρεωτική διακοπή πορείας)",
+            ru: "СТОП и уступи дорогу"
+        },
+        hint: {
+            en: "You must come to a complete stop at the stop line, even if there is no traffic on the road.",
+            uk: "Ви повинні повністю зупинитися перед стоп-лінією, навіть якщо на дорозі нікого немає.",
+            el: "Πρέπει να σταματήσετε πλήρως στη γραμμή διακοπής, ακόμη και αν δεν υπάρχει κίνηση στον δρόμο.",
+            ru: "Вы должны полностью остановиться перед стоп-линией, даже если на дороге никого нет."
+        },
+        file: "Cyprus_road_sign_-_STOP.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Emergency telephone",
+            uk: "Телефон екстреної допомоги",
+            el: "Τηλέφωνο ανάγκης",
+            ru: "Телефон экстренной связи"
+        },
+        hint: {
+            en: "Indicates the distance or location of a telephone for contacting emergency services.",
+            uk: "Вказує відстань або місцезнаходження телефону для зв'язку зі службами допомоги.",
+            el: "Υποδεικνύει την απόσταση ή τη θέση τηλεφώνου για επικοινωνία με τις υπηρεσίες έκτακτης ανάγκης.",
+            ru: "Указывает расстояние или местоположение телефона для связи со службами помощи."
+        },
+        file: "Cyprus_road_sign_SOS.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Bus stop",
+            uk: "Зупинка автобуса",
+            el: "Στάση λεωφορείου",
+            ru: "Автобусная остановка"
+        },
+        hint: {
+            en: "Stopping point for route buses. Stopping of other vehicles is prohibited.",
+            uk: "Місце зупинки маршрутних автобусів. Зупинка інших ТЗ заборонена.",
+            el: "Σημείο στάσης λεωφορείων γραμμής. Απαγορεύεται η στάση άλλων οχημάτων.",
+            ru: "Место остановки маршрутных автобусов. Остановка других ТС запрещена."
+        },
+        file: "Cyprus_road_sign_bus_stop.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Route confirmation sign",
+            uk: "Підтвердження маршруту",
+            el: "Πινακίδα επιβεβαίωσης διαδρομής",
+            ru: "Подтверждение маршрута"
+        },
+        hint: {
+            en: "Displays the road number and distances to major destinations along the current route.",
+            uk: "Відображає номер дороги та відстані до основних населених пунктів за маршрутом руху.",
+            el: "Εμφανίζει τον αριθμό της οδού και τις αποστάσεις μέχρι τους κύριους προορισμούς στη διαδρομή.",
+            ru: "Указывает номер дороги и расстояние до ключевых населенных пунктов по пути следования."
+        },
+        file: "Cyprus_road_sign_confirm.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Box junction ahead",
+            uk: "Попереду перехрестя з жовтою розміткою",
+            el: "Προειδοποίηση για ελεγχόμενη συμβολή (Box junction)",
+            ru: "Перекресток с жёлтой сеткой впереди"
+        },
+        hint: {
+            en: "Warns of a junction marked with yellow hatchings. You must not enter the box unless your exit is clear, except when turning right.",
+            uk: "Попереджає про перехрестя з жовтою сіткою. Заборонено виїжджати на розмітку, якщо за нею утворився затор, крім повороту праворуч.",
+            el: "Προειδοποιεί για διασταύρωση με κίτρινη διαγράμμιση. Απαγορεύεται η είσοδος στο πλαίσιο εάν η έξοδος δεν είναι ελεύθερη, εκτός εάν στρίβετε δεξιά.",
+            ru: "Предупреждает о приближении к перекрёстку с жёлтой разметкой («вафельницей»). Запрещено выезжать на неё, если впереди затор, за исключением поворота направо."
+        },
+        file: "Cyprus_road_sign_cross_guided.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "No through road",
+            uk: "Тупик",
+            el: "Αδιέξοδο",
+            ru: "Тупик"
+        },
+        hint: {
+            en: "Indicates a road that does not have a through passage for vehicles.",
+            uk: "Позначає дорогу, що не має наскрізного проїзду.",
+            el: "Υποδεικνύει δρόμο χωρίς διέξοδο για οχήματα.",
+            ru: "Указывает на дорогу, не имеющую сквозного проезда."
+        },
+        file: "Cyprus_road_sign_cul_de_sac.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "No through road on the left",
+            uk: "Тупик ліворуч",
+            el: "Αδιέξοδο αριστερά",
+            ru: "Тупик слева"
+        },
+        hint: {
+            en: "Indicates that the road turning left has no through passage.",
+            uk: "Показує, що поворот ліворуч веде в тупик.",
+            el: "Υποδεικνύει ότι ο δρόμος αριστερά είναι αδιέξοδο.",
+            ru: "Указывает на то, что поворот налево ведёт в тупик."
+        },
+        file: "Cyprus_road_sign_cul_de_sac_ahead_left.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "No through road on the right",
+            uk: "Тупик праворуч",
+            el: "Αδιέξοδο δεξιά",
+            ru: "Тупик справа"
+        },
+        hint: {
+            en: "Indicates that the road turning right has no through passage.",
+            uk: "Показує, що поворот праворуч веде в тупик.",
+            el: "Υποδεικνύει ότι ο δρόμος δεξιά είναι αδιέξοδο.",
+            ru: "Указывает на то, что поворот направо ведёт в тупик."
+        },
+        file: "Cyprus_road_sign_cul_de_sac_ahead_right.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Stop — Customs",
+            uk: "СТОП — Митниця",
+            el: "Στάση — Τελωνείο",
+            ru: "СТОП — Таможня"
+        },
+        hint: {
+            en: "Mandatory stop for customs clearance. Do not proceed until authorized.",
+            uk: "Обов'язкова зупинка для проходження митного контролю. Не продовжуйте рух без дозволу.",
+            el: "Υποχρεωτική στάση για τελωνειακό έλεγχο. Μην προχωρήσετε χωρίς άδεια.",
+            ru: "Обязательная остановка для прохождения таможенного контроля. Не продолжайте движение без разрешения."
+        },
+        file: "Cyprus_road_sign_customs.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Direction to motorway",
+            uk: "Напрямок до автомагістралі",
+            el: "Κατεύθυνση προς αυτοκινητόδρομο",
+            ru: "Направление к автомагистрали"
+        },
+        hint: {
+            en: "Blue signs indicate directions specifically for motorway routes.",
+            uk: "Синій фон використовується виключно для вказівників напрямку до автомагістралей.",
+            el: "Οι μπλε πινακίδες υποδεικνύουν κατευθύνσεις αποκλειστικά για αυτοκινητόδρομους.",
+            ru: "Синий фон используется исключительно для указателей направления к автомагистралям."
+        },
+        file: "Cyprus_road_sign_destinations_blue.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Advance direction sign",
+            uk: "Попередній покажчик напрямків",
+            el: "Προειδοποιητική πινακίδα κατεύθυνσης",
+            ru: "Предварительный указатель направлений"
+        },
+        hint: {
+            en: "Shows the destinations and routes at the upcoming junction or roundabout.",
+            uk: "Показує напрямки до населених пунктів на найближчому перехресті або розв'язці.",
+            el: "Δείχνει τους προορισμούς και τις διαδρομές στην επερχόμενη διασταύρωση ή κυκλικό κόμβο.",
+            ru: "Указывает направления к населенным пунктам на предстоящем перекрестке или развязке."
+        },
+        file: "Cyprus_road_sign_destinations_road_crossing.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Direction to primary/local routes",
+            uk: "Напрямок місцевих доріг",
+            el: "Κατεύθυνση προς πρωτεύουσες/τοπικές διαδρομές",
+            ru: "Направление местных дорог"
+        },
+        hint: {
+            en: "White signs indicate directions to secondary roads, local destinations, or non-motorway routes.",
+            uk: "Білі знаки вказують напрямок до другорядних доріг або об'єктів місцевого значення.",
+            el: "Οι λευκές πινακίδες υποδεικνύουν κατευθύνσεις προς δευτερεύοντες δρόμους ή τοπικούς προορισμούς.",
+            ru: "Белые знаки указывают направления к второстепенным дорогам или объектам местного значения."
+        },
+        file: "Cyprus_road_sign_destinations_white.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Informatory sign for special messages",
+            uk: "Інформаційний щит для спеціальних повідомлень",
+            el: "Πληροφοριακή πινακίδα ειδικών μηνυμάτων",
+            ru: "Информационный щит для специальных сообщений"
+        },
+        hint: {
+            en: "Used for important messages like 'Drive on the Left' or roadwork warnings, often equipped with yellow flashers.",
+            uk: "Використовується для важливих повідомлень (наприклад, про лівосторонній рух), часто обладнаний жовтими мигтячими маячками.",
+            el: "Χρησιμοποιείται για σημαντικά μηνύματα (π.χ. οδήγηση στα αριστερά), συχνά με κίτρινους φανούς που αναβοσβήνουν.",
+            ru: "Используется для важных сообщений (например, о левостороннем движении), часто оборудован желтыми проблесковыми маячками."
+        },
+        file: "Cyprus_road_sign_drive_on_the_left.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "End of maximum speed limit",
+            uk: "Кінець обмеження максимальної швидкості",
+            el: "Τέλος ορίου μέγιστης ταχύτητας",
+            ru: "Конец ограничения максимальной скорости"
+        },
+        hint: {
+            en: "Indicates that the previously stated speed limit no longer applies.",
+            uk: "Позначає кінець ділянки з обмеженням швидкості, що було встановлено раніше.",
+            el: "Υποδεικνύει ότι το προηγούμενο όριο ταχύτητας δεν ισχύει πλέον.",
+            ru: "Обозначает конец участка дороги, на котором действовало ранее установленное ограничение скорости."
+        },
+        file: "Cyprus_road_sign_end_maximum_speed.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "End of the no overtaking restriction",
+            uk: "Кінець заборони обгону",
+            el: "Τέλος απαγόρευσης προσπεράσματος",
+            ru: "Конец запрета обгона"
+        },
+        hint: {
+            en: "Overtaking is permitted again, provided the maneuver can be completed safely.",
+            uk: "Обгін знову дозволено за умови, що маневр буде безпечним.",
+            el: "Το προσπέρασμα επιτρέπεται ξανά, υπό την προϋπόθεση ότι η ελιγμός είναι ασφαλής.",
+            ru: "Запрет на обгон снят. Маневр разрешен при условии его безопасности."
+        },
+        file: "Cyprus_road_sign_end_no_overpass.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "End of no parking zone",
+            uk: "Кінець зони заборони паркування",
+            el: "Τέλος ζώνης απαγόρευσης στάθμευσης",
+            ru: "Конец зоны запрета парковки"
+        },
+        hint: {
+            en: "Indicates the end of an area where special parking restrictions were in place.",
+            uk: "Позначає кінець території, на якій діяли особливі правила або заборона паркування.",
+            el: "Υποδεικνύει το τέλος της περιοχής όπου ίσχυαν ειδικοί περιορισμοί στάθμευσης.",
+            ru: "Обозначает конец зоны, в которой действовали ограничения или запрет на парковку."
+        },
+        file: "Cyprus_road_sign_end_no_parking_zone.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "End of speed road",
+            uk: "Кінець автомагістралі",
+            el: "Το τέλος του αυτοκινητόδρομου",
+            ru: "Конец автомагистрали"
+        },
+        hint: {
+            en: "Indicates the end of a high-speed road. Reduce speed and be prepared for oncoming traffic and intersections.",
+            uk: "Кінець швидкісної траси. Знизьте швидкість та будьте готові до появи зустрічного руху та перехресть.",
+            el: "Τέλος δρόμου ταχείας κυκλοφορίας. Μειώστε ταχύτητα και να είστε έτοιμοι για αμφίδρομη κίνηση.",
+            ru: "Конец скоростной трассы. Снизьте скорость и будьте готовы к встречному движению и перекрёсткам."
+        },
+        file: "Cyprus_road_sign_end_road_for_motorvehicles.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "General speed limits",
+            uk: "Загальні обмеження швидкості",
+            el: "Γενικά όρια ταχύτητας",
+            ru: "Общие ограничения скорости"
+        },
+        hint: {
+            en: "Informational sign at borders: 50 km/h in built-up areas, 80 km/h on regional roads, and 100 km/h on motorways.",
+            uk: "Інформує про національні ліміти: 50 км/год у місті, 80 км/год на дорогах поза містом, 100 км/год на автомагістралі.",
+            el: "Πληροφοριακή πινακίδα: 50 χλμ/ώρα σε κατοικημένες περιοχές, 80 χλμ/ώρα σε υπεραστικούς δρόμους, 100 χλμ/ώρα σε αυτοκινητόδρομους.",
+            ru: "Информирует о национальных лимитах: 50 км/ч в городе, 80 км/ч на дорогах вне города, 100 км/ч на автомагистрали."
+        },
+        file: "Cyprus_road_sign_general_limits.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "GIVE WAY to traffic on major road",
+            uk: "Дати дорогу",
+            el: "Παραχωρήστε προτεραιότητα",
+            ru: "Уступите дорогу"
+        },
+        hint: {
+            en: "You must yield to traffic on the main road. Slow down and stop if necessary.",
+            uk: "Ви повинні дати дорогу транспорту на головній дорозі. Сповільніться і зупиніться, якщо це необхідно.",
+            el: "Πρέπει να παραχωρήσετε προτεραιότητα στα οχήματα της κύριας οδού. Επιβραδύνετε ή σταματήστε αν χρειαστεί.",
+            ru: "Вы должны уступить дорогу транспорту на пересекаемой главной дороге. Замедлитесь и остановитесь, если это необходимо."
+        },
+        file: "Cyprus_road_sign_give_way.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Route to be used by horse riders only",
+            uk: "Доріжка для вершників",
+            el: "Οδός αποκλειστικά για ιππείς",
+            ru: "Дорожка для всадников"
+        },
+        hint: {
+            en: "Mandatory path for horse riders and ponies. All other vehicles and pedestrians are prohibited.",
+            uk: "Обов'язкова доріжка для вершників на конях або поні. Рух інших транспортних засобів цією доріжкою заборонено.",
+            el: "Υποχρεωτική διαδρομή για ιππείς. Απαγορεύεται η διέλευση άλλων οχημάτων και πεζών.",
+            ru: "Обязательная дорожка для всадников на лошадях или пони. Движение других транспортных средств по этой дорожке запрещено."
+        },
+        file: "Cyprus_road_sign_horse_street.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Warning sign with supplementary plate. Speed hump at pedestrian crossing",
+            uk: "Пішохідний перехід з підвищенням",
+            el: "Διάβαση πεζών πάνω σε υπερυψωμένο οδόστρωμα",
+            ru: "Пешеходный переход на искусственной неровности"
+        },
+        hint: {
+            en: "Warns of a crossing located on a speed hump. Slow down significantly and watch for pedestrians.",
+            uk: "Попереджає про пішохідний перехід, розташований на «лежачому поліцейському». Знизьте швидкість та будьте уважні.",
+            el: "Προειδοποιεί για διάβαση πάνω σε υπερυψωμένο επίπεδο. Μειώστε ταχύτητα και προσέξτε για πεζούς.",
+            ru: "Предупреждает о пешеходном переходе, расположенном на «лежачем полицейском». Снизьте скорость и будьте предельно внимательны."
+        },
+        file: "Cyprus_road_sign_humped_crossing.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Warning sign with supplementary plate. Pelican crossing on speed hump",
+            uk: "Регульований перехід на штучній нерівності",
+            el: "Διάβαση πεζών τύπου Pelican πάνω σε υπερυψωμένο οδόστρωμα",
+            ru: "Регулируемый переход на искусственной неровности"
+        },
+        hint: {
+            en: "Warns of a signal-controlled 'Pelican' crossing (with a button) situated on a speed hump. Slow down and be ready to stop.",
+            uk: "Попереджає про регульований перехід типу «Пелікан» (світлофор з кнопкою), розташований на штучній нерівності. Знизьте швидкість.",
+            el: "Προειδοποιεί για διάβαση Pelican με φωτεινό σηματοδότη πάνω σε υπερυψωμένο επίπεδο. Μειώστε ταχύτητα.",
+            ru: "Предупреждает о регулируемом переходе типа «Пеликан» (светофор с кнопкой), расположенном на «лежачем полицейском». Снизьте скорость."
+        },
+        file: "Cyprus_road_sign_humped_pellcan_crossing.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Compulsory use of wheel chains",
+            uk: "Обов'язкове використання ланцюгів протиковзання",
+            el: "Υποχρεωτική χρήση αντιολισθητικών αλυσίδων",
+            ru: "Обязательное использование цепей противоскольжения"
+        },
+        hint: {
+            en: "Entry is only permitted for vehicles with snow chains fitted to their tires. Common in mountain areas during winter.",
+            uk: "Проїзд дозволено лише автомобілям із встановленими ланцюгами на колесах. Актуально для гірських районів узимку.",
+            el: "Η διέλευση επιτρέπεται μόνο σε οχήματα με αντιολισθητικές αλυσίδες. Συνηθισμένο σε ορεινές περιοχές το χειμώνα.",
+            ru: "Проезд разрешён только автомобилям с установленными цепями на колёсах. Актуально для гор в зимний период."
+        },
+        file: "Cyprus_road_sign_mandatory_chains.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Ahead or left only",
+            uk: "Рух прямо або ліворуч",
+            el: "Υποχρεωτική κατεύθυνση πορείας εμπρός ή αριστερά",
+            ru: "Движение прямо или налево"
+        },
+        hint: {
+            en: "Mandatory direction: you must only drive straight or turn left at the intersection.",
+            uk: "Наказовий знак. Рух дозволено лише прямо або ліворуч на найближчому перехресті.",
+            el: "Υποχρεωτική πορεία: επιτρέπεται η κίνηση μόνο εμπρός ή αριστερά στη διασταύρωση.",
+            ru: "Предписывающий знак. Движение разрешено только прямо или налево на ближайшем перекрестке."
+        },
+        file: "Cyprus_road_sign_mandatory_go_or_left.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Ahead or right only",
+            uk: "Рух прямо або праворуч",
+            el: "Υποχρεωτική κατεύθυνση πορείας εμπρός ή δεξιά",
+            ru: "Движение прямо или направо"
+        },
+        hint: {
+            en: "Mandatory direction: you must only drive straight or turn right at the intersection.",
+            uk: "Наказовий знак. Рух дозволено лише прямо або праворуч на найближчому перехресті.",
+            el: "Υποχρεωτική πορεία: επιτρέπεται η κίνηση μόνο εμπρός ή δεξιά στη διασταύρωση.",
+            ru: "Предписывающий знак. Движение разрешено только прямо или направо на ближайшем перекрестке."
+        },
+        file: "Cyprus_road_sign_mandatory_go_or_right.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Ahead only",
+            uk: "Рух тільки прямо",
+            el: "Υποχρεωτική κατεύθυνση πορείας μόνο εμπρός",
+            ru: "Движение прямо"
+        },
+        hint: {
+            en: "Mandatory direction: straight ahead only. Turning onto side roads is prohibited.",
+            uk: "Наказовий знак. Рух дозволено тільки прямо. Повороти на бічні дороги заборонено.",
+            el: "Υποχρεωτική πορεία μόνο εμπρός. Απαγορεύεται η στροφή σε πλευρικούς δρόμους.",
+            ru: "Предписывающий знак. Движение разрешено только прямо. Повороты на боковые дороги запрещены."
+        },
+        file: "Cyprus_road_sign_mandatory_go_streight.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Turn left or right only",
+            uk: "Поворот праворуч або ліворуч",
+            el: "Υποχρεωτική κατεύθυνση πορείας μόνο δεξιά ή αριστερά",
+            ru: "Обязательно налево или направо"
+        },
+        hint: {
+            en: "Mandatory turn: driving straight ahead is prohibited. You must turn either left or right.",
+            uk: "Наказовий знак. Рух прямо заборонено. Ви зобов'язані повернути ліворуч або праворуч.",
+            el: "Υποχρεωτική πορεία: απαγορεύεται η κίνηση ευθεία. Πρέπει να στρίψετε είτε δεξιά είτε αριστερά.",
+            ru: "Движение прямо запрещено. Вы обязаны повернуть либо направо, либо налево."
+        },
+        file: "Cyprus_road_sign_mandatory_left_or_right.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Pedestrian route",
+            uk: "Пішохідна доріжка",
+            el: "Οδός αποκλειστικά για πεζούς",
+            ru: "Пешеходная дорожка"
+        },
+        hint: {
+            en: "Indicates a path reserved exclusively for pedestrians. Use of other vehicles is prohibited.",
+            uk: "Позначає шлях, призначений виключно для пішоходів. Рух транспортних засобів заборонено.",
+            el: "Υποδεικνύει διαδρομή που προορίζεται αποκλειστικά για πεζούς. Απαγορεύεται η χρήση οχημάτων.",
+            ru: "Обозначает путь, предназначенный исключительно для пешеходов. Движение транспортных средств запрещено."
+        },
+        file: "Cyprus_road_sign_mandatory_pedestrian_way.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "No vehicles over weight shown",
+            uk: "Заборона руху транспортних засобів, маса яких перевищує зазначену",
+            el: "Απαγορεύεται η διέλευση οχημάτων που υπερβαίνουν το αναγραφόμενο βάρος",
+            ru: "Запрет движения транспортных средств, масса которых превышает указанную"
+        },
+        hint: {
+            en: "Prohibits vehicles exceeding the indicated total weight (e.g., 5.5 tonnes). Essential for bridges or roads with limited load capacity.",
+            uk: "Забороняє рух будь-яких транспортних засобів, чия фактична загальна маса перевищує 5.5 тонн. Часто встановлюється перед мостами.",
+            el: "Απαγορεύει τη διέλευση οχημάτων των οποίων το συνολικό βάρος υπερβαίνει τους 5,5 τόνους. Τοποθετείται συνήθως πριν από γέφυρες.",
+            ru: "Запрещает движение любых транспортных средств, чья фактическая общая масса превышает 5.5 тонн. Часто устанавливается перед мостами."
+        },
+        file: "Cyprus_road_sign_maximum_heavy.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No vehicles over height shown",
+            uk: "Обмеження висоти",
+            el: "Απαγορεύεται η διέλευση οχημάτων που υπερβαίνουν το αναγραφόμενο ύψος",
+            ru: "Ограничение высоты"
+        },
+        hint: {
+            en: "Prohibits vehicles taller than indicated. Be sure to consider load height and equipment like antennas before entering bridges or tunnels.",
+            uk: "Забороняє проїзд ТЗ, висота яких (з вантажем) перевищує зазначену. Зазвичай встановлюється перед мостами та тунелями.",
+            el: "Απαγορεύεται η διέλευση οχημάτων με ύψος μεγαλύτερο από το αναγραφόμενο. Λάβετε υπόψη το φορτίο πριν από γέφυρες ή σήραγγες.",
+            ru: "Запрещает проезд ТС, высота которых (с учетом груза) превышает указанную. Обычно устанавливается перед мостами или тоннелями."
+        },
+        file: "Cyprus_road_sign_maximum_height.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No vehicles over width shown",
+            uk: "Обмеження ширини",
+            el: "Απαγορεύεται η διέλευση οχημάτων που υπερβαίνουν το αναγραφόμενο πλάτος",
+            ru: "Ограничение ширины"
+        },
+        hint: {
+            en: "Prohibits vehicles wider than shown. Measurement must include mirrors, equipment, or any overhanging load.",
+            uk: "Забороняє проїзд ТЗ, ширина яких (включаючи дзеркала та вантаж) перевищує зазначену.",
+            el: "Απαγορεύεται η διέλευση οχημάτων των οποίων το πλάτος (συμπεριλαμβανομένων των καθρεπτών) υπερβαίνει το αναγραφόμενο.",
+            ru: "Запрещает проезд ТС, ширина которых (включая зеркала и груз) превышает указанную."
+        },
+        file: "Cyprus_road_sign_maximum_large.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No vehicles or combination of vehicles over length shown",
+            uk: "Обмеження довжини транспортних засобів",
+            el: "Απαγορεύεται η διέλευση οχημάτων ή συνδυασμών οχημάτων που υπερβαίνουν το αναγραφόμενο μήκος",
+            ru: "Ограничение длины"
+        },
+        hint: {
+            en: "Prohibits vehicles or road trains exceeding the shown length. Common on narrow mountain bends or in historic city centers.",
+            uk: "Забороняє рух ТЗ або автопоїздів, довжина яких перевищує зазначену. Зустрічається на вузьких поворотах у горах або старих містах.",
+            el: "Απαγορεύει οχήματα ή συρμούς που υπερβαίνουν το αναγραφόμενο μήκος. Συνηθισμένο σε στενές στροφές στα βουνά ή σε ιστορικά κέντρα.",
+            ru: "Ограничение для длинномерных ТС или автопоездов. Часто встречается на узких поворотах в горах или в старых городских центрах."
+        },
+        file: "Cyprus_road_sign_maximum_lenght.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No vehicles over maximum axle weight shown",
+            uk: "Обмеження навантаження на вісь",
+            el: "Απαγορεύεται η διέλευση οχημάτων που υπερβαίνουν το αναγραφόμενο βάρος ανά άξονα",
+            ru: "Ограничение нагрузки на ось"
+        },
+        hint: {
+            en: "Prohibits vehicles where the weight on any single axle exceeds the limit shown to protect the road surface.",
+            uk: "Забороняє проїзд ТЗ, у яких навантаження на будь-яку з осей перевищує ліміт. Встановлюється для захисту дорожнього покриття.",
+            el: "Απαγορεύει οχήματα όπου το βάρος ανά άξονα υπερβαίνει το όριο. Χρησιμοποιείται για την προστασία του οδοστρώματος.",
+            ru: "Запрещает проезд ТС, у которых фактическая нагрузка на любую из осей выше указанного лимита."
+        },
+        file: "Cyprus_road_sign_maximum_single_weight.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Maximum speed limit",
+            uk: "Максимальне обмеження швидкості",
+            el: "Ανώτατο όριο ταχύτητας",
+            ru: "Максимальное ограничение скорости"
+        },
+        hint: {
+            en: "The number in the red circle is the absolute maximum speed allowed in km/h. Exceeding it is a punishable offense.",
+            uk: "Число в червоному колі — це абсолютна максимальна швидкість у км/год. Перевищення тягне за собою штраф.",
+            el: "Ο αριθμός στον κόκκινο κύκλο είναι το ανώτατο επιτρεπόμενο όριο ταχύτητας σε χλμ/ώρα. Η υπέρβαση τιμωρείται με πρόστιμο.",
+            ru: "Число в красном круге — это максимально допустимая скорость в км/ч. Превышение этого лимита является нарушением."
+        },
+        file: "Cyprus_road_sign_maximum_speed.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Minimum distance to be kept with the vehicle in front",
+            uk: "Мінімальна дистанція між транспортними засобами",
+            el: "Ελάχιστη απόσταση μεταξύ οχημάτων",
+            ru: "Минимальная дистанция"
+        },
+        hint: {
+            en: "Drivers must maintain a safety gap of at least the distance shown between their vehicle and the one ahead.",
+            uk: "Зобов'язує водіїв дотримуватися безпечної дистанції до транспортного засобу попереду не менше вказаної.",
+            el: "Υποχρεώνει τους οδηγούς να διατηρούν απόσταση ασφαλείας τουλάχιστον ίση με την αναγραφόμενη από το προπορευόμενο όχημα.",
+            ru: "Обязывает водителей поддерживать дистанцию до впереди идущего транспортного средства не менее указанной."
+        },
+        file: "Cyprus_road_sign_minimum_distance.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Directional sign",
+            uk: "Покажчик напрямків та відстаней",
+            el: "Πινακίδα κατεύθυνσης και αποστάσεων",
+            ru: "Указатель направлений и расстояний"
+        },
+        hint: {
+            en: "Informational sign showing the names of major destinations and the distance to them in kilometers.",
+            uk: "Інформаційний знак, що вказує назви основних населених пунктів та відстань до них у кілометрах.",
+            el: "Πληροφοριακή πινακίδα που δείχνει τα ονόματα των κύριων προορισμών και την απόσταση σε χιλιόμετρα.",
+            ru: "Информирует о названиях ключевых населенных пунктов и расстоянии до них в километрах по текущему маршруту."
+        },
+        file: "Cyprus_road_sign_next_destinations.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "No agricultural vehicles",
+            uk: "Рух сільськогосподарської техніки заборонено",
+            el: "Απαγορεύεται η διέλευση αγροτικών οχημάτων",
+            ru: "Движение сельхозтехники запрещено"
+        },
+        hint: {
+            en: "Prohibits the entry of tractors and other slow-moving agricultural machinery.",
+            uk: "Забороняє рух тракторів та інших тихохідних аграрних машин.",
+            el: "Απαγορεύει τη διέλευση τρακτέρ και άλλων αργοκίνητων αγροτικών μηχανημάτων.",
+            ru: "Запрещает движение тракторов и других тихоходных аграрных машин."
+        },
+        file: "Cyprus_road_sign_no_agricle_vehicles.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "No animal-drawn vehicles",
+            uk: "Рух гужових возів заборонено",
+            el: "Απαγορεύεται η διέλευση ζωηλάτων οχημάτων",
+            ru: "Движение гужевых повозок запрещено"
+        },
+        hint: {
+            en: "Prohibits vehicles drawn by animals (carriages, carts).",
+            uk: "Забороняє рух возів та візків, запряжених тваринами.",
+            el: "Απαγορεύει τη διέλευση οχημάτων που σύρονται από ζώα.",
+            ru: "Запрещает движение повозок и телег, запряженных животными."
+        },
+        file: "Cyprus_road_sign_no_animal_vehicles.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "No wheelbarrows",
+            uk: "Рух з ручними візками заборонено",
+            el: "Απαγορεύεται η διέλευση χειροκίνητων οχημάτων",
+            ru: "Движение с ручными тележками запрещено"
+        },
+        hint: {
+            en: "Prohibits pedestrians from pushing or pulling freight handcarts or wheelbarrows.",
+            uk: "Забороняє рух пішоходів з вантажними ручними візками.",
+            el: "Απαγορεύει τη διέλευση πεζών με χειροκίνητα καρότσια μεταφοράς.",
+            ru: "Запрещает движение пешеходов с грузовыми ручными тележками."
+        },
+        file: "Cyprus_road_sign_no_hand_vehicles.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "No goods vehicles",
+            uk: "Рух вантажних автомобілів заборонено",
+            el: "Απαγορεύεται η διέλευση φορτηγών οχημάτων",
+            ru: "Движение грузовых автомобилей запрещено"
+        },
+        hint: {
+            en: "Prohibits all trucks and heavy goods vehicles. Often found in residential areas to prevent noise and congestion.",
+            uk: "Забороняє рух усіх вантажних автомобілів. Часто встановлюється в житлових зонах.",
+            el: "Απαγορεύει τη διέλευση όλων των φορτηγών οχημάτων. Συνήθως τοποθετείται σε κατοικημένες περιοχές.",
+            ru: "Запрещает движение всех грузовых автомобилей. Обычно устанавливается в жилых зонах для снижения шума и трафика."
+        },
+        file: "Cyprus_road_sign_no_heavy_vehicles.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No use of horn",
+            uk: "Подачу звукового сигналу заборонено",
+            el: "Απαγορεύεται η χρήση ηχητικού οργάνου προειδοποίησης",
+            ru: "Подача звукового сигнала запрещена"
+        },
+        hint: {
+            en: "Audible warning signals are prohibited except in cases of immediate danger to prevent an accident.",
+            uk: "Використання звукового сигналу дозволено лише для запобігання ДТП.",
+            el: "Η χρήση κόρνας απαγορεύεται, εκτός από περιπτώσεις άμεσου κινδύνου για την αποφυγή ατυχήματος.",
+            ru: "Использование звукового сигнала запрещено, кроме случаев необходимости предотвращения дорожно-транспортного происшествия."
+        },
+        file: "Cyprus_road_sign_no_horn.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Green light",
+            uk: "Зелений сигнал світлофора",
+            el: "Πράσινο φως",
+            ru: "Зеленый сигнал светофора"
+        },
+        hint: {
+            en: "Permits movement if the way is clear. Be cautious when turning and yield to pedestrians crossing the road.",
+            uk: "Дозволяє рух, якщо шлях вільний. Будьте обережні при повороті та поступайтеся дорогою пішоходам, які переходять проїжджу частину.",
+            el: "Επιτρέπει την κίνηση εάν ο δρόμος είναι ελεύθερος. Να είστε προσεκτικοί στις στροφές και να παραχωρείτε προτεραιότητα στους πεζούς.",
+            ru: "Разрешает движение в случае, если путь свободен. Будьте осторожны при повороте и уступайте дорогу пешеходам, переходящим проїжджу часть."
+        },
+        file: "traffic_green.png",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Flashing amber light",
+            uk: "Миготливий жовтий сигнал",
+            el: "Πορτοκαλί φως που αναβοσβήνει",
+            ru: "Мигающий желтый сигнал"
+        },
+        hint: {
+            en: "Proceed only if the way is clear. Typically found at Pelican crossings: you must yield to pedestrians already on the crossing.",
+            uk: "Продовжуйте рух лише якщо шлях вільний. Зазвичай зустрічається на переходах Pelican: ви повинні дати дорогу пішоходам на переході.",
+            el: "Προχωρήστε μόνο αν ο δρόμος είναι ελεύθερος. Συνήθως σε διαβάσεις Pelican: πρέπει να παραχωρείτε προτεραιότητα στους πεζούς στη διάβαση.",
+            ru: "Означает, что вы можете продолжать движение, только если путь свободен. Обычно встречается на переходах Pelican: нужно уступить пешеходам."
+        },
+        file: "traffic_fleshing_yellow.png",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Red light",
+            uk: "Червоний сигнал",
+            el: "Κόκκινο φως",
+            ru: "Красный сигнал"
+        },
+        hint: {
+            en: "Means 'Stop'. Do not pass the stop line or the traffic light itself if no line is present.",
+            uk: "Означає «Стоп». Ви не повинні проїжджати за стоп-лінію або за сам світлофор, якщо лінія відсутня.",
+            el: "Σημαίνει «Σταμάτα». Δεν πρέπει να περάσετε τη γραμμή διακοπής ή το ίδιο το φανάρι αν δεν υπάρχει γραμμή.",
+            ru: "Означает «Стоп». Вы не должны проезжать за стоп-линию на проезжей части или, если линии нет, за сам светофор."
+        },
+        file: "traffic_red.png",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Red and Amber lights",
+            uk: "Червоний і жовтий сигнали",
+            el: "Κόκκινο και πορτοκαλί φως μαζί",
+            ru: "Красный и желтый сигналы"
+        },
+        hint: {
+            en: "Means 'Stop'. These lights indicate the signal is about to change to green, allowing time to prepare to move.",
+            uk: "Означає «Стоп». Ці сигнали вказують на те, що світлофор ось-ось перемкнеться на зелений, даючи час підготуватися до руху.",
+            el: "Σημαίνει «Σταμάτα». Τα φώτα αυτά υποδεικνύουν ότι το σήμα πρόκειται να αλλάξει σε πράσινο, δίνοντας χρόνο προετοιμασίας.",
+            ru: "Означает «Стоп». Эти сигналы показывают, что режим светофора вот-вот изменится на зеленый, давая время приготовиться к движению."
+        },
+        file: "traffic_red_and_yellow.png",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Green arrow",
+            uk: "Зелена стрілка",
+            el: "Πράσινο βέλος",
+            ru: "Зеленая стрелка"
+        },
+        hint: {
+            en: "You may proceed only in the direction shown by the arrow, regardless of what other signals are displayed.",
+            uk: "Ви можете рухатися лише у напрямку, вказаному стрілкою, незалежно від того, який інший сигнал горить у цей момент.",
+            el: "Μπορείτε να προχωρήσετε μόνο προς την κατεύθυνση που δείχνει το βέλος, ανεξάρτητα από το ποιο άλλο σήμα είναι αναμμένο.",
+            ru: "Разрешает движение только в направлении, указанном стрелкой, независимо от того, какой другой сигнал горит в этот момент."
+        },
+        file: "traffic_with_green_arrows.png",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Amber light",
+            uk: "Жовтий сигнал",
+            el: "Πορτοκαλί φως",
+            ru: "Желтый сигнал"
+        },
+        hint: {
+            en: "Means 'Stop'. You must stop before the stop line unless you are so close to it that stopping might cause an accident.",
+            uk: "Означає «Стоп». Ви повинні зупинитися перед стоп-лінією, хіба що ви вже настільки близько до неї, що зупинка може спричинити аварію.",
+            el: "Σημαίνει «Σταμάτα». Πρέπει να σταματήσετε πριν από τη γραμμή διακοπής, εκτός εάν είστε τόσο κοντά που το σταμάτημα μπορεί να προκαλέσει ατύχημα.",
+            ru: "Означает «Стоп». Вы должны остановиться перед стоп-линией, если только вы не находитесь так близко к ней, что остановка может привести к аварии."
+        },
+        file: "traffic_yellow.png",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No mopeds",
+            uk: "Рух мопедів заборонено",
+            el: "Απαγορεύεται η διέλευση μοτοποδηλάτων",
+            ru: "Движение мопедов запрещено"
+        },
+        hint: {
+            en: "Prohibits the entry of mopeds and vehicles with an engine capacity up to 50 cm³.",
+            uk: "Забороняє рух мопедів та транспортних засобів з об'ємом двигуна до 50 см³.",
+            el: "Απαγορεύει τη διέλευση μοτοποδηλάτων και οχημάτων με κυβισμό κινητήρα έως 50 κ.εκ.",
+            ru: "Запрещает движение мопедов и транспортных средств с объемом двигателя до 50 см³."
+        },
+        file: "Cyprus_road_sign_no_mopeds.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No motor vehicles except two-wheeled vehicles",
+            uk: "Рух механічних ТЗ заборонено (крім двоколісних)",
+            el: "Απαγορεύεται η διέλευση μηχανοκίνητων οχημάτων εκτός από δίκυκλα",
+            ru: "Движение механических ТС запрещено"
+        },
+        hint: {
+            en: "Prohibits all motor vehicles except motorcycles and mopeds. Commonly used in pedestrianized or restricted urban areas.",
+            uk: "Заборона для всіх авто, крім мотоциклів та мопедів. Часто використовується в пішохідних або обмежених зонах.",
+            el: "Απαγορεύει όλα τα μηχανοκίνητα οχήματα εκτός από μοτοσικλέτες. Συνηθισμένο σε πεζόδρομους ή περιορισμένες ζώνες.",
+            ru: "Запрет для всех механических ТС кроме мотоциклов и мопедов. Часто используется в пешеходных или жилых зонах."
+        },
+        file: "Cyprus_road_sign_no_motor_vehicles.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No motorbikes",
+            uk: "Рух мотоциклів заборонено",
+            el: "Απαγορεύεται η διέλευση μοτοσικλετών",
+            ru: "Движение мотоциклов запрещено"
+        },
+        hint: {
+            en: "Prohibits the movement of two-wheeled motor vehicles (motorcycles).",
+            uk: "Забороняє рух тільки двоколісних моторних транспортних засобів (мотоциклів).",
+            el: "Απαγορεύει τη διέλευση μόνο δίκυκλων μηχανοκίνητων οχημάτων (μοτοσικλετών).",
+            ru: "Запрещает движение только двухколесных моторных транспортных средств (мотоциклов)."
+        },
+        file: "Cyprus_road_sign_no_motorcycles.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No overtaking by goods vehicles",
+            uk: "Заборона обгону для вантажних автомобілів",
+            el: "Απαγορεύεται η προσπέραση από φορτηγά οχήματα",
+            ru: "Запрет обгона для грузовиков"
+        },
+        hint: {
+            en: "Prohibits drivers of heavy goods vehicles from overtaking other motor vehicles.",
+            uk: "Вантажним автомобілям заборонено здійснювати обгін інших механічних транспортних засобів.",
+            el: "Απαγορεύεται στα φορτηγά οχήματα να προσπερνούν άλλα μηχανοκίνητα οχήματα.",
+            ru: "Грузовым автомобилям запрещено совершать обгон других механических транспортных средств."
+        },
+        file: "Cyprus_road_sign_no_overpass_heavy_vehicles.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Parking in rotation. No parking on odd days of the month",
+            uk: "Стоянка заборонена по непарних числах місяця",
+            el: "Απαγορεύεται η στάθμευση κατά τις περιττές ημέρες του μήνα",
+            ru: "Стоянка запрещена по нечетным числам"
+        },
+        hint: {
+            en: "One vertical stripe means parking is prohibited on odd-numbered dates (1st, 3rd, 5th, etc.) of each month.",
+            uk: "Одна вертикальна смуга означає, що стоянка заборонена по непарних числах місяця (1, 3, 5 і т.д.).",
+            el: "Μία κάθετη γραμμή σημαίνει ότι απαγορεύεται η στάθμευση κατά τις περιττές ημερομηνίες (1, 3, 5 κ.λπ.) του μήνα.",
+            ru: "Одна вертикальная полоска означает, что стоянка запрещена по нечетным числам месяца (1, 3, 5 и т.д.)."
+        },
+        file: "Cyprus_road_sign_no_park_impares.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Parking in rotation. No parking on even days of the month",
+            uk: "Стоянка заборонена по парних числах місяця",
+            el: "Απαγορεύεται η στάθμευση κατά τις άρτιες ημέρες του μήνα",
+            ru: "Стоянка запрещена по четным числам"
+        },
+        hint: {
+            en: "Two vertical stripes mean parking is prohibited on even-numbered dates (2nd, 4th, 6th, etc.) of each month.",
+            uk: "Дві вертикальні смуги означають, що стоянка заборонена по парних числах місяця (2, 4, 6 і т.д.).",
+            el: "Δύο κάθετες γραμμές σημαίνουν ότι απαγορεύεται η στάθμευση κατά τις άρτιες ημερομηνίες (2, 4, 6 κ.λπ.) του μήνα.",
+            ru: "Две вертикальные полоски означают, что стоянка запрещена по четным числам месяца (2, 4, 6 и т.д.)."
+        },
+        file: "Cyprus_road_sign_no_park_pares.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "No parking",
+            uk: "Зона заборони стоянки",
+            el: "Περιοχή απαγόρευσης στάθμευσης",
+            ru: "Зона запрета парковки"
+        },
+        hint: {
+            en: "Parking is prohibited throughout the zone (including shoulders) until you reach a sign that cancels the restriction.",
+            uk: "Стоянка заборонена на всій протяжності зони (включаючи узбіччя) до знака скасування обмеження.",
+            el: "Η στάθμευση απαγορεύεται σε όλη τη ζώνη (συμπεριλαμβανομένων των ερεισμάτων) μέχρι την πινακίδα άρσης της απαγόρευσης.",
+            ru: "Парковка запрещена на всем протяжении зоны (включая обочины) до знака отмены данного ограничения."
+        },
+        file: "Cyprus_road_sign_no_parking_zone.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "No carrying materials that can pollute water",
+            uk: "Заборона руху ТЗ, що перевозять речовини, які забруднюють воду",
+            el: "Απαγορεύεται η διέλευση οχημάτων που μεταφέρουν υλικά που μπορεί να μολύνουν το νερό",
+            ru: "Запрет ТС с загрязнителями воды"
+        },
+        hint: {
+            en: "Prohibits vehicles carrying substances that could contaminate water supplies. Often placed near dams, reservoirs, or sensitive environmental areas.",
+            uk: "Заборонено проїзд ТЗ із речовинами, здатними забруднити воду. Часто встановлюється біля дамб та водосховищ.",
+            el: "Απαγορεύεται η διέλευση οχημάτων με ουσίες που μπορούν να μολύνουν το νερό. Συνήθως κοντά σε φράγματα ή δεξαμενές.",
+            ru: "Запрещен проезд ТС с веществами, способными загрязнить воду. Часто устанавливается вблизи дамб и водохранилищ."
+        },
+        file: "Cyprus_road_sign_no_water_heavy_vehicles.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Passageway sign from left or right",
+            uk: "Покажчик об'їзду перешкоди зліва або справа",
+            el: "Πινακίδα κατεύθυνσης διέλευσης από αριστερά ή δεξιά",
+            ru: "Указатель проезда препятствия слева или справа"
+        },
+        hint: {
+            en: "Warns of a physical object on the roadway. Be prepared to slow down and pass the obstacle on either the left or right side as indicated.",
+            uk: "Попереджає про фізичну перешкоду на дорозі. Будьте готові знизити швидкість і об'їхати об'єкт з лівого або правого боку.",
+            el: "Προειδοποιεί για φυσικό εμπόδιο στο οδόστρωμα. Ετοιμαστείτε να μειώσετε ταχύτητα και να περάσετε από αριστερά ή δεξιά.",
+            ru: "Предупреждает о наличии физического объекта на проезжей части. Будьте готовы снизить скорость и проехать по указанному направлению."
+        },
+        file: "Cyprus_road_sign_obstacle.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "One-way traffic (intersecting road)",
+            uk: "Односторонній рух на перехрещуваній дорозі",
+            el: "Οδός μονής κατεύθυνσης στην διασταύρωση",
+            ru: "Одностороннее движение на пересекаемой дороге"
+        },
+        hint: {
+            en: "Indicates that the road you are about to enter is one-way in the direction of the arrow.",
+            uk: "Вказує на те, що на дорозі, на яку ви виїжджаєте, рух дозволено лише в одному напрямку (за стрілкою).",
+            el: "Υποδεικνύει ότι ο δρόμος στον οποίο πρόκειται να εισέλθετε είναι μονής κατεύθυνσης προς τη φορά του βέλους.",
+            ru: "Указывает, что на дороге, на которую вы выезжаете, движение разрешено только в одну сторону (по направлению стрелки)."
+        },
+        file: "Cyprus_road_sign_one_way_lateral_road.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "One-way traffic",
+            uk: "Дорога з одностороннім рухом",
+            el: "Οδός μονής κατεύθυνσης",
+            ru: "Дорога с односторонним движением"
+        },
+        hint: {
+            en: "Traffic is permitted across the full width of the road in one direction only.",
+            uk: "Рух по всій ширині дороги дозволено лише в одному напрямку (вперед).",
+            el: "Η κυκλοφορία επιτρέπεται σε όλο το πλάτος της οδού προς μία μόνο κατεύθυνση.",
+            ru: "Движение по всей ширине дороги разрешено только в одном направлении (вперед)."
+        },
+        file: "Cyprus_road_sign_one_way_road.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Parking place",
+            uk: "Місце для стоянки",
+            el: "Χώρος στάθμευσης",
+            ru: "Место стоянки"
+        },
+        hint: {
+            en: "Indicates a permitted parking area. Check additional plates for time limits or payment requirements.",
+            uk: "Дозволена парковка. Перевіряйте таблички щодо обмеження часу або умов оплати.",
+            el: "Υποδεικνύει επιτρεπόμενο χώρο στάθμευσης. Ελέγξτε τις πινακίδες για χρονικούς περιορισμούς ή πληρωμή.",
+            ru: "Разрешенная парковка. Проверяйте наличие табличек с ограничениями по времени или указаниями по оплате."
+        },
+        file: "Cyprus_road_sign_parking.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Residential area",
+            uk: "Житлова зона",
+            el: "Περιοχή κατοικίας",
+            ru: "Жилая зона"
+        },
+        hint: {
+            en: "Area where pedestrians have priority and may use the full road width. Speed is strictly limited (usually 20 km/h).",
+            uk: "Початок території, де пішоходи мають перевагу. Швидкість обмежена (зазвичай до 20 км/год), а паркування — тільки у спеціальних місцях.",
+            el: "Περιοχή όπου οι πεζοί έχουν προτεραιότητα. Η ταχύτητα είναι περιορισμένη (συνήθως 20 χλμ/ώρα) και η στάθμευση επιτρέπεται μόνο σε ειδικούς χώρους.",
+            ru: "Начало территории, где пешеходы имеют преимущество. Скорость ограничена (обычно 20 км/ч), а парковка — только в отведенных местах."
+        },
+        file: "Vienna_Convention_road_sign_E17a-EA.svg.png",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "End of residential area",
+            uk: "Кінець житлової зони",
+            el: "Τέλος περιοχής κατοικίας",
+            ru: "Конец жилой зоны"
+        },
+        hint: {
+            en: "Indicates the exit from a residential area. Standard priority rules and speed limits apply again.",
+            uk: "Позначає вихід із житлової зони. Відновлюються звичайні правила пріоритету та обмеження швидкості.",
+            el: "Υποδεικνύει την έξοδο από την περιοχή κατοικίας. Ισχύουν ξανά οι γενικοί κανόνες προτεραιότητας και τα όρια ταχύτητας.",
+            ru: "Обозначает выход из жилой зоны. После этого знака восстанавливаются общие правила приоритета и скоростного режима."
+        },
+        file: "120px-Vienna_Convention_road_sign_E17b-EA.svg.png",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Pedestrian crossing",
+            uk: "Пішохідний перехід",
+            el: "Διάβαση πεζών",
+            ru: "Пешеходный переход"
+        },
+        hint: {
+            en: "Indicates a designated place for pedestrians to cross. Drivers must approach with caution and yield to anyone on the crossing.",
+            uk: "Позначає місце, де пішоходи переходять дорогу. Водій зобов'язаний зупинитися та поступитися дорогою пішоходам.",
+            el: "Υποδεικνύει σημείο διέλευσης πεζών. Οι οδηγοί οφείλουν να παραχωρούν προτεραιότητα στους πεζούς.",
+            ru: "Обозначает место, где пешеходы переходят дорогу. Водитель обязан уступить дорогу пешеходам, находящимся на переходе."
+        },
+        file: "Cyprus_road_sign_pedonal_crossing.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Stop — Police",
+            uk: "СТОП — Поліція",
+            el: "Στάση — Αστυνομία",
+            ru: "СТОП — Полиция"
+        },
+        hint: {
+            en: "Mandatory stop at a police checkpoint. Do not proceed until you are signaled to do so by an officer.",
+            uk: "Обов'язкова зупинка перед поліцейським постом. Проїзд дозволено лише після сигналу офіцера.",
+            el: "Υποχρεωτική διακοπή πορείας πριν από αστυνομικό σταθμό. Μην προχωρήσετε χωρίς σήμα από αστυνομικό.",
+            ru: "Обязательная остановка перед постом полиции. Проезд без разрешения сотрудника запрещен."
+        },
+        file: "Cyprus_road_sign_police.svg",
+        cat: "police",
+        fav: false
+    },
+    {
+        name: {
+            en: "Priority road",
+            uk: "Головна дорога",
+            el: "Οδός προτεραιότητας",
+            ru: "Главная дорога"
+        },
+        hint: {
+            en: "You have the right of way at upcoming junctions. This priority continues until you see an 'End of priority road' sign.",
+            uk: "Ви маєте перевагу в русі на перехрестях. Пріоритет діє до знака «Кінець головної дороги».",
+            el: "Έχετε προτεραιότητα στις επόμενες διασταυρώσεις μέχρι να συναντήσετε την πινακίδα τέλους προτεραιότητας.",
+            ru: "Дорога, на которой водитель имеет право преимущественного проезда перекрестков до знака отмены этого права."
+        },
+        file: "Cyprus_road_sign_priority_road.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Warning sign with supplementary plate. Road humps ahead in 30m",
+            uk: "Попередження: штучна нерівність через 30 м",
+            el: "Προειδοποίηση για τεχνητά εξογκώματα σε 30μ",
+            ru: "Искусственная неровность через 30м"
+        },
+        hint: {
+            en: "Warning of speed bumps ahead. The 30 km/h limit is provided to ensure safe passage over the obstacle.",
+            uk: "Попередження про «лежачих поліцейських» попереду. Рекомендована швидкість 30 км/год для безпечного проїзду.",
+            el: "Προειδοποίηση για σαμαράκια. Το όριο των 30 χλμ/ώρα ενδείκνυται για την ασφαλή διέλευση από το εμπόδιο.",
+            ru: "Предупреждает о «лежачих полицейских» впереди. Сопровождается ограничением скорости до 30 км/ч для безопасного проезда."
+        },
+        file: "Cyprus_road_sign_road_bump_30.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Speed road",
+            uk: "Автомагістраль (дорога для автомобілів)",
+            el: "Οδός ταχείας κυκλοφορίας",
+            ru: "Начало автомагистрали"
+        },
+        hint: {
+            en: "Identifies a high-speed road where pedestrians, cyclists, and slow-moving vehicles are strictly prohibited.",
+            uk: "Початок швидкісної дороги. Рух пішоходів, велосипедистів та сільськогосподарської техніки заборонено.",
+            el: "Αυτοκινητόδρομος ταχείας κυκλοφορίας. Απαγορεύονται πεζοί, ποδήλατα και αγροτικά μηχανήματα.",
+            ru: "Начало дороги для скоростного движения. Запрещен въезд пешеходам, велосипедистам и тихоходному транспорту."
+        },
+        file: "Cyprus_road_sign_road_for_motorvehicles.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Warning sign with supplementary plate. Road humps",
+            uk: "Попередження: штучні нерівності",
+            el: "Προειδοποίηση για τεχνητά εξογκώματα",
+            ru: "Искусственные неровности"
+        },
+        hint: {
+            en: "Warning of a stretch of road with speed bumps. Reduce speed to avoid vehicle damage and maintain control.",
+            uk: "Попередження про ділянку дороги зі штучними нерівностями. Знизьте швидкість, щоб уникнути пошкодження авто.",
+            el: "Προειδοποίηση για τμήμα του δρόμου με σαμαράκια. Μειώστε ταχύτητα για την αποφυγή ζημιών στο όχημα.",
+            ru: "Впереди участок дороги с искусственными неровностями («лежачими полицейскими») для принудительного снижения скорости."
+        },
+        file: "Cyprus_road_sign_road_humps.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Warning sign with supplementary plate. Road hump on the left",
+            uk: "Штучна нерівність зліва",
+            el: "Τεχνητό εξόγκωμα στα αριστερά",
+            ru: "Искусственная неровность слева"
+        },
+        hint: {
+            en: "A speed bump is located specifically on the left side of the road or at the left exit of a junction.",
+            uk: "Штучна нерівність розташована на лівій стороні дороги або на з'їзді ліворуч.",
+            el: "Ένα σαμαράκι βρίσκεται στην αριστερή πλευρά του δρόμου ή στην αριστερή έξοδο.",
+            ru: "Неровность расположена на левой стороне дороги или на съезде слева. Будьте внимательны при маневрировании."
+        },
+        file: "Cyprus_road_sign_road_humps_left.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Warning sign with supplementary plate. Road hump on the right",
+            uk: "Штучна нерівність справа",
+            el: "Τεχνητό εξόγκωμα στα δεξιά",
+            ru: "Искусственная неровность справа"
+        },
+        hint: {
+            en: "A speed bump is located specifically on the right side of the road or at the right exit of a junction.",
+            uk: "Штучна нерівність розташована на правій стороні дороги або на з'їзді праворуч.",
+            el: "Ένα σαμαράκι βρίσκεται στη δεξιά πλευρά του δρόμου ή στη δεξιά έξοδο.",
+            ru: "Неровность расположена на правой стороне дороги или на съезде справа."
+        },
+        file: "Cyprus_road_sign_road_humps_right.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Direction to destinations at a roundabout",
+            uk: "Напрямки руху на кільцевій розв'язці",
+            el: "Κατευθύνσεις σε κυκλικό κόμβο",
+            ru: "Направления на круговом движении"
+        },
+        hint: {
+            en: "Pre-signal chart showing the different exits and destinations available at the upcoming roundabout.",
+            uk: "Схема-вказівник, що показує виїзди та напрямки до населених пунктів на найближчому кільці.",
+            el: "Πινακίδα που δείχνει τις διάφορες εξόδους και προορισμούς στον επερχόμενο κυκλικό κόμβο.",
+            ru: "Карта-схема, заранее показывающая выезды и направления к населенным пунктам на круговой развязке."
+        },
+        file: "Cyprus_road_sign_roundabound_destinations.svg",
+        cat: "markings",
+        fav: false
+    },
+    {
+        name: {
+            en: "Warning sign with supplementary plate. School ahead",
+            uk: "Попередження: школа попереду",
+            el: "Προειδοποίηση: Σχολείο μπροστά",
+            ru: "Школа впереди"
+        },
+        hint: {
+            en: "Warning that children may be crossing. Drivers should slow down and be prepared to stop suddenly.",
+            uk: "Попередження про можливу появу дітей на дорозі. Водіям слід знизити швидкість та бути готовими до зупинки.",
+            el: "Προειδοποίηση για πιθανή διέλευση παιδιών. Οι οδηγοί πρέπει να μειώσουν ταχύτητα και να είναι έτοιμοι να σταματήσουν.",
+            ru: "Будьте предельно осторожны: впереди школа и возможно внезапное появление детей на проезжей части."
+        },
+        file: "Cyprus_road_sign_school.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Toll post",
+            uk: "Пункт справляння плати",
+            el: "Σταθμός διοδίων",
+            ru: "Пункт взимания платы"
+        },
+        hint: {
+            en: "Indicates a place where you must stop and pay a toll. Although rare in Cyprus, it is required knowledge for the driving theory test.",
+            uk: "Місце, де необхідно оплатити проїзд. Хоча на Кіпрі такі пункти рідкість, це питання зустрічається в тестах.",
+            el: "Σημείο όπου πρέπει να σταματήσετε για την καταβολή διοδίων.",
+            ru: "Место, где необходимо оплатить проезд. Несмотря на редкость таких пунктов на Кипре, знак входит в экзаменационные тесты."
+        },
+        file: "Cyprus_road_sign_toll_post.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Informatory sign for special messages. Section of road open or closed",
+            uk: "Інформаційне табло: стан проїзду ділянкою дороги",
+            el: "Πληροφοριακή πινακίδα για την κατάσταση της οδού",
+            ru: "Проезжаемость участка"
+        },
+        hint: {
+            en: "A board for important notifications. For example, it can show that a road (like to Olympus) is OPEN, but snow chains are mandatory due to weather conditions.",
+            uk: "Інформаційний щит для важливих повідомлень. Наприклад, вказує, що шлях відкритий, але через сніг обов'язкові ланцюги проти ковзання.",
+            el: "Πίνακας για σημαντικές ειδοποιήσεις, όπως αν ένας δρόμος είναι ανοικτός ή αν απαιτούνται αντιολισθητικές αλυσίδες.",
+            ru: "Информационный щит. В данном примере сообщает, что дорога открыта, но из-за снега или гололеда обязательны цепи противоскольжения."
+        },
+        file: "Cyprus_road_sign_transitability.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Warning sign with supplementary plate. Exit for emergency/special vehicles",
+            uk: "Попередження: виїзд спецтехніки або оперативних транспортних засобів",
+            el: "Προειδοποίηση: Έξοδος οχημάτων έκτακτης ανάγκης",
+            ru: "Выезд транспортных средств"
+        },
+        hint: {
+            en: "Warns of a junction where emergency or heavy vehicles may suddenly enter the main road (e.g., from a fire station or construction site).",
+            uk: "Попереджає про виїзд транспорту (наприклад, із пожежної частини або будівництва). Будьте готові до раптової появи машин.",
+            el: "Προειδοποιεί για έξοδο οχημάτων (π.χ. από πυροσβεστικό σταθμό ή εργοτάξιο). Να είστε έτοιμοι για την εμφάνιση οχημάτων.",
+            ru: "Предупреждает о выезде спецтранспорта (из депо, пожарной части или стройки). Будьте готовы к появлению машин на основной дороге."
+        },
+        file: "Cyprus_road_sign_vehicles_exit.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Children ahead",
+            uk: "Діти на дорозі",
+            el: "Παιδιά",
+            ru: "Дети впереди"
+        },
+        hint: {
+            en: "General warning of areas where children are likely to be, such as playgrounds or parks. Slow down and stay alert.",
+            uk: "Попередження про місця можливої появи дітей (ігрові майданчики, парки тощо). Знизьте швидкість.",
+            el: "Γενική προειδοποίηση για περιοχές όπου συχνάζουν παιδιά, όπως παιδικές χαρές ή πάρκα.",
+            ru: "Общее предупреждение о местах возможного появления детей (игровые площадки, парки). Снизьте скорость и будьте бдительны."
+        },
+        file: "Cyprus_warning_road_sign_child.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Crossroad with priority over vehicles from the right",
+            uk: "Перехрестя рівнозначних доріг",
+            el: "Διασταύρωση ισοδύναμων οδών",
+            ru: "Перекресток равнозначных дорог"
+        },
+        hint: {
+            en: "Indicates a junction where standard priority rules apply. Yield to traffic approaching from your right unless signs state otherwise.",
+            uk: "Перехрестя рівнозначних доріг. За відсутності знаків пріоритету, поступайтеся дорогою тим, хто наближається праворуч.",
+            el: "Διασταύρωση όπου ισχύει η προτεραιότητα από δεξιά, εκτός αν υπάρχει άλλη σήμανση.",
+            ru: "Пересечение равнозначных дорог. Если нет знаков приоритета, вы обязаны уступить дорогу транспорту, приближающемуся справа."
+        },
+        file: "Cyprus_warning_road_sign_crossroads.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Distance to level crossing",
+            uk: "Відстань до залізничного переїзду",
+            el: "Απόσταση από ισόπεδη διάβαση",
+            ru: "Расстояние до ж/д переезда"
+        },
+        hint: {
+            en: "Diagonal stripes indicate the distance to the tracks. Each stripe typically represents 50-80 meters.",
+            uk: "Похилі смуги вказують на наближення до колій. Кожна смуга зазвичай означає відстань 50-80 метрів.",
+            el: "Οι διαγώνιες λωρίδες υποδεικνύουν την απόσταση από τις γραμμές (κάθε λωρίδα αντιστοιχεί σε 50-80 μέτρα).",
+            ru: "Наклонные полосы указывают на приближение к путям. Каждая полоса обычно соответствует расстоянию в 50-80 метров."
+        },
+        file: "Cyprus_warning_road_sign_distance_to_level_crossing.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Soft verge on right",
+            uk: "М'яке узбіччя праворуч",
+            el: "Επικίνδυνο έρεισμα στα δεξιά",
+            ru: "Мягкая обочина справа"
+        },
+        hint: {
+            en: "The edge of the road is unstable or soft. Avoid driving or pulling over onto the verge as the vehicle may sink or lose control.",
+            uk: "Край дороги нестабільний або занадто м'який. Уникайте з'їзду на узбіччя, щоб не втратити контроль над авто.",
+            el: "Η άκρη του δρόμου είναι ασταθής. Αποφύγετε την οδήγηση ή τη στάση στο έρεισμα.",
+            ru: "Обочина нестабильна или слишком мягкая. Избегайте съезда на нее, так как автомобиль может застрять или потерять управление."
+        },
+        file: "Cyprus_warning_road_sign_friable_street.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Give way ahead with distance",
+            uk: "Попередження: дати дорогу через вказану відстань",
+            el: "Προειδοποίηση: Παραχώρηση προτεραιότητας μπροστά",
+            ru: "Уступите дорогу впереди с растоянием до знака"
+        },
+        hint: {
+            en: "Warns that you are approaching a 'Give Way' sign at the distance indicated on the plate. Prepare to slow down.",
+            uk: "Попереджає про наближення до знака «Дати дорогу» через вказану відстань. Приготуйтеся до можливої зупинки.",
+            el: "Σας προειδοποιεί ότι πλησιάζετε σε πινακίδα 'Give Way' στην απόσταση που αναγράφεται.",
+            ru: "Предупреждает о приближении к знаку «Уступите дорогу» через указанное расстояние. Будьте готовы снизить скорость."
+        },
+        file: "Cyprus_warning_road_sign_give_way_ahead.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Passageway sign from left",
+            uk: "Об'їзд перешкоди з лівого боку",
+            el: "Υποχρεωτική διέλευση από τα αριστερά",
+            ru: "Указатель проезда препятствия слева"
+        },
+        hint: {
+            en: "The white arrow indicates that you must pass the obstacle or traffic island on the left side only.",
+            uk: "Біла стрілка вказує сторону, з якої необхідно об'їжджати перешкоду або острівець безпеки (тільки зліва).",
+            el: "Το λευκό βέλος υποδεικνύει ότι πρέπει να περάσετε το εμπόδιο ή τη νησίδα μόνο από την αριστερή πλευρά.",
+            ru: "Белая стрелка указывает сторону, с которой необходимо объезжать препятствие или островок безопасности (строго слева)."
+        },
+        file: "Cyprus_warning_road_sign_obstacle_left.svg",
+        cat: "mandatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Passageway sign from right",
+            uk: "Об'їзд перешкоди з правого боку",
+            el: "Υποχρεωτική διέλευση από τα δεξιά",
+            ru: "Указатель проезда препятствия справа"
+        },
+        hint: {
+            en: "The white arrow indicates that you must pass the obstacle, traffic island, or roadworks on the right side only.",
+            uk: "Біла стрілка вказує, що об'їжджати острівець або дорожні роботи потрібно суворо з правого боку.",
+            el: "Το λευκό βέλος υποδεικνύει ότι πρέπει να περάσετε το εμπόδιο ή τα έργα μόνο από τη δεξιά πλευρά.",
+            ru: "Белая стрелка указывает, что объезжать островок безопасности или дорожные работы нужно строго с правой стороны."
+        },
+        file: "Cyprus_warning_road_sign_obstacle_right.svg",
+        cat: "mandatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Stop ahead",
+            uk: "Знак СТОП попереду",
+            el: "Σήμα STOP μπροστά",
+            ru: "Знак СТОП впереди"
+        },
+        hint: {
+            en: "Warns of an upcoming junction where a complete stop is mandatory. Prepare to brake and stop at the line.",
+            uk: "Попереджає про наближення до перехрестя, де обов'язкова повна зупинка. Приготуйтеся завчасно призупинити рух.",
+            el: "Προειδοποιεί για διασταύρωση όπου η πλήρης διακοπή πορείας είναι υποχρεωτική. Προετοιμαστείτε για στάση.",
+            ru: "Предупреждает о приближении к перекрестку, где установлена обязанность полной остановки перед стоп-линией."
+        },
+        file: "Cyprus_warning_road_sign_stop_ahead.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Arrows depicting lane direction on a 3 lane roundabout",
+            uk: "Схема руху по смугах на колі (3 смуги)",
+            el: "Βέλη κατεύθυνσης λωρίδων σε κυκλικό κόμβο 3 λωρίδων",
+            ru: "Схема движения по полосам на круге"
+        },
+        hint: {
+            en: "Follow the lane markings specifically for your exit. Avoid changing lanes within the roundabout unless necessary.",
+            uk: "Дотримуйтесь рядності згідно зі стрілками для обраного з'їзду. Не змінюйте смугу всередині кола без нагальної потреби.",
+            el: "Ακολουθήστε τη σήμανση των λωρίδων για την έξοδό σας. Μην αλλάζετε λωρίδα μέσα στον κόμβο χωρίς λόγο.",
+            ru: "Соблюдайте рядность согласно стрелкам для вашего съезда. Перестроение внутри круга может быть опасным."
+        },
+        file: "Default-roundabout-lane-1.jpg",
+        cat: "markings",
+        fav: false
+    },
+    {
+        name: {
+            en: "Arrows depicting lane direction on a 2 lane roundabout",
+            uk: "Схема руху по смугах на колі (2 смуги)",
+            el: "Βέλη κατεύθυνσης λωρίδων σε κυκλικό κόμβο 2 λωρίδων",
+            ru: "Схема движения по полосам на круге"
+        },
+        hint: {
+            en: "Standard lane discipline for smaller roundabouts. Usually, the left lane is for left/straight and the right for right/U-turns.",
+            uk: "Стандартна дисципліна смуг на кільці. Ліва смуга зазвичай для повороту ліворуч або прямо, права — для повороту праворуч.",
+            el: "Καθορισμένη πορεία ανά λωρίδα. Η αριστερή λωρίδα συνήθως προορίζεται για αριστερά/ευθεία και η δεξιά για δεξιά.",
+            ru: "Соблюдайте рядность согласно стрелкам. На Кипре левая полоса обычно для поворота налево и проезда прямо."
+        },
+        file: "Default-roundabout-lane.jpg",
+        cat: "markings",
+        fav: false
+    },
+    {
+        name: {
+            en: "Double yellow lines: No parking or stopping",
+            uk: "Подвійна жовта лінія: зупинка та стоянка заборонена",
+            el: "Διπλή κίτρινη γραμμή: Απαγορεύεται η στάση και η στάθμευση",
+            ru: "Двойная желтая линия"
+        },
+        hint: {
+            en: "Strict prohibition of both parking and temporary stopping at any time. Used in high-traffic or high-risk areas.",
+            uk: "Сувора заборона як паркування, так і тимчасової зупинки в будь-який час.",
+            el: "Αυστηρή απαγόρευση στάθμευσης και προσωρινής στάσης καθ' όλη τη διάρκεια του 24ώρου.",
+            ru: "Категорический запрет на парковку и любую остановку транспорта в любое время суток."
+        },
+        file: "Depicts-the-side-of-the-carriageway-–-No-parking-or-stopping.jpg",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Single white line: No parking",
+            uk: "Суцільна біла лінія: стоянка заборонена",
+            el: "Μονή λευκή γραμμή: Απαγορεύεται η στάθμευση",
+            ru: "Одна белая линия"
+        },
+        hint: {
+            en: "Defines the edge of the road where parking is prohibited at all times. Used to keep the carriageway clear for traffic.",
+            uk: "Позначає край проїжджої частини, де паркування заборонено в будь-який час для забезпечення вільного проїзду.",
+            el: "Οριοθετεί την άκρη του οδοστρώματος όπου η στάθμευση απαγορεύεται μόνιμα.",
+            ru: "Линия обозначает край дороги; парковка вдоль этой линии запрещена в любое время для обеспечения безопасности движения."
+        },
+        file: "Depicts-the-side-of-the-carriageway-–-No-parking.jpg",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Arrows depicting lane direction on roundabouts",
+            uk: "Стрілки напрямку руху по смугах на кільцевих розв'язках",
+            el: "Βέλη κατεύθυνσης λωρίδων σε κυκλικούς κόμβους",
+            ru: "Стрелками показано направление движения по полосам на круговых перекрестках"
+        },
+        hint: {
+            en: "Shows the correct lane to occupy for specific exits and destinations well in advance of the roundabout.",
+            uk: "Заздалегідь показує необхідну смугу для відповідних виїздів та населених пунктів перед кільцем.",
+            el: "Δείχνει τη σωστή λωρίδα για συγκεκριμένες εξόδους και προορισμούς πολύ πριν από τον κόμβο.",
+            ru: "Заблаговременно информирует о том, какую полосу нужно занять для выезда в направлении конкретных населенных пунктов."
+        },
+        file: "Directions-on-roundabout.jpg",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Give way T-junction: give way to traffic on major road",
+            uk: "Розмітка: Дати дорогу на Т-подібному перехресті",
+            el: "Σήμανση: Παραχώρηση προτεραιότητας σε διασταύρωση Τ",
+            ru: "Разметка: Уступите дорогу"
+        },
+        hint: {
+            en: "Dashed lines across the road mean you must yield to all traffic traveling on the major road before emerging.",
+            uk: "Переривчаста лінія поперек дороги означає, що ви повинні пропустити весь транспорт, який рухається головною дорогою.",
+            el: "Οι διακεκομμένες γραμμές σημαίνουν ότι πρέπει να παραχωρήσετε προτεραιότητα σε όλη την κυκλοφορία της κύριας οδού.",
+            ru: "Пунктирная линия поперек вашей полосы. Вы обязаны пропустить транспорт, движущийся по пересекаемой (главной) дороге."
+        },
+        file: "Give-way-to-traffic-on-main-road.jpg",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Start of motorway",
+            uk: "Початок автомагістралі",
+            el: "Αρχή αυτοκινητόδρομου",
+            ru: "Начало автомагистрали"
+        },
+        hint: {
+            en: "Entrance to a highway. Pedestrians, bicycles, mopeds, and agricultural machinery are strictly prohibited beyond this point.",
+            uk: "В'їзд на автомагістраль. Рух пішоходів, велосипедів, мопедів та тракторів суворо заборонено.",
+            el: "Είσοδος σε αυτοκινητόδρομο. Απαγορεύεται η κυκλοφορία πεζών, ποδηλάτων, μοτοποδηλάτων και τρακτέρ.",
+            ru: "Знак обозначает въезд на скоростную трассу (хайвей). Запрещено движение пешеходам, велосипедам, мопедам и сельхозтехнике."
+        },
+        file: "Highway_begin_in_Cyprus.png",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Motorway directional information",
+            uk: "Інформаційний вказівник на автомагістралі",
+            el: "Πληροφοριακή πινακίδα κατεύθυνσης αυτοκινητόδρομου",
+            ru: "Информационный указатель на магистрали"
+        },
+        hint: {
+            en: "The blue background confirms you are on a motorway. It provides directions and distances to key cities or regions.",
+            uk: "Синій фон підтверджує, що ви перебуваєте на автомагістралі. Вказує напрямки та відстані до міст.",
+            el: "Το μπλε φόντο επιβεβαιώνει ότι βρίσκεστε σε αυτοκινητόδρομο. Παρέχει κατευθύνσεις και αποστάσεις.",
+            ru: "Синий фон знака подтверждает нахождение на хайвее. Указывает направления к городам и расстояние до них."
+        },
+        file: "Informational_sign_on_a_motorway_in_Cyprus.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Motorway exit sign",
+            uk: "Покажчик з'їзду з автомагістралі",
+            el: "Πινακίδα εξόδου αυτοκινητόδρομου",
+            ru: "Указатель выхода с магистрали"
+        },
+        hint: {
+            en: "Indicates the junction number and the destinations reached by exiting the motorway at this point.",
+            uk: "Вказує номер розв'язки та напрямки, до яких веде цей з'їзд з автомагістралі.",
+            el: "Υποδεικνύει τον αριθμό του κόμβου και τους προορισμούς μέσω της συγκεκριμένης εξόδου.",
+            ru: "Информирует о номере развязки и населенных пунктах, к которым можно попасть, съехав с магистрали в этом месте."
+        },
+        file: "Motorway_exit_sign_in_Cyprus.png",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Double white lines: no parking or overtaking",
+            uk: "Подвійна суцільна біла лінія",
+            el: "Διπλή συνεχή λευκή γραμμή",
+            ru: "Двойная сплошная белая линия"
+        },
+        hint: {
+            en: "Prohibits crossing or straddling these lines. They separate opposing traffic flows where overtaking is extremely dangerous.",
+            uk: "Заборонено перетинати ці лінії або наїжджати на них. Вони розділяють зустрічні потоки там, де обгін вкрай небезпечний.",
+            el: "Απαγορεύεται η υπέρβαση ή η οδήγηση πάνω σε αυτές τις γραμμές. Διαχωρίζουν αντίθετες κατευθύνσεις κυκλοφοрії.",
+            ru: "Запрещено пересекать эти линии или заезжать на них. Они разделяют транспортные потоки противоположных направлений, где обгон крайне опасен."
+        },
+        file: "No-parking-or-overtaking-1.jpg",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Single white line: no parking or overtaking",
+            uk: "Одинарна суцільна біла лінія",
+            el: "Μονή συνεχή λευκή γραμμή",
+            ru: "Одинарная сплошная белая линия"
+        },
+        hint: {
+            en: "Crossing or straddling this line is prohibited. Used to separate lanes where passing or parking is unsafe.",
+            uk: "Заборонено перетинати цю лінію. Використовується для розділення смуг, де обгін або паркування є небезпечними.",
+            el: "Απαγορεύεται η υπέρβαση αυτής της γραμμής. Χρησιμοποιείται σε σημεία όπου το προσπέρασμα δεν είναι ασφαλές.",
+            ru: "Запрещено пересекать эту линию или заезжать на нее. Она разделяет транспортные потоки там, где обгон или остановка запрещены."
+        },
+        file: "No-parking-or-overtaking.jpg",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Zigzag lines: No parking, waiting or overtaking",
+            uk: "Зигзагоподібна розмітка",
+            el: "Ζικ-ζακ διαγράμμιση",
+            ru: "Зигзагообразная разметка"
+        },
+        hint: {
+            en: "Parking, stopping, and overtaking are strictly prohibited. These are placed near pedestrian crossings to ensure clear visibility.",
+            uk: "Заборонена парковка, зупинка та обгін. Наноситься перед пішохідними переходами для забезпечення видимості.",
+            el: "Απαγορεύεται η στάθμευση, η στάση και το προσπέρασμα. Βρίσκονται κοντά σε διαβάσεις πεζών για ορατότητα.",
+            ru: "Запрещена парковка, остановка и обгон в этой зоне. Разметка наносится перед пешеходными переходами для обеспечения прямой видимости."
+        },
+        file: "No-parking-or-waiting-or-overtaking.jpg",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Double white lines, with a broken line on one side",
+            uk: "Подвійна біла лінія, переривчаста з одного боку",
+            el: "Διπλή λευκή γραμμή, διακεκομμένη από τη μία πλευρά",
+            ru: "Двойная белая линия, прерывистая с одной стороны"
+        },
+        hint: {
+            en: "You may cross the line to overtake only if the broken line is on your side and the maneuver is safe.",
+            uk: "Ви можете перетинати лінію для обгону, тільки якщо переривчаста лінія знаходиться з вашого боку і це безпечно.",
+            el: "Επιτρέπεται η υπέρβαση για προσπέρασμα μόνο αν η διακεκομμένη γραμμή είναι από την πλευρά σας.",
+            ru: "Вам разрешено пересекать линию для обгона, если прерывистая линия находится с вашей стороны и маневр безопасен."
+        },
+        file: "Overtaking-allowed-from-right.jpg",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Lane dividers: overtaking is allowed",
+            uk: "Розділювач смуг: обгін дозволено",
+            el: "Διαχωριστική γραμμή λωρίδων: επιτρέπεται το προσπέρασμα",
+            ru: "Разметка разрешающая обгон"
+        },
+        hint: {
+            en: "Standard broken line. You may cross it to change lanes or overtake when it is safe to do so.",
+            uk: "Звичайна переривчаста лінія. Дозволяє перешикування та обгін за умови безпеки маневру.",
+            el: "Κλασική διακεκομμένη γραμμή. Επιτρέπεται η αλλαγή λωρίδας ή το προσπέρασμα.",
+            ru: "Разделяет потоки попутного или встречного направления. Пересекать линию для обгона или перестроения разрешено."
+        },
+        file: "Overtaking-is-allowed.jpg",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Police: Proceed for traffic from behind",
+            uk: "Поліція: Проїзд дозволено для транспорту ззаду",
+            el: "Αστυνομία: Επιτρέπεται η διέλευση για την κυκλοφοрія από πίσω",
+            ru: "Проезд разрешен для транспорта сзади"
+        },
+        hint: {
+            en: "A specific signal from a police officer allowing vehicles approaching from behind to continue moving.",
+            uk: "Жест регулювальника, що дозволяє рух транспортним засобам, які наближаються ззаду.",
+            el: "Σήμα από αστυνομικό που επιτρέπει στα οχήματα που έρχονται από πίσω να συνεχίσουν την πορεία τους.",
+            ru: "Жест регулировщика, разрешающий движение тем, кто едет за ним."
+        },
+        file: "Proceed-to-traffic-approaching-from-the-behind.jpg",
+        cat: "police",
+        fav: true
+    },
+    {
+        name: {
+            en: "Police: Proceed for traffic from the front",
+            uk: "Поліція: Проїзд дозволено для транспорту спереду",
+            el: "Αστυνομία: Επιτρέπεται η διέλευση για την κυκλοφοрія από μπροστά",
+            ru: "Проезд разрешен для транспорта спереди"
+        },
+        hint: {
+            en: "The officer signals you to proceed towards or past them. Follow the hand motion cautiously.",
+            uk: "Регулювальник махає рукою, дозволяючи вам рух прямо на нього або повз нього.",
+            el: "Ο αστυνομικός σας κάνει σήμα να προχωρήσετε προς το μέρος του ή να τον προσπεράσετε.",
+            ru: "Манящий жест рукой, разрешающий вам движение прямо на регулировщика или мимо него."
+        },
+        file: "Proceed-to-traffic-approaching-from-the-front.jpg",
+        cat: "police",
+        fav: true
+    },
+    {
+        name: {
+            en: "Police: Proceed for traffic from the side",
+            uk: "Поліція: Проїзд дозволено для тих, хто збоку",
+            el: "Αστυνομία: Επιτρέπεται η διέλευση για την κυκλοφοрія από το πλάι",
+            ru: "Проезд разрешен для тех, кто сбоку"
+        },
+        hint: {
+            en: "When the officer stands sideways to your flow, it typically means traffic along their shoulders may proceed.",
+            uk: "Регулювальник стоїть боком, дозволяючи потоку рухатися вздовж його плечей.",
+            el: "Όταν ο αστυνομικός στέκεται με το πλάι προς εσάς, επιτρέπεται η κυκλοφορία κατά μήκος των ώμων του.",
+            ru: "Регулировщик стоит боком, разрешая потоку двигаться вдоль его плеч."
+        },
+        file: "Proceed-to-traffic-approaching-from-the-side.jpg",
+        cat: "police",
+        fav: true
+    },
+    {
+        name: {
+            en: "Direction to a roundabout",
+            uk: "Напрямки руху на кільцевій розв'язці",
+            el: "Κατευθύνσεις σε κυκλικό κόμβο",
+            ru: "Направления движения на круговой развязке"
+        },
+        hint: {
+            en: "Provides advance information about exits at a roundabout. Note that blue signs in Cyprus typically denote motorways or primary routes.",
+            uk: "Заздалегідь інформує про виїзди на кільці. Синій фон зазвичай вказує на основні дороги або магістралі.",
+            el: "Πληροφορίες για τις εξόδους του κόμβου. Το μπλε φόντο υποδηλώνει κύριες οδούς ή αυτοκινητόδρομους.",
+            ru: "Заранее информирует о направлениях на предстоящем кольце. Синий фон указывает на дорогу общего пользования (основной маршрут)."
+        },
+        file: "Roundabout_road_sign_in_Cyprus1.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Stop T-junction: stop and give way",
+            uk: "Розмітка: зупинитися та дати дорогу",
+            el: "Διαγράμμιση STOP: στάση και παραχώρηση προτεραιότητας",
+            ru: "Стоп-линия"
+        },
+        hint: {
+            en: "A solid wide white line. You must come to a complete halt (wheels stop turning) before crossing this line.",
+            uk: "Суцільна широка біла лінія. Ви зобов'язані повністю зупинити автомобіль перед цією лінією.",
+            el: "Μια συνεχή πλατιά λευκή γραμμή. Πρέπει να σταματήσετε τελείως το όχημα πριν την περάσετε.",
+            ru: "Сплошная широкая линия. Вы обязаны полностью остановить движение колес перед ней."
+        },
+        file: "Stop-and-give-way.jpg",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Police: Stop for traffic from behind",
+            uk: "Поліція: СТОП для тих, хто ззаду",
+            el: "Αστυνομία: Στάση για την κυκλοφορία από πίσω",
+            ru: "СТОП для тех, кто сзади"
+        },
+        hint: {
+            en: "The officer's arm extended to the side is a signal to stop for all vehicles approaching from behind.",
+            uk: "Витягнута вбік рука поліцейського — сигнал зупинки для тих, хто наближається ззаду.",
+            el: "Το τεντωμένο χέρι του αστυνομικού στο πλάι είναι σήμα στάσης για όσους έρχονται από πίσω.",
+            ru: "Вытянутая в сторону рука полицейского — сигнал обязательной остановки для тех, кто едет за ним."
+        },
+        file: "Stop-for-traffic-approaching-from-behind.jpg",
+        cat: "police",
+        fav: true
+    },
+    {
+        name: {
+            en: "Police: Stop for traffic from the front and from behind",
+            uk: "Поліція: СТОП для тих, хто спереду та ззаду",
+            el: "Αστυνομία: Στάση για την κυκλοφορία από μπροστά και πίσω",
+            ru: "СТОП для тех, кто спереди и сзади"
+        },
+        hint: {
+            en: "Traffic is blocked in both directions (oncoming and following). Both arms are extended or one is raised and one to the side.",
+            uk: "Рух перекритий для обох напрямків (зустрічного та попутного).",
+            el: "Η κυκλοφορία διακόπτεται και για τις δύο κατευθύνσεις.",
+            ru: "Движение перекрыто для обоих направлений (встречного и попутного). Обязательная остановка."
+        },
+        file: "Stop-for-traffic-approaching-from-both-front-and-behind.jpg",
+        cat: "police",
+        fav: true
+    },
+    {
+        name: {
+            en: "Police: Stop for traffic from the front",
+            uk: "Поліція: СТОП для тих, хто спереду",
+            el: "Αστυνομία: Στάση για την κυκλοφορία από μπροστά",
+            ru: "СТОП для тех, кто спереди"
+        },
+        hint: {
+            en: "A raised hand with the palm facing you is a signal for mandatory stopping for traffic approaching from the front.",
+            uk: "Піднята вгору рука долонею до вас — сигнал обов'язкової зупинки для тих, хто спереду.",
+            el: "Το υψωμένο χέρι με την παλάμη προς εσάς είναι σήμα υποχρεωτικής στάσης.",
+            ru: "Поднятая вверх рука ладонью к вам — сигнал обязательной остановки для встречного транспорта."
+        },
+        file: "Stop-for-traffic-approaching-from-the-front.jpg",
+        cat: "police",
+        fav: true
+    },
+    {
+        name: {
+            en: "First aid station",
+            uk: "Пункт першої медичної допомоги",
+            el: "Σταθμός πρώτων βοηθειών",
+            ru: "Пункт первой медицинской помощи"
+        },
+        hint: {
+            en: "Indicates the presence of a first aid station or medical point nearby.",
+            uk: "Вказує на наявність поблизу пункту або станції надання першої медичної допомоги.",
+            el: "Υποδεικνύει την ύπαρξη σταθμού πρώτων βοηθειών σε κοντινή απόσταση.",
+            ru: "Указывает на наличие поблизу пункта или станции оказания первой медицинской помощи."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-32.svg",
+        cat: "informational",
+        fav: false
+    },
+    {
+        name: {
+            en: "Workshops",
+            uk: "Технічна допомога",
+            el: "Συνεργείο επισκευής βλαβών",
+            ru: "Техническая помощь"
+        },
+        hint: {
+            en: "Informs about a nearby vehicle maintenance point or breakdown assistance service.",
+            uk: "Інформує про близькість пункту технічного обслуговування або служби допомоги при поломці.",
+            el: "Πληροφορεί για συνεργείο αυτοκινήτων ή οδική βοήθεια στην περιοχή.",
+            ru: "Информирует о близости пункта технического обслуживания или службы помощи при поломке автомобиля."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-33.svg",
+        cat: "informational",
+        fav: false
+    },
+    {
+        name: {
+            en: "Telephone",
+            uk: "Громадський телефон",
+            el: "Τηλέφωνο",
+            ru: "Общественный телефон"
+        },
+        hint: {
+            en: "Indicates a nearby public telephone or emergency phone point.",
+            uk: "Вказує на наявність поблизу громадського телефону або телефону екстреного зв'язку.",
+            el: "Υποδεικνύει την ύπαρξη δημόσιου τηλεφώνου ή τηλεφώνου ανάγκης.",
+            ru: "Указывает на наличие поблизости общественного телефона или телефона экстренной связи."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-34.svg",
+        cat: "informational",
+        fav: false
+    },
+    {
+        name: {
+            en: "Petrol pump",
+            uk: "Автозаправна станція",
+            el: "Πρατήριο καυσίμων",
+            ru: "Автозаправочная станция"
+        },
+        hint: {
+            en: "Informs about a nearby fuel station. Useful for planning refueling on long trips.",
+            uk: "Інформує про близькість заправної станції. Корисно для планування дозаправки.",
+            el: "Πληροφορεί για την ύπαρξη πρατηρίου καυσίμων.",
+            ru: "Информирует о близости заправочной станции. Полезно для планирования дозаправки на трассе."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-35.svg",
+        cat: "informational",
+        fav: false
+    },
+    {
+        name: {
+            en: "Hotel or motel",
+            uk: "Готель або мотель",
+            el: "Ξενοδοχείο ή μοτέλ",
+            ru: "Отель или мотель"
+        },
+        hint: {
+            en: "Indicates accommodation facilities like a hotel or motel near the road.",
+            uk: "Вказує на наявність готелю або мотелю неподалік від дороги.",
+            el: "Υποδεικνύει την ύπαρξη ξενοδοχείου ή μοτέλ.",
+            ru: "Указывает на наличие гостиницы, отеля или мотеля неподалеку от дороги."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-36.svg",
+        cat: "informational",
+        fav: false
+    },
+    {
+        name: {
+            en: "Restaurant",
+            uk: "Ресторан",
+            el: "Εστιατόριο",
+            ru: "Ресторан"
+        },
+        hint: {
+            en: "Informs about a nearby restaurant or full-service dining facility.",
+            uk: "Інформує про близькість ресторану або закладу громадського харчування.",
+            el: "Πληροφορεί για την ύπαρξη εστιατορίου.",
+            ru: "Информирует о близости ресторана или места общественного питания."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-37.svg",
+        cat: "informational",
+        fav: false
+    },
+    {
+        name: {
+            en: "Cafeteria",
+            uk: "Кафе або буфет",
+            el: "Αναψυκτήριο ή Καφετέρια",
+            ru: "Кафе или буфет"
+        },
+        hint: {
+            en: "Indicates a nearby cafe where light snacks and drinks are available.",
+            uk: "Інформує про близькість кафе, де можна купити легкі закуски та напої.",
+            el: "Πληροφορεί για αναψυκτήριο ή καφετέρια για ελαφριά γεύματα.",
+            ru: "Информирует о близости кафе или места, где можно купить легкие закуски и напитки."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-38.svg",
+        cat: "informational",
+        fav: false
+    },
+    {
+        name: {
+            en: "Picnic area",
+            uk: "Місце для пікніка",
+            el: "Χώρος για πικ-νικ",
+            ru: "Место для пикника"
+        },
+        hint: {
+            en: "Indicates a specially equipped area near the road for rest and picnics.",
+            uk: "Вказує на наявність спеціально обладнаного майданчика для відпочинку та пікніка поблизу дороги.",
+            el: "Υποδεικνύει την ύπαρξη ειδικά διαμορφωμένου χώρου για ανάπαυση και πικ-νικ κοντά στον δρόμο.",
+            ru: "Указывает на наличие специально оборудованной площадки для отдыха и пикника вблизи дороги."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-39.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Hiking starting point",
+            uk: "Місце початку пішого туристичного маршруту",
+            el: "Αφετηρία πεζοπορικής διαδρομής",
+            ru: "Место начала пешего туристического маршрута"
+        },
+        hint: {
+            en: "Indicates the starting point of a designated hiking trail or walking route.",
+            uk: "Вказує на місце початку позначеного пішохідного маршруту або стежки для хайкінгу.",
+            el: "Υποδεικνύει την αφετηρία μιας καθορισμένης πεζοπορικής διαδρομής ή μονοπατιού.",
+            ru: "Указывает на место начала обозначенного пешеходного маршрута или тропы для хайкинга."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-40.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Camping site",
+            uk: "Місце для кемпінгу (намети)",
+            el: "Χώρος κατασκήνωσης",
+            ru: "Место для кемпинга"
+        },
+        hint: {
+            en: "Indicates a site strictly for tents. Unlike combined sites, it may lack facilities for heavy caravans.",
+            uk: "Вказує на майданчик, призначений виключно для встановлення наметів. Може не мати умов для важких автофургонів.",
+            el: "Υποδεικνύει χώρο που προορίζεται αποκλειστικά για σκηνές. Ενδέχεται να μην διαθέτει εγκαταστάσεις για βαριά τροχόσπιτα.",
+            ru: "Указывает на площадку для установки палаток. В отличие от стоянок для караванов, здесь может не быть условий для тяжелых автофургонов."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-41.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Caravan site",
+            uk: "Місце стоянки для караванів (автобудинків)",
+            el: "Χώρος για τροχόσπιτα",
+            ru: "Место стоянки для караванов / жилых автофургонов"
+        },
+        hint: {
+            en: "Indicates an area specially equipped for parking trailers and motorhomes.",
+            uk: "Вказує на наявність майданчика, спеціально обладнаного для стоянки житлових причепів та автодомів.",
+            el: "Υποδεικνύει χώρο ειδικά διαμορφωμένο για τη στάθμευση τροχόσπιτων και αυτοκινούμενων.",
+            ru: "Указывает на наличие площадки, специально оборудованной для стоянки жилых прицепов и автодомов."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-42.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Camping and caravan site",
+            uk: "Місце для кемпінгу та автофургонів",
+            el: "Χώρος για κατασκήνωση και τροχόσπιτα",
+            ru: "Camping and caravan site (Место для кемпинга и автофургонов)"
+        },
+        hint: {
+            en: "Indicates a site where both tents and caravans/motorhomes are permitted.",
+            uk: "Вказує на майданчик, де дозволено як встановлення наметів, так і стоянку житлових автопричепів.",
+            el: "Υποδεικνύει χώρο όπου επιτρέπονται τόσο οι σκηνές όσο і τα τροχόσπιτα.",
+            ru: "Указывает на наличие площадки, где разрешена установка палаток и стоянка жилых автопричепов."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-43.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Youth hostel",
+            uk: "Молодіжний хостел / Туристична база",
+            el: "Ξενώνας νεότητας",
+            ru: "Молодежный хостел / Туристическая база"
+        },
+        hint: {
+            en: "Informs of a nearby youth hostel or certified tourist base for budget accommodation.",
+            uk: "Інформує про близькість молодіжного хостелу або сертифікованої туристичної бази для бюджетного проживання.",
+            el: "Πληροφορεί για την ύπαρξη ξενώνα νεότητας ή οργανωμένης τουριστικής βάσης στην περιοχή.",
+            ru: "Информирует о близости молодежного хостела или сертифицированной туристической базы для бюджетного проживания."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-44.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Tourist information",
+            uk: "Інформаційний центр для туристів",
+            el: "Τουριστικές πληροφορίες",
+            ru: "Информационный центр"
+        },
+        hint: {
+            en: "Indicates an official information point or office for tourists.",
+            uk: "Вказує на наявність офіційного інформаційного пункту або бюро для туристів.",
+            el: "Υποδεικνύει την ύπαρξη επίσημου γραφείου τουριστικών πληροφοριών.",
+            ru: "Указывает на наличие официального информационного пункта или бюро для туристов."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-45.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Public toilets",
+            uk: "Громадські вбиральні",
+            el: "Δημόσια ουρητήρια",
+            ru: "Общественные туалеты"
+        },
+        hint: {
+            en: "Indicates the location of nearby public toilet facilities.",
+            uk: "Вказує на наявність громадського туалету поблизу.",
+            el: "Υποδεικνύει τη θέση δημόσιων τουαλετών στην περιοχή.",
+            ru: "Указывает на наличие общественного туалета поблизости."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-47.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Airport",
+            uk: "Аеропорт",
+            el: "Αεροδρόμιο",
+            ru: "Аэропорт"
+        },
+        hint: {
+            en: "Directions to or proximity of an airport. Crucial in Cyprus for navigating to Larnaca or Paphos international hubs.",
+            uk: "Вказує напрямок до аеропорту або на його близькість. Важливо для навігації до аеропортів Ларнаки та Пафоса.",
+            el: "Κατεύθυνση προς αεροδρόμιο. Κρίσιμο για την πλοήγηση προς Λάρνακα ή Πάφο.",
+            ru: "Указывает направление к аэропорту. На Кипре этот знак критически важен для навигации к хабам в Ларнаке и Пафосе."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-50.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Helipad",
+            uk: "Вертолітний майданчик",
+            el: "Ελικοδρόμιο",
+            ru: "Вертолетная площадка"
+        },
+        hint: {
+            en: "Indicates a helicopter landing/take-off site, often near major hospitals or remote mountain areas for emergency services.",
+            uk: "Вказує на майданчик для вертольотів. Часто зустрічається біля великих лікарень або в горах для екстрених служб.",
+            el: "Υποδεικνύει ελικοδρόμιο, συχνά κοντά σε νοσοκομεία ή σε ορεινές περιοχές για υπηρεσίες έκτακτης ανάγκης.",
+            ru: "Указывает на наличие площадки для вертолетов. Часто встречается вблизи крупных госпиталей или в горных районах для нужд экстренных служб."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-51.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Subway exit",
+            uk: "Вихід із підземного пішохідного переходу",
+            el: "Έξοδος υπόγειας διάβασης πεζών",
+            ru: "Выход из подземного пешеходного перехода"
+        },
+        hint: {
+            en: "Indicates the exit point from an underground pedestrian walkway.",
+            uk: "Вказує на наявність виходу з підземного переходу.",
+            el: "Υποδεικνύει την έξοδο από μια υπόγεια διάβαση πεζών.",
+            ru: "Указывает на наличие выхода из подземного перехода."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-61.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Subway entrance",
+            uk: "Вхід до підземного пішохідного переходу",
+            el: "Είσοδος υπόγειας διάβασης πεζών",
+            ru: "Вход в подземный пешеходный переход"
+        },
+        hint: {
+            en: "Indicates the entrance to an underground pedestrian walkway.",
+            uk: "Вказує на наявність входу до підземного переходу.",
+            el: "Υποδεικνύει την είσοδο σε μια υπόγεια διάβαση πεζών.",
+            ru: "Указывает на наличие входа в подземный переход."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-62.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "Ramp for pedestrians",
+            uk: "Пандус для пішоходів",
+            el: "Ράμπα για πεζούς",
+            ru: "Пандус для пешеходов"
+        },
+        hint: {
+            en: "Indicates the presence of a ramp, useful for strollers, wheelchairs, or people with limited mobility.",
+            uk: "Вказує на наявність пандуса для пішоходів (для візків та маломобільних груп).",
+            el: "Υποδεικνύει την ύπαρξη ράμπας για πεζούς, αναπηρικά αμαξίδια ή καρότσια.",
+            ru: "Указывает на наличие пандуса для пешеходов."
+        },
+        file: "Traffic_Sign_GR_-_KOK_2009_-_P-63.svg",
+        cat: "information",
+        fav: false
+    },
+    {
+        name: {
+            en: "T-junction",
+            uk: "Т-подібне перехрестя",
+            el: "Διασταύρωση σχήματος Τ",
+            ru: "Т-образный перекресток"
+        },
+        hint: {
+            en: "A junction where the road you are on ends. You must turn left or right.",
+            uk: "Перехрестя, де дорога закінчується. Ви повинні будете повернути праворуч або ліворуч.",
+            el: "Μια διασταύρωση όπου ο δρόμος τελειώνει. Πρέπει να στρίψετε δεξιά ή αριστερά.",
+            ru: "Перекресток, где дорога заканчивается. Вы должны будете повернути направо или налево."
+        },
+        file: "UK_traffic_sign_505.1_(left).svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Side road junction",
+            uk: "Примикання другорядної дороги",
+            el: "Συμβολή με δευτερεύουσα οδό",
+            ru: "Примыкание второстепенной дороги"
+        },
+        hint: {
+            en: "Warns of a junction where a side road joins the main road. Traffic on the side road should give way.",
+            uk: "Попереджає про перехрестя, де другорядна дорога примикає до головної.",
+            el: "Προειδοποιεί για διασταύρωση όπου ένας δευτερεύων δρόμος συναντά τον κύριο δρόμο.",
+            ru: "Предупреждает о перекрестке, где второстепенная дорога примыкает к главной."
+        },
+        file: "UK_traffic_sign_506.1_(variant_1,_right).svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Staggered junction",
+            uk: "Перехрестя зі зміщенням",
+            el: "Διαδοχικές συμβολές οδών (μη ευθυγραμμισμένες)",
+            ru: "Перекресток со смещением"
+        },
+        hint: {
+            en: "Two side road junctions located close together on opposite sides of the main road.",
+            uk: "Два примикання доріг, розташовані близько одне до одного з різних боків.",
+            el: "Δύο συμβολές οδών που βρίσκονται κοντά η μία στην άλλη από διαφορετικές πλευρές.",
+            ru: "Два примыкания дорог, расположенные близко друг к другу с разных сторон."
+        },
+        file: "UK_traffic_sign_507.1_(variant_1,_right).svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Traffic merges from left",
+            uk: "Злиття потоків зліва",
+            el: "Συγχώνευση κυκλοφορίας από αριστερά",
+            ru: "Слияние потоков слева"
+        },
+        hint: {
+            en: "Traffic from another road will join your lane from the left. Be prepared to adjust speed.",
+            uk: "Потік транспорту вливається в основну дорогу з лівого боку.",
+            el: "Η κυκλοφορία από άλλον δρόμο θα εισέλθει στη λωρίδα σας από τα αριστερά.",
+            ru: "Поток транспорта вливается в основную дорогу с левой стороны."
+        },
+        file: "UK_traffic_sign_508.1.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Traffic merges onto the main carriageway",
+            uk: "Злиття транспортних потоків (гострий кут)",
+            el: "Συγχώνευση κυκλοφορίας στον κύριο δρόμο",
+            ru: "Слияние транспортных потоков"
+        },
+        hint: {
+            en: "A side road joins at a sharp angle. Drivers should be cautious when merging or allowing others to merge.",
+            uk: "Попереджає про примикання під гострим кутом, де потоки зливаються. Будьте обережні при перестроюванні.",
+            el: "Ένας δευτερεύων δρόμος ενώνεται υπό οξεία γωνία. Προσοχή κατά τη συγχώνευση.",
+            ru: "Предупреждает о примыкании второстепенной дороги под острым углом. Соблюдайте осторожность при перестроении."
+        },
+        file: "UK_traffic_sign_509.1.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Roundabout",
+            uk: "Кільцевий рух",
+            el: "Κυκλικός κόμβος",
+            ru: "Круговое движение"
+        },
+        hint: {
+            en: "Warning of a roundabout ahead. Prepare to give way to traffic already in the circle.",
+            uk: "Попереджає про наближення до кільцевої розв'язки.",
+            el: "Προειδοποίηση για κυκλικό κόμβο μπροστά. Ετοιμαστείτε να παραχωρήσετε προτεραιότητα.",
+            ru: "Предупреждает о приближении к кольцевой развязке."
+        },
+        file: "UK_traffic_sign_510.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Junction on a bend - left",
+            uk: "Перехрестя на вигині дороги (зліва)",
+            el: "Διασταύρωση πάνω σε στροφή - αριστερά",
+            ru: "Перекресток на изгибе дороги"
+        },
+        hint: {
+            en: "A side road joins on a curve. Reduced visibility makes this junction particularly hazardous.",
+            uk: "Примикання на ділянці, де основна дорога повертає. Потребує підвищеної уваги.",
+            el: "Μια συμβολή οδού πάνω σε στροφή. Απαιτείται προσοχή λόγω περιορισμένης ορατότητας.",
+            ru: "Предупреждает о примыкании на участке, где основная дорога делает поворот. Ограниченная видимость."
+        },
+        file: "UK_traffic_sign_512.1_(right).svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Junction on a bend - right",
+            uk: "Примикання другорядної дороги на вигині праворуч",
+            el: "Συμβολή οδού σε στροφή δεξιά",
+            ru: "Перекресток на изгибе дороги"
+        },
+        hint: {
+            en: "Warns of a side road joining on a right-hand curve. Visibility is often restricted.",
+            uk: "Попереджає про бічне примикання дороги саме на повороті. Будьте готові до обмеженої видимості.",
+            el: "Προειδοποιεί για συμβολή οδού πάνω σε δεξιά στροφή. Η ορατότητα είναι περιορισμένη.",
+            ru: "Предупреждает о примыкании второстепенной дороги на изгибе. Из-за поворота водитель может поздно заметить выезжающий транспорт."
+        },
+        file: "UK_traffic_sign_512.2_(right).svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Bend to the right",
+            uk: "Небезпечний поворот праворуч",
+            el: "Επικίνδυνη δεξιά στροφή",
+            ru: "Опасный поворот направо"
+        },
+        hint: {
+            en: "Sharp curve to the right. Reduce speed before entering the bend.",
+            uk: "Попереду крутий поворот праворуч. Скиньте швидкість заздалегідь.",
+            el: "Απότομη στροφή δεξιά. Μειώστε ταχύτητα πριν από τη στροφή.",
+            ru: "Опасный поворот направо. Обязательно снизьте скорость, чтобы избежать выезда на встречную полосу или обочину."
+        },
+        file: "UK_traffic_sign_512_(right).svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Double bend, first to the left",
+            uk: "Декілька небезпечних поворотів, перший ліворуч",
+            el: "Επικίνδυνες συνεχείς στροφές, η πρώτη αριστερά",
+            ru: "Двойной изгиб, первый налево"
+        },
+        hint: {
+            en: "Series of dangerous curves ahead. The first direction change is to the left.",
+            uk: "Попереду серія небезпечних поворотів. Перший маневр буде ліворуч.",
+            el: "Σειρά επικίνδυνων στροφών, με την πρώτη να κατευθύνεται αριστερά.",
+            ru: "Серия опасных поворотов. Первый поворот — налево, за ним последуют другие. Важно соблюдать скоростной режим на всем участке."
+        },
+        file: "UK_traffic_sign_513_(left).svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Road narrows on both sides",
+            uk: "Звуження дороги з обох боків",
+            el: "Στένωση οδοστρώματος και από τις δύο πλευρές",
+            ru: "Сужение дороги с обеих сторон"
+        },
+        hint: {
+            en: "The road ahead becomes narrower from both sides. Watch for oncoming traffic.",
+            uk: "Дорога звужується з обох сторін. Будьте уважні при проїзді великогабаритного транспорту.",
+            el: "Ο δρόμος στενεύει και από τις δύο πλευρές. Προσοχή στα αντίθετα ερχόμενα οχήματα.",
+            ru: "Проезжая часть становится уже с обеих сторон. При разъезде со встречным грузовиком или автобусом может потребоваться снижение скорости."
+        },
+        file: "UK_traffic_sign_516.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Road narrows on the right",
+            uk: "Звуження дороги праворуч",
+            el: "Στένωση οδοστρώματος από τη δεξιά πλευρά",
+            ru: "Сужение дороги справа"
+        },
+        hint: {
+            en: "The road narrows specifically on the right side. Be prepared to merge left.",
+            uk: "Дорога звужується з правого боку. Заздалегідь перелаштовуйтесь ліворуч.",
+            el: "Ο δρόμος στενεύει από τη δεξιά πλευρά. Ετοιμαστείτε για σύγκλιση προς τα αριστερά.",
+            ru: "Сужение дороги с правой стороны. Водителям в правой полосе необходимо заранее перестроиться, не создавая помех."
+        },
+        file: "UK_traffic_sign_517_(right).svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Dual carriageway ends",
+            uk: "Кінець дороги з розділювальною смугою",
+            el: "Τέλος οδού ταχείας κυκλοφορίας με διαχωριστικό",
+            ru: "Конец дороги с разделительной полосой"
+        },
+        hint: {
+            en: "Warning that the divided highway is ending. Traffic becomes two-way without a central barrier.",
+            uk: "Розділювальний бар'єр зникає, починається звичайна дорога з двостороннім рухом.",
+            el: "Προειδοποίηση ότι η νησίδα τελειώνει και ο δρόμος γίνεται διπλής κατεύθυνσης χωρίς διαχωριστικό.",
+            ru: "Дорога с разделительным барьером заканчивается. Будьте осторожны: теперь встречный поток не отделен от вас физически."
+        },
+        file: "UK_traffic_sign_520.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Two-way traffic straight ahead",
+            uk: "Двосторонній рух",
+            el: "Αμφίδρομη κυκλοφορία μπροστά",
+            ru: "Двустороннее движение впереди"
+        },
+        hint: {
+            en: "The one-way street or divided road is changing to standard two-way traffic.",
+            uk: "Ділянка дороги з двостороннім рухом після одностороннього або розділеного шляху.",
+            el: "Ο δρόμος μπροστά μετατρέπεται σε διπλής κατεύθυνσης.",
+            ru: "Предупреждает о переходе на участок, где транспорт движется в обоих направлениях. Запрещено занимать всю ширину дороги."
+        },
+        file: "UK_traffic_sign_521.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Two-way traffic crosses a one-way road",
+            uk: "Перетин з дорогою з двостороннім рухом",
+            el: "Διασταύρωση με οδό αμφίδρομης κυκλοφορίας",
+            ru: "Двустороннее движение на пересекаемой дороге"
+        },
+        hint: {
+            en: "The road you are crossing or joining has traffic moving in both directions.",
+            uk: "Дорога, яку ви перетинаєте, має рух в обох напрямках.",
+            el: "Ο δρόμος που διασταυρώνεται μπροστά σας έχει κίνηση και προς τις δύο κατευθύνσεις.",
+            ru: "Вы пересекаете дорогу, на которой движение организовано в обе стороны. Смотрите в оба направления при выезде."
+        },
+        file: "UK_traffic_sign_522.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Steep descent",
+            uk: "Крутий спуск",
+            el: "Επικίνδυνη κατωφέρεια",
+            ru: "Крутой спуск"
+        },
+        hint: {
+            en: "Dangerous downhill grade. Use engine braking to avoid overheating your brakes.",
+            uk: "Попереду небезпечний спуск. Використовуйте гальмування двигуном.",
+            el: "Απότομη κατηφόρα. Χρησιμοποιήστε το κιβώτιο ταχυτήτων για επιβράδυνση.",
+            ru: "Крутой спуск. Рекомендуется переключиться на пониженную передачу, чтобы не перегреть тормозные колодки."
+        },
+        file: "UK_traffic_sign_523.1.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Steep ascent",
+            uk: "Крутий підйом",
+            el: "Επικίνδυνη ανωφέρεια",
+            ru: "Крутой подъем"
+        },
+        hint: {
+            en: "Steep uphill climb. Switch to a lower gear to maintain power and speed.",
+            uk: "Попереду крутий підйом. Оберіть відповідну передачу для стабільного руху вгору.",
+            el: "Απότομη ανηφόρα. Επιλέξτε κατάλληλη σχέση στο κιβώτιο για να διατηρήσετε την ισχύ.",
+            ru: "Впереди крутой подъем. Заранее выберите нужную передачу, чтобы автомобиль не заглох при наборе высоты."
+        },
+        file: "UK_traffic_sign_524.1.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Hump bridge",
+            uk: "Горбатий міст",
+            el: "Καμπουρωτή γέφυρα",
+            ru: "Горбатый мост"
+        },
+        hint: {
+            en: "Warns of a bridge with a sharp crest. Reduce speed to maintain control and watch for hidden oncoming vehicles.",
+            uk: "Попереджає про міст із крутим підйомом та спуском, що обмежує видимість. Знизьте швидкість.",
+            el: "Προειδοποιεί για γέφυρα με απότομη κλίση. Μειώστε ταχύτητα λόγω περιορισμένης ορατότητας.",
+            ru: "Предупреждает о крутом подъеме и спуске на мосту. Опасно высокой скоростью (подброс авто) и ограниченной видимостью встречной полосы."
+        },
+        file: "UK_traffic_sign_528.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Tunnel ahead",
+            uk: "Тунель попереду",
+            el: "Σήραγγα μπροστά",
+            ru: "Тоннель впереди"
+        },
+        hint: {
+            en: "Entering a tunnel. Switch on dipped headlights, maintain distance, and do not stop unless in an emergency.",
+            uk: "Наближення до тунелю. Необхідно ввімкнути ближнє світло фар та дотримуватись дистанції.",
+            el: "Είσοδος σε σήραγγα. Ανάψτε τα μεσαία φώτα και τηρήστε αποστάσεις ασφαλείας.",
+            ru: "Предупреждает о приближении к тоннелю. Необходимо включить ближний свет фар и быть готовым к резкому изменению освещенности."
+        },
+        file: "UK_traffic_sign_529.1.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Opening or swing bridge",
+            uk: "Розвідний міст",
+            el: "Κινητή γέφυρα",
+            ru: "Разводной мост"
+        },
+        hint: {
+            en: "The bridge ahead can open to let ships pass. Be prepared to stop at the signals.",
+            uk: "Попереджає про наближення до розвідного мосту. Будьте готові до зупинки перед світлофором або шлагбаумом.",
+            el: "Προειδοποιεί για κινητή γέφυρα. Να είστε έτοιμοι για διακοπή της κυκλοφορίας για τη διέλευση πλοίων.",
+            ru: "Предупреждает о приближении к разводному или поворотному мосту. Следите за световой сигнализацией."
+        },
+        file: "UK_traffic_sign_529.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Traffic signals",
+            uk: "Світлофорне регулювання",
+            el: "Φωτεινή σηματοδότηση",
+            ru: "Светофорное регулирование"
+        },
+        hint: {
+            en: "Warns of traffic lights ahead. Particularly used where signals might be unexpected or hard to see.",
+            uk: "Попереджає про світлофор попереду. Важливо там, де його видимість обмежена.",
+            el: "Προειδοποιεί για την ύπαρξη φωτεινών σηματοδοτών στη συνέχεια της οδού.",
+            ru: "Впереди светофор. Знак устанавливается в местах, где сигналы светофора могут быть плохо видны издалека."
+        },
+        file: "UK_traffic_sign_543.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Pedestrians in road ahead",
+            uk: "Пішоходи на проїзній частині",
+            el: "Πεζοί στην οδό",
+            ru: "Пешеходы на проезжей части"
+        },
+        hint: {
+            en: "Area where pedestrians may be walking in the road due to a lack of footpaths. Drive with caution.",
+            uk: "Ділянка дороги, де пішоходи можуть перебувати на проїзній частині (наприклад, за відсутності тротуару).",
+            el: "Περιοχή όπου οι πεζοί μπορεί να κινούνται εντός του οδοστρώματος λόγω έλλειψης πεζοδρομίου.",
+            ru: "Участок дороги, где часто ходят пешеходы. Обычно устанавливается там, где нет обособленного тротуара."
+        },
+        file: "UK_traffic_sign_544.1.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Frail pedestrians likely to cross",
+            uk: "Літні пішоходи або люди з інвалідністю",
+            el: "Ηλικιωμένοι ή άτομα με αναπηρία",
+            ru: "Возможное появление пожилых пешеходов или людей с ограниченными возможностями"
+        },
+        hint: {
+            en: "Elderly or disabled pedestrians may cross here. Be patient and prepared for them to move slowly.",
+            uk: "Можлива поява літніх людей або пішоходів з порушенням опорно-рухового апарату. Будьте терплячими.",
+            el: "Προειδοποιεί για πιθανή διέλευση ηλικιωμένων ή ατόμων με κινητικά προβλήματα. Μειώστε ταχύτητα.",
+            ru: "Предупреждает о возможном переходе дороги пожилыми людьми. Водителю следует быть готовым к их медленному движению."
+        },
+        file: "UK_traffic_sign_544.2.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Zebra crossing",
+            uk: "Пішохідний перехід",
+            el: "Διάβαση πεζών (ζέβρα)",
+            ru: "Пешеходный переход"
+        },
+        hint: {
+            en: "Approaching a marked pedestrian crossing. Be ready to slow down or stop to give way.",
+            uk: "Попереджає про наближення до пішохідного переходу. Будьте готові дати дорогу людям.",
+            el: "Προειδοποιεί για πλησίασμα σε διάβαση πεζών. Να είστε έτοιμοι να σταματήσετε.",
+            ru: "Предупреждает о приближении к «зебре». Водитель должен быть готов пропустить пешеходов, вступивших на переход."
+        },
+        file: "UK_traffic_sign_544.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Cattle",
+            uk: "Перегін худоби",
+            el: "Κτηνοτροφικά ζώα",
+            ru: "Крупный рогатый скот"
+        },
+        hint: {
+            en: "Watch out for farm animals crossing or on the road. Slow down and do not sound your horn.",
+            uk: "Можлива поява свійської худоби на дорозі. Знизьте швидкість і будьте готові до зупинки.",
+            el: "Προειδοποιεί για πιθανή παρουσία ζώων στο οδόστρωμα. Μειώστε ταχύτητα.",
+            ru: "Предупреждает о возможном появлении коров или другого скота на пути. Не сигнальте, чтобы не напугать животных."
+        },
+        file: "UK_traffic_sign_548.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Accompanied horses or ponies",
+            uk: "Вершники або коні в супроводі",
+            el: "Αναβάτες ίππων",
+            ru: "Лошади под седлом или в сопровождении"
+        },
+        hint: {
+            en: "Horses with riders or handlers ahead. Pass wide and slow; animals can be unpredictable.",
+            uk: "Попереджає про вершників. Об'їжджайте повільно, не лякайте тварин гучними звуками.",
+            el: "Προειδοποιεί για αναβάτες ή συνοδούς ίππων. Προσπεράστε αργά και με προσοχή.",
+            ru: "Предупреждает о всадниках на дороге. Проезжайте мимо максимально тихо и медленно, не подавая звуковых сигналов."
+        },
+        file: "UK_traffic_sign_550.1.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Horse-drawn vehicles ahead",
+            uk: "Гужовий транспорт",
+            el: "Ιππήλατα οχήματα",
+            ru: "Гужевой транспорт"
+        },
+        hint: {
+            en: "Slow-moving horse-drawn carriages or carts ahead. Be prepared to overtake only when safe.",
+            uk: "Будьте готові зустріти повільні підводи, запряжені тваринами.",
+            el: "Προσοχή για αργά κινούμενα ιππήλατα οχήματα (άμαξες, κάρα).",
+            ru: "Будьте готовы встретить медленные повозки. Учитывайте их низкую скорость при планировании обгона."
+        },
+        file: "UK_traffic_sign_550.2.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Wild horses or ponies (Дикие лошади или пони)",
+            uk: "Wild horses or ponies (Дикие лошади или пони)",
+            el: "Wild horses or ponies (Дикие лошади или пони)",
+            ru: "Wild horses or ponies (Дикие лошади или пони)"
+        },
+        hint: {
+            en: "Предупреждает о возможном появлении диких лошадей или пони на проезжей части. Водителю следует быть крайне внимательным, так как поведение диких животных непредсказуемо.",
+            uk: "Предупреждает о возможном появлении диких лошадей или пони на проезжей части. Водителю следует быть крайне внимательным, так как поведение диких животных непредсказуемо.",
+            el: "Предупреждает о возможном появлении диких лошадей или пони на проезжей части. Водителю следует быть крайне внимательным, так как поведение диких животных непредсказуемо.",
+            ru: "Предупреждает о возможном появлении диких лошадей или пони на проезжей части. Водителю следует быть крайне внимательным, так как поведение диких животных непредсказуемо."
+        },
+        file: "UK_traffic_sign_550.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Wild animals (Дикие животные)",
+            uk: "Wild animals (Дикие животные)",
+            el: "Wild animals (Дикие животные)",
+            ru: "Wild animals (Дикие животные)"
+        },
+        hint: {
+            en: "Предупреждает о возможном появлении диких животных (например, оленей или муфлонов) на проезжей части. Водителю следует быть готовым к экстренному торможению, особенно в темное время суток.",
+            uk: "Предупреждает о возможном появлении диких животных (например, оленей или муфлонов) на проезжей части. Водителю следует быть готовым к экстренному торможению, особенно в темное время суток.",
+            el: "Предупреждает о возможном появлении диких животных (например, оленей или муфлонов) на проезжей части. Водителю следует быть готовым к экстренному торможению, особенно в темное время суток.",
+            ru: "Предупреждает о возможном появлении диких животных (например, оленей или муфлонов) на проезжей части. Водителю следует быть готовым к экстренному торможению, особенно в темное время суток."
+        },
+        file: "UK_traffic_sign_551.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Agricultural vehicles (Сельскохозяйственная техника)",
+            uk: "Agricultural vehicles (Сельскохозяйственная техника)",
+            el: "Agricultural vehicles (Сельскохозяйственная техника)",
+            ru: "Agricultural vehicles (Сельскохозяйственная техника)"
+        },
+        hint: {
+            en: "Предупреждение о тракторах и другой медленной технике, выезжающей на дорогу.",
+            uk: "Предупреждение о тракторах и другой медленной технике, выезжающей на дорогу.",
+            el: "Предупреждение о тракторах и другой медленной технике, выезжающей на дорогу.",
+            ru: "Предупреждение о тракторах и другой медленной технике, выезжающей на дорогу."
+        },
+        file: "UK_traffic_sign_553.1.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Ice or snow (Гололед или снег)",
+            uk: "Ice or snow (Гололед или снег)",
+            el: "Ice or snow (Гололед или снег)",
+            ru: "Ice or snow (Гололед или снег)"
+        },
+        hint: {
+            en: "Предупреждает о возможности обледенения проезжей части или наличии снежного покрова. На Кипре актуален для горных районов Троодоса в зимний период.",
+            uk: "Предупреждает о возможности обледенения проезжей части или наличии снежного покрова. На Кипре актуален для горных районов Троодоса в зимний период.",
+            el: "Предупреждает о возможности обледенения проезжей части или наличии снежного покрова. На Кипре актуален для горных районов Троодоса в зимний период.",
+            ru: "Предупреждает о возможности обледенения проезжей части или наличии снежного покрова. На Кипре актуален для горных районов Троодоса в зимний период."
+        },
+        file: "UK_traffic_sign_554.2.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Quayside or river bank (Набережная или берег реки)",
+            uk: "Quayside or river bank (Набережная или берег реки)",
+            el: "Quayside or river bank (Набережная или берег реки)",
+            ru: "Quayside or river bank (Набережная или берег реки)"
+        },
+        hint: {
+            en: "Предупреждает о том, что дорога ведет к неогражденному краю набережной, берега реки или обрыву у воды. Водителям следует проявлять крайнюю осторожность, особенно в условиях плохой видимости.",
+            uk: "Предупреждает о том, что дорога ведет к неогражденному краю набережной, берега реки или обрыву у воды. Водителям следует проявлять крайнюю осторожность, особенно в условиях плохой видимости.",
+            el: "Предупреждает о том, что дорога ведет к неогражденному краю набережной, берега реки или обрыву у воды. Водителям следует проявлять крайнюю осторожность, особенно в условиях плохой видимости.",
+            ru: "Предупреждает о том, что дорога ведет к неогражденному краю набережной, берега реки или обрыву у воды. Водителям следует проявлять крайнюю осторожность, особенно в условиях плохой видимости."
+        },
+        file: "UK_traffic_sign_555.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Water course alongside road (Водный объект вдоль дороги)",
+            uk: "Water course alongside road (Водный объект вдоль дороги)",
+            el: "Water course alongside road (Водный объект вдоль дороги)",
+            ru: "Water course alongside road (Водный объект вдоль дороги)"
+        },
+        hint: {
+            en: "Предупреждает о наличии глубокого водоема, канала или реки, проходящих непосредственно вдоль края проезжей части. Водителям следует соблюдать осторожность, чтобы избежать съезда в воду при маневрировании.",
+            uk: "Предупреждает о наличии глубокого водоема, канала или реки, проходящих непосредственно вдоль края проезжей части. Водителям следует соблюдать осторожность, чтобы избежать съезда в воду при маневрировании.",
+            el: "Предупреждает о наличии глубокого водоема, канала или реки, проходящих непосредственно вдоль края проезжей части. Водителям следует соблюдать осторожность, чтобы избежать съезда в воду при маневрировании.",
+            ru: "Предупреждает о наличии глубокого водоема, канала или реки, проходящих непосредственно вдоль края проез������й части. Водителям ��ле����е�� соблюдать осторожность, чтобы избежать съезда в воду при маневрировании."
+        },
+        file: "UK_traffic_sign_555.1.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Uneven road (Неровная дорога)",
+            uk: "Uneven road (Неровная дорога)",
+            el: "Uneven road (Неровная дорога)",
+            ru: "Uneven road (Неровная дорога)"
+        },
+        hint: {
+            en: "Предупреждает о наличии на проезжей части дефектов, выпуклостей или серии неровностей. Водителю следует снизить скорость, чтобы избежать потери управления или повреждения подвески автомобиля.",
+            uk: "Предупреждает о наличии на проезжей части дефектов, выпуклостей или серии неровностей. Водителю следует снизить скорость, чтобы избежать потери управления или повреждения подвески автомобиля.",
+            el: "Предупреждает о наличии на проезжей части дефектов, выпуклостей или серии неровностей. Водителю следует снизить скорость, чтобы избежать потери управления или повреждения подвески автомобиля.",
+            ru: "Предупреждает о наличии на проезжей части дефектов, выпуклостей или серии неровностей. Водителю следует снизить скорость, чтобы избежать потери управления или повреждения подвески автомобиля."
+        },
+        file: "UK_traffic_sign_556.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Soft verges (Опасная обочина)",
+            uk: "Soft verges (Опасная обочина)",
+            el: "Soft verges (Опасная обочина)",
+            ru: "Soft verges (Опасная обочина)"
+        },
+        hint: {
+            en: "Предупреждает о наличии мягких или неукрепленных обочин. Водителям следует избегать съезда на обочину, так как это может привести к потере устойчивости или застреванию автомобиля.",
+            uk: "Предупреждает о наличии мягких или неукрепленных обочин. Водителям следует избегать съезда на обочину, так как это может привести к потере устойчивости или застреванию автомобиля.",
+            el: "Предупреждает о наличии мягких или неукрепленных обочин. Водителям следует избегать съезда на обочину, так как это может привести к потере устойчивости или застреванию автомобиля.",
+            ru: "Предупреждает о наличии мягких или неукрепленных обочин. Водителям следует избегать съезда на обочину, так как это может привести к потере устойчивости или застреванию автомобиля."
+        },
+        file: "UK_traffic_sign_556.1.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Slippery road (Скользкая дорога)",
+            uk: "Slippery road (Скользкая дорога)",
+            el: "Slippery road (Скользкая дорога)",
+            ru: "Slippery road (Скользкая дорога)"
+        },
+        hint: {
+            en: "Предупреждает о том, что участок дороги впереди имеет повышенную скользкость из-за особенностей покрытия или возможных погодных условий. Водителю необходимо снизить скорость и избегать резких торможений или ускорений.",
+            uk: "Предупреждает о том, что участок дороги впереди имеет повышенную скользкость из-за особенностей покрытия или возможных погодных условий. Водителю необходимо снизить скорость и избегать резких торможений или ускорений.",
+            el: "Предупреждает о том, что участок дороги впереди имеет повышенную скользкость из-за особенностей покрытия или возможных погодных условий. Водителю необходимо снизить скорость и избегать резких торможений или ускорений.",
+            ru: "Предупреждает о том, что участок дороги впереди имеет повышенную скользкость из-за особенностей покрытия или возможных погодных условий. Водителю необходимо снизить скорость и избегать резких торможений или ускорений."
+        },
+        file: "UK_traffic_sign_557.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Low-flying aircraft or sudden aircraft noise (Низколетящие самолеты)",
+            uk: "Low-flying aircraft or sudden aircraft noise (Низколетящие самолеты)",
+            el: "Low-flying aircraft or sudden aircraft noise (Низколетящие самолеты)",
+            ru: "Low-flying aircraft or sudden aircraft noise (Низколетящие самолеты)"
+        },
+        hint: {
+            en: "Предупреждает о близости аэродрома, где самолеты или вертолеты могут пролетать на низкой высоте. Возможен внезапный сильный шум, который может напугать водителя или животных.",
+            uk: "Предупреждает о близости аэродрома, где самолеты или вертолеты могут пролетать на низкой высоте. Возможен внезапный сильный шум, который может напугать водителя или животных.",
+            el: "Предупреждает о близости аэродрома, где самолеты или вертолеты могут пролетать на низкой высоте. Возможен внезапный сильный шум, который может напугать водителя или животных.",
+            ru: "Предупреждает о близости аэродрома, где самолеты или вертолеты могут пролетать на низкой высоте. Возможен внезапный сильный шум, который может напугать водителя или животных."
+        },
+        file: "UK_traffic_sign_558.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Low-flying helicopters or sudden helicopter noise",
+            uk: "Низьколітні вертольоти",
+            el: "Χαμηλά ιπτάμενα ελικόπτερα",
+            ru: "Низколетящие вертолеты"
+        },
+        hint: {
+            en: "Warns of low-flying helicopters near helipads. Sudden noise may startle drivers or livestock.",
+            uk: "Попереджає про низьколітні вертольоти. Основна небезпека — раптовий гучний шум.",
+            el: "Προειδοποίηση για ελικόπτερα που πετούν σε χαμηλό ύψος. Κίνδυνος από αιφνίδιο θόρυβο.",
+            ru: "Предупреждает о возможном появлении низколетящих вертолетов. Основная опасность — внезапный шум, который может отвлечь водителя."
+        },
+        file: "UK_traffic_sign_558.1.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Falling or fallen rocks",
+            uk: "Падіння каміння",
+            el: "Πτώση βράχων",
+            ru: "Падение или обвал камней"
+        },
+        hint: {
+            en: "Danger of rocks falling onto the road. Watch for debris and avoid stopping in the risk zone.",
+            uk: "Ділянка, де можливі обвали або каміння на дорозі. Будьте уважні та не зупиняйтеся під скелями.",
+            el: "Κίνδυνος κατολισθήσεων. Προσοχή για πέτρες στο οδόστρωμα, αποφύγετε τη στάση στην περιοχή.",
+            ru: "Предупреждает об участке дороги, на котором возможны обвалы или наличие камней. Избегайте остановки в зоне действия знака."
+        },
+        file: "UK_traffic_sign_559_(left).svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Other danger",
+            uk: "Інші небезпеки",
+            el: "Λοιποί κίνδυνοι",
+            ru: "Прочие опасности"
+        },
+        hint: {
+            en: "A hazard exists that is not covered by a specific sign. Check the supplementary plate below for details.",
+            uk: "Небезпека, для якої немає окремого знака. Дивіться пояснювальну табличку під знаком.",
+            el: "Κίνδυνος που δεν προβλέπεται από άλλο σήμα. Συνοδεύεται από επεξηγηματική πινακίδα.",
+            ru: "Опасность, для которой нет специального знака. Обычно сопровождается пояснительной табличкой."
+        },
+        file: "UK_traffic_sign_562.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Side winds",
+            uk: "Боковий вітер",
+            el: "Ισχυροί πλευρικοί άνεμοι",
+            ru: "Боковой ветер"
+        },
+        hint: {
+            en: "Area prone to strong crosswinds. Hold the steering wheel firmly, especially when crossing bridges or overtaking high vehicles.",
+            uk: "Ділянка з сильними поривами вітру. Міцно тримайте кермо, будьте готові до відхилення авто.",
+            el: "Περιοχή με ισχυρούς πλευρικούς ανέμους. Κρατάτε γερά το τιμόνι, ειδικά σε γέφυρες.",
+            ru: "Предупреждает о сильных порывах бокового ветра. Крепче держите руль, особенно при выезде на открытые участки."
+        },
+        file: "UK_traffic_sign_581.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Slow-moving military vehicles",
+            uk: "Військова техніка",
+            el: "Στρατιωτικά οχήματα",
+            ru: "Медленно движущаяся военная техника"
+        },
+        hint: {
+            en: "Military vehicles, such as tanks, may be crossing or moving along the road. They are slow and have limited visibility.",
+            uk: "Можлива поява танків або іншої важкої техніки. Вони мають обмежений огляд та великі габарити.",
+            el: "Πιθανή κίνηση στρατιωτικών οχημάτων. Έχουν περιορισμένη ορατότητα і χαμηλή ταχύτητα.",
+            ru: "Предупреждает о возможном появлении танков или другой тяжелой техники. Соблюдайте дистанцию."
+        },
+        file: "UK_traffic_sign_582.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Slow-moving vehicles on hill",
+            uk: "Повільні транспортні засоби на підйомі",
+            el: "Βραδυπορούντα οχήματα σε ανωφέρεια",
+            ru: "Медленно движущиеся транспортные средства на подъеме"
+        },
+        hint: {
+            en: "Heavy trucks may be moving very slowly on the steep climb ahead. Be prepared to slow down.",
+            uk: "На крутому підйомі можуть бути важкі вантажівки, що рухаються дуже повільно.",
+            el: "Βαριά φορτηγά μπορεί να κινούνται πολύ αργά στην ανηφόρα. Προσοχή κατά την προσπέραση.",
+            ru: "На крутом подъеме впереди могут находиться тяжелые грузовики, движущиеся с низкой скоростью."
+        },
+        file: "UK_traffic_sign_583.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Traffic queues likely ahead",
+            uk: "Затори попереду",
+            el: "Πιθανότητα κυκλοφοριακής συμφόρησης",
+            ru: "Вероятность возникновения дорожных заторов"
+        },
+        hint: {
+            en: "Warning of frequent traffic jams. Be prepared to slow down or stop suddenly.",
+            uk: "Ділянка, де часто виникають затори. Будьте готові до повної зупинки руху.",
+            el: "Προειδοποίηση για συχνή συμφόρηση. Να είστε έτοιμοι για απότομη μείωση ταχύτητας.",
+            ru: "Предупреждает об участке, где часто образуются пробки. Будьте готовы к полной остановке движения."
+        },
+        file: "UK_traffic_sign_584.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Stop, crossroads by children",
+            uk: "Стоп, перехід дітей",
+            el: "Στάση, διέλευση παιδιών",
+            ru: "Стоп, перекресток, дети"
+        },
+        hint: {
+            en: "Mandatory stop when signaled by a school crossing patrol. Do not move until the patrol clears the road.",
+            uk: "Обов'язкова зупинка за сигналом шкільного патрульного. Не рушайте, поки діти не перейдуть.",
+            el: "Υποχρεωτική διακοπή πορείας από σχολικό τροχονόμο. Μην ξεκινήσετε έως ότου ο δρόμος ελευθερωθεί.",
+            ru: "Обязывает остановиться по требованию школьного патруля. Ждите, пока патрульный не освободит проезжую часть."
+        },
+        file: "UK_traffic_sign_605.2.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Turn left",
+            uk: "Поворот ліворуч",
+            el: "Υποχρεωτική κατεύθυνση αριστερά",
+            ru: "Поверните налево"
+        },
+        hint: {
+            en: "Mandatory direction of travel. You must turn left at this point.",
+            uk: "Рух дозволено лише у напрямку стрілки — ліворуч.",
+            el: "Η κίνηση επιτρέπεται υποχρεωτικά μόνο προς τα αριστερά.",
+            ru: "Движение разрешено только в направлении стрелки (налево)."
+        },
+        file: "UK_traffic_sign_606_(left).svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Turn right",
+            uk: "Поворот праворуч",
+            el: "Υποχρεωτική κατεύθυνση δεξιά",
+            ru: "Поверните направо"
+        },
+        hint: {
+            en: "Mandatory direction of travel. You must turn right at this point.",
+            uk: "Рух дозволено лише у напрямку стрілки — праворуч.",
+            el: "Η κίνηση επιτρέπεται υποχρεωτικά μόνο προς τα δεξιά.",
+            ru: "Движение разрешено только в направлении стрелки (направо)."
+        },
+        file: "UK_traffic_sign_606_(right).svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Turn left ahead",
+            uk: "Поворот ліворуч попереду",
+            el: "Υποχρεωτική κατεύθυνση αριστερά στη συνέχεια",
+            ru: "Turn left ahead (Поворот налево впереди)"
+        },
+        hint: {
+            en: "You are required to turn left at the upcoming junction.",
+            uk: "Ви зобов'язані повернути ліворуч на найближчому перехресті.",
+            el: "Είστε υποχρεωμένοι να στρίψετε αριστερά στην επόμενη διασταύρωση.",
+            ru: "Вы обязаны повернуть налево на ближайшем перекрестке."
+        },
+        file: "UK_traffic_sign_609_(left).svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Turn right ahead",
+            uk: "Поворот праворуч попереду",
+            el: "Υποχρεωτική κατεύθυνση δεξιά στη συνέχεια",
+            ru: "Поворот направо впереди"
+        },
+        hint: {
+            en: "You are required to turn right at the upcoming junction.",
+            uk: "Ви зобов'язані повернути праворуч на найближчому перехресті.",
+            el: "Είστε υποχρεωμένοι να στρίψετε δεξιά στην επόμενη διασταύρωση.",
+            ru: "Вы обязаны повернуть направо на ближайшем перекрестке."
+        },
+        file: "UK_traffic_sign_609_(right).svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Keep left",
+            uk: "Тримайтеся ліворуч",
+            el: "Υποχρεωτική διέλευση από τα αριστερά",
+            ru: "Держитесь левее"
+        },
+        hint: {
+            en: "Pass the obstacle or island on the left side.",
+            uk: "Об'їжджайте острівець або перешкоду з лівого боку.",
+            el: "Προσπεράστε τη νησίδα ή το εμπόδιο από την αριστερή πλευρά.",
+            ru: "Объезжайте островок или препятствие с левой стороны."
+        },
+        file: "UK_traffic_sign_610_(left).svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Keep right",
+            uk: "Тримайтеся праворуч",
+            el: "Υποχρεωτική διέλευση από τα δεξιά",
+            ru: "Держитесь правее"
+        },
+        hint: {
+            en: "Pass the obstacle or island on the right side.",
+            uk: "Об'їжджайте острівець або перешкоду з правого боку.",
+            el: "Προσπεράστε τη νησίδα ή το εμπόδιο από τη δεξιά πλευρά.",
+            ru: "Объезжайте островок или препятствие с правой стороны."
+        },
+        file: "UK_traffic_sign_610_(right).svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Vehicles may pass on either side",
+            uk: "Об'їзд з будь-якого боку",
+            el: "Διέλευση και από τις δύο πλευρές",
+            ru: "Объезд с любой стороны"
+        },
+        hint: {
+            en: "You may pass the island or divider on either the left or the right side.",
+            uk: "Дозволено об'їжджати острівець або розділювач як зліва, так і справа.",
+            el: "Επιτρέπεται η διέλευση από τη νησίδα είτε από αριστερά είτε από δεξιά.",
+            ru: "Разрешено объезжать островок или разделитель как слева, так и справа."
+        },
+        file: "UK_traffic_sign_611.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Mini-roundabout",
+            uk: "Міні-кільце",
+            el: "Μίνι κυκλικός κόμβος",
+            ru: "Мини-кольцевое движение"
+        },
+        hint: {
+            en: "Move in the direction of the arrows. Give way to traffic from the right. The central island may be painted on the road.",
+            uk: "Рух по колу у напрямку стрілок. Уступайте дорогу тим, хто наближається справа. Острівець може бути просто намальований.",
+            el: "Κυκλική πορεία σύμφωνα με τα βέλη. Παραχωρήστε προτεραιότητα σε όσους έρχονται από δεξιά.",
+            ru: "Движение по кругу в направлении стрелок. Уступайте дорогу транспорту справа. Центральный остров может быть нарисован на асфальте."
+        },
+        file: "UK_traffic_sign_611.1.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "No left turn",
+            uk: "Поворот ліворуч заборонено",
+            el: "Απαγορεύεται η στροφή αριστερά",
+            ru: "Поворот налево запрещен"
+        },
+        hint: {
+            en: "Turning left is prohibited at this junction.",
+            uk: "Забороняє поворот ліворуч на даному перехресті.",
+            el: "Απαγορεύεται η στροφή προς τα αριστερά στη διασταύρωση αυτή.",
+            ru: "Запрещает поворот налево на данном перекрестке."
+        },
+        file: "UK_traffic_sign_612.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No right turn",
+            uk: "Поворот праворуч заборонено",
+            el: "Απαγορεύεται η στροφή δεξιά",
+            ru: "Поворот направо запрещен"
+        },
+        hint: {
+            en: "Turning right is prohibited at this junction.",
+            uk: "Забороняє поворот праворуч на даному перехресті.",
+            el: "Απαγορεύεται η στροφή προς τα δεξιά στη διασταύρωση αυτή.",
+            ru: "Запрещает поворот направо на данном перекрестке."
+        },
+        file: "UK_traffic_sign_613.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No U-turns",
+            uk: "Розворот заборонено",
+            el: "Απαγορεύεται η αναστροφή",
+            ru: "Разворот запрещен"
+        },
+        hint: {
+            en: "You must not make a U-turn to travel in the opposite direction.",
+            uk: "Заборонено розвертати автомобіль у зворотному напрямку.",
+            el: "Απαγορεύεται η επιτόπια αναστροφή του οχήματος.",
+            ru: "Запрещено разворачивать автомобиль в обратном направлении."
+        },
+        file: "UK_traffic_sign_614.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Give priority to vehicles from opposite direction",
+            uk: "Уступіть дорогу зустрічному транспорту",
+            el: "Προτεραιότητα της αντίθετης κυκλοφορίας",
+            ru: "Уступите дорогу встречным"
+        },
+        hint: {
+            en: "In narrow sections, you must yield to oncoming traffic. They have priority (white arrow).",
+            uk: "У вузьких місцях ви повинні пропустити зустрічний транспорт. У них пріоритет (біла стрілка).",
+            el: "Σε στενά σημεία, οφείλετε να παραχωρήσετε προτεραιότητα στους ερχόμενους από την αντίθετη κατεύθυνση.",
+            ru: "В узких местах вы должны пропустить встречный транспорт. У них приоритет (белая стрелка)."
+        },
+        file: "UK_traffic_sign_615.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No entry for vehicular traffic",
+            uk: "В'їзд заборонено",
+            el: "Απαγορεύεται η είσοδος",
+            ru: "Въезд запрещен"
+        },
+        hint: {
+            en: "Prohibits all vehicles from entering. Often placed at the exit of one-way roads.",
+            uk: "Забороняє в'їзд усіх транспортних засобів. Зазвичай стоїть на виїзді з доріг з одностороннім рухом.",
+            el: "Απαγορεύεται η είσοδος σε όλα τα οχήματα. Συνήθως τοποθετείται σε μονόδρομους.",
+            ru: "Запрещает въезд всех транспортных средств. Обычно стоит на выезде с дорог с односторонним движением."
+        },
+        file: "UK_traffic_sign_616.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Road closed to all vehicles in both directions",
+            uk: "Рух усіх транспортних засобів заборонено",
+            el: "Κλειστή οδός για όλα τα οχήματα και προς τις δύο κατευθύνσεις",
+            ru: "Движение любых ТС запрещено"
+        },
+        hint: {
+            en: "An empty red circle. It means the road is closed to all vehicular traffic in both directions.",
+            uk: "Порожнє червоне коло. Означає, що дорога закрита для всіх видів транспорту в обох напрямках.",
+            el: "Κενός κόκκινος κύκλος. Σημαίνει ότι ο δρόμος είναι κλειστός για όλα τα οχήματα και στις δύο κατευθύνσεις.",
+            ru: "Пустой красный круг. Означает, что дорога закрыта для всех видов транспорта в обоих направлениях."
+        },
+        file: "UK_traffic_sign_617.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No motor vehicles",
+            uk: "Рух механічних транспортних засобів заборонено",
+            el: "Απαγορεύεται η είσοδος στα μηχανοκίνητα οχήματα",
+            ru: "Движение механических ТС запрещено"
+        },
+        hint: {
+            en: "Prohibits all cars and motorcycles. Often, only bicycles are allowed.",
+            uk: "Заборона для всіх автомобілів та мотоциклів. Часто дозволено лише велосипедам.",
+            el: "Απαγόρευση για όλα τα αυτοκίνητα και τις μοτοσικλέτες. Συχνά επιτρέπονται μόνο ποδήλατα.",
+            ru: "Запрет для всех автомобилей и мотоциклов. Часто разрешено только велосипедам."
+        },
+        file: "UK_traffic_sign_619.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No goods vehicles over maximum gross weight shown",
+            uk: "Рух вантажних автомобілів заборонено",
+            el: "Απαγορεύεται η είσοδος σε φορτηγά άνω του αναγραφόμενου βάρους",
+            ru: "Движение грузовых автомобилей запрещено"
+        },
+        hint: {
+            en: "Prohibits goods vehicles over the weight limit shown on the sign.",
+            uk: "Забороняє проїзд вантажного транспорту, що перевищує вказану вагу.",
+            el: "Απαγορεύει τη διέλευση φορτηγών οχημάτων που υπερβαίνουν το αναγραφόμενο βάρος.",
+            ru: "Запрещает проезд грузового транспорта тяжелее указанного веса."
+        },
+        file: "UK_traffic_sign_622.1A.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No towed caravans",
+            uk: "Рух із житловими причепами заборонено",
+            el: "Απαγορεύονται τα ρυμουλκούμενα τροχόσπιτα",
+            ru: "Движение с прицепами-дачами запрещено"
+        },
+        hint: {
+            en: "Restriction for cars towing caravans or trailers.",
+            uk: "Обмеження для легкових авто з житловими причепами (кемперами).",
+            el: "Περιορισμός για επιβατικά αυτοκίνητα που ρυμουλκούν τροχόσπιτα.",
+            ru: "Ограничение для легковых авто с жилыми прицепами (кемперами)."
+        },
+        file: "UK_traffic_sign_622.7.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No vehicles carrying explosives",
+            uk: "Рух ТС з вибуховими речовинами заборонено",
+            el: "Απαγορεύεται η είσοδος σε οχήματα που μεταφέρουν εκρηκτικά",
+            ru: "Въезд транспортных средств с взрывчатыми веществами запрещен"
+        },
+        hint: {
+            en: "Prohibits vehicles carrying explosives or inflammable goods. Often found before tunnels or populated areas.",
+            uk: "Забороняє рух ТС, що перевозять вибухові або легкозаймисті речовини. Встановлюється перед тунелями або містами.",
+            el: "Απαγορεύει τη διέλευση οχημάτων που μεταφέρουν εκρηκτικές ή εύφλεκτες ύλες. Συνηθίζεται πριν από σήραγγες.",
+            ru: "Запрещает движение ТС, перевозящих взрывчатые или легковоспламеняющиеся вещества. Часто стоит перед тоннелями."
+        },
+        file: "UK_traffic_sign_622.8.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "No overtaking",
+            uk: "Обгін заборонено",
+            el: "Απαγορεύεται το προσπέρασμα",
+            ru: "Обгон запрещен"
+        },
+        hint: {
+            en: "Do not overtake other vehicles, except for two-wheeled cycles without sidecars.",
+            uk: "Заборонено обганяти будь-які транспортні засоби (крім двоколісних велосипедів без колясок).",
+            el: "Απαγορεύεται η προσπέραση οποιουδήποτε οχήματος (εκτός από δίκυκλα ποδήλατα χωρίς καλάθι).",
+            ru: "Запрещено обгонять любые транспортные средства (кроме двухколесных велосипедов)."
+        },
+        file: "UK_traffic_sign_632.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "No parking",
+            uk: "Паркування заборонено",
+            el: "Απαγορεύεται η στάθμευση",
+            ru: "Парковка запрещена"
+        },
+        hint: {
+            en: "Waiting is prohibited. You may stop briefly only to pick up or set down passengers.",
+            uk: "Заборонена тривала стоянка. Дозволена короткочасна зупинка для посадки/висадки пасажирів.",
+            el: "Απαγορεύεται η στάθμευση. Επιτρέπεται σύντομη στάση για επιβίβαση/αποβίβαση.",
+            ru: "Запрещена длительная стоянка. Разрешена кратковременная остановка для посадки/высадки."
+        },
+        file: "UK_traffic_sign_636.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "No stopping or parking (Clearway)",
+            uk: "Зупинку та стоянку заборонено",
+            el: "Απαγορεύεται η στάση και η στάθμευση",
+            ru: "Остановка и стоянка запрещена"
+        },
+        hint: {
+            en: "Strict prohibition on stopping for any reason. Remains in effect until the next junction or cancellation sign.",
+            uk: "Сувора заборона на будь-яку зупинку навіть на секунду. Діє до перехрестя або знака скасування.",
+            el: "Αυστηρή απαγόρευση κάθε στάσης. Ισχύει μέχρι την επόμενη διασταύρωση ή σήμα άρσης.",
+            ru: "Строжайший запрет на любую остановку даже на секунду. Действует до знака отмены или перекрестка."
+        },
+        file: "UK_traffic_sign_642.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "End of all local restrictions",
+            uk: "Кінець усіх обмежень",
+            el: "Τέλος όλων των τοπικών περιορισμών",
+            ru: "Конец всех ограничений"
+        },
+        hint: {
+            en: "Indicates that previously applied local prohibitions (like overtaking or speed limits) have ended. General rules now apply.",
+            uk: "Вказує на те, що дія всіх раніше введених локальних заборон (наприклад, обгону чи швидкості) закінчена.",
+            el: "Υποδεικνύει ότι οι προηγούμενοι τοπικοί περιορισμοί (όπως προσπέραση ή ταχύτητα) παύουν να ισχύουν.",
+            ru: "Указывает на то, что действие всех ранее введенных локальных запретов закончено."
+        },
+        file: "UK_traffic_sign_671.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Minimum speed limit",
+            uk: "Мінімальне обмеження швидкості",
+            el: "Ελάχιστο όριο ταχύτητας",
+            ru: "Минимальное ограничение скорости"
+        },
+        hint: {
+            en: "Drivers must travel at a speed no lower than indicated (e.g., 30 mph), unless safety conditions dictate otherwise.",
+            uk: "Зобов'язує рухатися зі швидкістю не нижче вказаної, крім випадків, коли це небезпечно.",
+            el: "Υποχρεώνει τους οδηγούς να κινούνται με ταχύτητα όχι μικρότερη από την αναγραφόμενη.",
+            ru: "Обязывает двигаться со скоростью не ниже указанной, за исключением случаев, когда это невозможно по условиям безопасности."
+        },
+        file: "UK_traffic_sign_672.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "End of minimum speed limit",
+            uk: "Кінець зони обмеження мінімальної швидкості",
+            el: "Τέλος ελάχιστου ορίου ταχύτητας",
+            ru: "Конец зоны ограничения минимальной скорости"
+        },
+        hint: {
+            en: "This sign cancels the previous minimum speed requirement. You may now drive slower than 30 mph if safe to do so.",
+            uk: "Цей знак скасовує дію синього знака 'Мінімальна швидкість'. Тепер ви можете рухатися повільніше 30 миль/год.",
+            el: "Αυτό το σήμα καταργεί την προηγούμενη απαίτηση ελάχιστης ταχύτητας.",
+            ru: "Этот знак отменяет действие ранее установленного синего знака 'Минимальная скорость'. С этого момента можно двигаться медленнее."
+        },
+        file: "UK_traffic_sign_673.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Road works ahead",
+            uk: "Дорожні роботи попереду",
+            el: "Εργα στην οδό",
+            ru: "Дорожные работы впереди"
+        },
+        hint: {
+            en: "Temporary sign warning of road works, workers, or machinery on the carriageway.",
+            uk: "Тимчасовий знак, що попереджає про людей та техніку на проїжджій частині.",
+            el: "Προσωρινό σήμα που προειδοποιεί για εκτέλεση εργασιών στην οδό.",
+            ru: "Временный знак, предупреждающий о людях и технике на проезжей части."
+        },
+        file: "UK_traffic_sign_7001.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Loose chippings",
+            uk: "Викид гравію",
+            el: "Εκτίναξη χαλικιών",
+            ru: "Выброс гравия"
+        },
+        hint: {
+            en: "Temporary sign. Reduce speed to prevent stones from hitting other vehicles or pedestrians.",
+            uk: "Тимчасовий знак. Знизьте швидкість, щоб каміння не вилітало в інші машини.",
+            el: "Προσωρινό σήμα. Μειώστε ταχύτητα για να αποφύγετε την εκτίναξη χαλικιών.",
+            ru: "Временный знак. Снизьте скорость, чтобы камни не отлетали в другие машины."
+        },
+        file: "UK_traffic_sign_7009.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Manually operated temporary GO sign",
+            uk: "Тимчасовий знак 'Рух дозволено' (ручне управління)",
+            el: "Προσωρινή πινακίδα GO (χειροκίνητη)",
+            ru: "Регулируемый временный знак 'Движение разрешено'"
+        },
+        hint: {
+            en: "Used at road works for manual traffic control. Indicates you may proceed. Usually paired with a 'STOP' sign at the other end.",
+            uk: "Використовується для ручного управління потоком. Показує, що проїзд дозволено. Працює в парі зі знаком 'STOP'.",
+            el: "Χρησιμοποιείται για χειροκίνητη ρύθμιση της κυκλοφορίας σε έργα. Δείχνει ότι η διέλευση επιτρέπεται.",
+            ru: "Используется для ручного управления потоком. Этот знак показывает, что проезд разрешен. Работает в паре со знаком 'STOP'."
+        },
+        file: "UK_traffic_sign_7024.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Level crossing with gate or barrier ahead",
+            uk: "Залізничний переїзд зі шлагбаумом",
+            el: "Ισόπεδη σιδηροδρομική διάβαση με κινητά φράγματα",
+            ru: "Переезд со шлагбаумом"
+        },
+        hint: {
+            en: "Warns of a railway crossing protected by gates or barriers.",
+            uk: "Попереджає про залізничний переїзд, захищений шлагбаумом.",
+            el: "Προειδοποιεί για σιδηροδρομική διάβαση που προστατεύεται από μπάρες.",
+            ru: "Предупреждает о железнодорожном переезде, защищенном барьером."
+        },
+        file: "UK_traffic_sign_770.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Level crossing without gate or barrier ahead",
+            uk: "Залізничний переїзд без шлагбаума",
+            el: "Ισόπεδη σιδηροδρομική διάβαση χωρίς κινητά φράγματα",
+            ru: "Переезд без шлагбаума"
+        },
+        hint: {
+            en: "Railway crossing ahead with no barriers. The locomotive symbol requires extra vigilance.",
+            uk: "Попереду залізничний переїзд без огорож. Символ паровоза вимагає особливої пильності.",
+            el: "Σιδηροδρομική διάβαση χωρίς μπάρες. Απαιτείται ιδιαίτερη προσοχή.",
+            ru: "Впереди ж/д переезд без заграждений. Символ паровоза требует особой бдительности."
+        },
+        file: "UK_traffic_sign_771.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Tramway",
+            uk: "Трамвайна лінія",
+            el: "Κίνηση τροχιοδρόμων (τραμ)",
+            ru: "Tramway (Трамвайная линия)"
+        },
+        hint: {
+            en: "Warns of trams crossing or sharing the road. Trams have long braking distances and often have priority.",
+            uk: "Попереджає про перетин з трамвайними коліями. Пам'ятайте, що у трамваїв великий гальмівний шлях.",
+            el: "Προειδοποιεί για διέλευση τραμ. Τα τραμ έχουν μεγάλη απόσταση φρεναρίσματος.",
+            ru: "Предупреждает о трамваях. У них приоритет во многих ситуациях и очень длинный тормозной путь."
+        },
+        file: "UK_traffic_sign_772.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Level crossing without gate or barrier",
+            uk: "Залізничний переїзд без шлагбаума (на місці)",
+            el: "Άμεση προσέγγιση σε σιδηροδρομική διάβαση χωρίς φράγματα",
+            ru: "Переезд без шлагбаума"
+        },
+        hint: {
+            en: "The St Andrew's Cross, located at the crossing itself. Indicates the crossing has no gates or barriers.",
+            uk: "Андріївський хрест, встановлюється безпосередньо перед коліями. Означає переїзд без шлагбаума.",
+            el: "Ο σταυρός του Αγίου Ανδρέα. Τοποθετείται ακριβώς πριν από τις γραμμές.",
+            ru: "Устанавливается непосредственно перед ж/д путями (Андреевский крест). Переезд без шлагбаума."
+        },
+        file: "UK_traffic_sign_774.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Overhead electric cable",
+            uk: "Електричні кабелі над дорогою",
+            el: "Κίνδυνος από ηλεκτροφόρα καλώδια",
+            ru: "Overhead electric cable (Электрические кабели над дорогой)"
+        },
+        hint: {
+            en: "Warns of high-voltage overhead cables. Usually includes a safe height limit for high vehicles.",
+            uk: "Попереджає про високовольтні кабелі над дорогою. Зазвичай вказана гранична висота.",
+            el: "Προειδοποιεί για ηλεκτροφόρα καλώδια. Συνήθως αναγράφεται το μέγιστο ύψος.",
+            ru: "Предупреждает о высоковольтных кабелях над дорогой. Обычно указывается допустимая высота."
+        },
+        file: "UK_traffic_sign_779.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Risk of grounding",
+            uk: "Ризик зачіпання днищем",
+            el: "Κίνδυνος επαφής του κάτω μέρους του οχήματος με το έδαφος",
+            ru: "Risk of grounding (Риск задевания днищем)"
+        },
+        hint: {
+            en: "Warns of a hump or steep change in gradient where long or low vehicles might scrape the road surface.",
+            uk: "Попереджає про різкий перепад профілю дороги, де низькі авто можуть зачепитися днищем.",
+            el: "Προειδοποιεί για απότομη αλλαγή κλίσης όπου χαμηλά οχήματα μπορεί να βρουν στο έδαφος.",
+            ru: "Предупреждает о резком перепаде профиля дороги, где длинные или низкие авто могут зацепиться днищем."
+        },
+        file: "UK_traffic_sign_782.svg",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
+            en: "Traffic from the opposite direction must give way",
+            uk: "Пріоритет перед зустрічним рухом",
+            el: "Προτεραιότητα έναντι των ερχομένων από την αντίθετη κατεύθυνση",
+            ru: "Ваш приоритет перед встречными"
+        },
+        hint: {
+            en: "In a narrow section of the road, you have priority. Oncoming vehicles must yield.",
+            uk: "У вузькому місці дороги ви маєте перевагу. Зустрічні машини повинні вас пропустити.",
+            el: "Σε στενό τμήμα του δρόμου, έχετε προτεραιότητα. Τα οχήματα από την αντίθετη κατεύθυνση πρέπει να παραχωρούν προτεραιότητα.",
+            ru: "В узком месте дороги вы имеете преимущество. Встречные машины должны вас пропустить."
+        },
+        file: "UK_traffic_sign_811.svg",
+        cat: "regulatory",
+        fav: true
+    },
+    {
+        name: {
+            en: "Speed camera",
+            uk: "Камера контролю швидкості",
+            el: "Κάμερα ελέγχου ταχύτητας",
+            ru: "Камера контроля скорости"
+        },
+        hint: {
+            en: "Warning of speed cameras or enforcement zones ahead.",
+            uk: "Попередження про радар або камери фіксації порушень. Збавте швидкість.",
+            el: "Προειδοποίηση για κάμερες ταχύτητας. Μειώστε ταχύτητα.",
+            ru: "Предупреждение о радаре или камерах фиксации нарушений. Сбавьте скорость."
+        },
+        file: "UK_traffic_sign_879.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Cycles",
+            uk: "Велосипедисти",
+            el: "Κυκλοφορία ποδηλάτων",
+            ru: "Велосипедисты"
+        },
+        hint: {
+            en: "Warning that cyclists may be on or crossing the road.",
+            uk: "Вказує на ділянку, де велосипедисти можуть перебувати на проїзній частині або перетинати її.",
+            el: "Υποδεικνύει περιοχή όπου ποδηλάτες μπορεί να βρίσκονται στο οδόστρωμα ή να το διασχίζουν.",
+            ru: "Указывает на участок, где велосипедисты могут находиться на проезжей части или пересекать её."
+        },
+        file: "UK_traffic_sign_950.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "No cycles",
+            uk: "Рух на велосипедах заборонено",
+            el: "Απαγορεύεται η είσοδος σε ποδήλατα",
+            ru: "Движение на велосипедах запрещено"
+        },
+        hint: {
+            en: "Prohibits the use of bicycles on this section of the road.",
+            uk: "Забороняє рух велосипедів на даній ділянці дороги.",
+            el: "Απαγορεύει την κίνηση ποδηλάτων σε αυτό το τμήμα του δρόμου.",
+            ru: "Запрещает движение велосипедов на данном участке дороги."
+        },
+        file: "UK_traffic_sign_951.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Buses and cycles only",
+            uk: "Тільки автобуси та велосипеди",
+            el: "Μόνο λεωφορεία και ποδήλατα",
+            ru: "Только автобусы и велосипеды"
+        },
+        hint: {
+            en: "Dedicated lane for buses and cyclists only. Other vehicles prohibited.",
+            uk: "Виділена смуга. Проїзд приватного автотранспорту заборонено.",
+            el: "Αποκλειστική λωρίδα. Απαγορεύεται η διέλευση ιδιωτικών οχημάτων.",
+            ru: "Выделенная полоса. Проезд частного автотранспорта запрещен."
+        },
+        file: "UK_traffic_sign_953.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Route for use by cycles only",
+            uk: "Доріжка тільки для велосипедів",
+            el: "Οδός αποκλειστικής κυκλοφορίας ποδηλάτων",
+            ru: "Дорожка только для велосипедов"
+        },
+        hint: {
+            en: "A path strictly reserved for bicycles.",
+            uk: "Спеціальна доріжка, призначена виключно для велосипедистів.",
+            el: "Ειδικός δρόμος που προορίζεται αποκλειστικά για ποδηλάτες.",
+            ru: "Специальная дорожка, предназначенная исключительно для велосипедистов."
+        },
+        file: "UK_traffic_sign_955.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Shared route for pedestrians and cyclists",
+            uk: "Спільна доріжка для пішоходів та велосипедистів",
+            el: "Κοινή οδός για πεζούς και ποδηλάτες",
+            ru: "Общая дорожка для пешеходов и велосипедистов"
+        },
+        hint: {
+            en: "Both pedestrians and cyclists share this space without a dividing line.",
+            uk: "Пішоходи та велосипедисти використовують одну й ту саму зону без розділення.",
+            el: "Πεζοί και ποδηλάτες χρησιμοποιούν την ίδια ζώνη χωρίς διαχωρισμό.",
+            ru: "Пешеходы и велосипедисты используют одну и ту же зону без разделения."
+        },
+        file: "UK_traffic_sign_956.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Divided route for pedestrians and cyclists",
+            uk: "Роздільна доріжка для пішоходів та велосипедистів",
+            el: "Διαχωρισμένη οδός για πεζούς και ποδηλάτες",
+            ru: "Раздельная дорожка для пешеходов и велосипедистов"
+        },
+        hint: {
+            en: "The path is split into separate lanes for pedestrians and cyclists.",
+            uk: "Доріжка розділена розміткою на дві частини: одна для пішоходів, інша для велосипедів.",
+            el: "Οδός διαχωρισμένη με διαγράμμιση: η μία πλευρά για πεζούς και η άλλη για ποδηλάτες.",
+            ru: "Дорожка разделена разметкой на две части: одна для пешеходов, другая для велосипедов."
+        },
+        file: "UK_traffic_sign_957.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Divided route for pedestrians and cyclists",
+            uk: "Роздільна доріжка для пішоходів та велосипедистів",
+            el: "Διαχωρισμένη οδός για πεζούς και ποδηλάτες",
+            ru: "Раздельная дорожка для пешеходов и велосипедистов"
+        },
+        hint: {
+            en: "Path split into separate lanes, with the positions reversed compared to sign 957.",
+            uk: "Доріжка розділена розміткою на дві частини: одна для пішоходів, інша для велосипедів.",
+            el: "Οδός διαχωρισμένη με διαγράμμιση: η μία πλευρά για πεζούς και η άλλη για ποδηλάτες.",
+            ru: "Дорожка разделена разметкой на две части: одна для пешеходов, другая для велосипедов."
+        },
+        file: "UK_traffic_sign_957R.svg",
+        cat: "mandatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Distance to hazard or regulation",
+            uk: "Відстань до об'єкта",
+            el: "Απόσταση από κίνδυνο ή ρύθμιση",
+            ru: "Расстояние до объекта"
+        },
+        hint: {
+            en: "Indicates the distance in meters or kilometers until a specific hazard or zone starts.",
+            uk: "Показує, через скільки метрів/кілометрів почнеться дія знака або зустрінеться об'єкт.",
+            el: "Δείχνει την απόσταση (μέτρα/χιλιόμετρα) μέχρι την έναρξη της ρύθμισης ή τον κίνδυνο.",
+            ru: "Показывает, через сколько метров/километров начнется действие знака или встретится объект."
+        },
+        file: "Vienna_Convention_road_sign_H1-V1-1.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Length of hazard or regulation",
+            uk: "Протяжність зони дії",
+            el: "Μήκος ισχύος κινδύνου ή ρύθμισης",
+            ru: "Зона действия"
+        },
+        hint: {
+            en: "Arrows indicate the total distance over which the hazard or restriction applies.",
+            uk: "Стрілки вказують протяжність ділянки, на якій діє обмеження або небезпека.",
+            el: "Τα βέλη υποδεικνύουν τη συνολική απόσταση στην οποία ισχύει ο κίνδυνος ή ο περιορισμός.",
+            ru: "Стрелки указывают протяженность участка, на котором действует ограничение или опасность."
+        },
+        file: "Vienna_Convention_road_sign_H2-V1-1.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Validity of no stopping and parking sign",
+            uk: "Зона дії заборони зупинки та стоянки",
+            el: "Διάρκεια ισχύος απαγόρευσης στάσης και στάθμευσης",
+            ru: "Зона действия запрета остановки и стоянки"
+        },
+        hint: {
+            en: "Defines the restriction zone when the sign is parallel to the road. Valid for the distance shown in the arrow's direction.",
+            uk: "Визначає зону дії заборони від місця встановлення знака у напрямку стрілки на вказану відстань.",
+            el: "Καθορίζει τη ζώνη περιορισμού όταν η πινακίδα είναι παράλληλη προς το δρόμο, για την απόσταση που αναγράφεται.",
+            ru: "Определяет зону действия запрета от места установки знака в направлении стрелки на указанное расстояние."
+        },
+        file: "Vienna_Convention_road_sign_H3a-V1-1.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Distance to hazard in both directions",
+            uk: "Відстань до небезпеки в обох напрямках",
+            el: "Απόσταση από τον κίνδυνο και στις δύο κατευθύνσεις",
+            ru: "Расстояние до опасности в обоих направлениях"
+        },
+        hint: {
+            en: "Indicates that the hazard (e.g., road works) extends for the specified distance in both directions from the sign.",
+            uk: "Вказує, що позначена небезпека поширюється на вказану відстань в обидва боки від місця встановлення знака.",
+            el: "Υποδεικνύει ότι ο κίνδυνος εκτείνεται στην καθορισμένη απόσταση και προς τις δύο κατευθύνσεις από την πινακίδα.",
+            ru: "Указывает, что обозначенная опасность распространяется на указанное расстояние в обе стороны от места установки знака."
+        },
+        file: "Vienna_Convention_road_sign_H3b-V1-1.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "Direction of validity for no stopping/parking",
+            uk: "Напрямок дії заборони зупинки/стоянки",
+            el: "Κατεύθυνση ισχύος απαγόρευσης στάσης/στάθμευσης",
+            ru: "Направление действия запрета остановки/стоянки"
+        },
+        hint: {
+            en: "Used when signs are perpendicular to the road. The arrow points in the direction where the restriction applies.",
+            uk: "Використовується із знаками заборони зупинки, коли вони встановлені перпендикулярно до дороги. Вказує напрямок дії.",
+            el: "Χρησιμοποιείται όταν οι πινακίδες είναι κάθετες στο δρόμο. Το βέλος δείχνει προς την κατεύθυνση που ισχύει ο περιορισμός.",
+            ru: "Используется со знаками запрета остановки или стоянки. Стрелка указывает, в каком направлении действует ограничение."
+        },
+        file: "Vienna_Convention_road_sign_H4a-V1-1.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Repetition of no stopping/parking prohibition",
+            uk: "Повторення заборони зупинки/стоянки",
+            el: "Επανάληψη απαγόρευσης στάσης/στάθμευσης",
+            ru: "Повторение запрета остановки/стоянки"
+        },
+        hint: {
+            en: "Confirms that the prohibition is still in effect. Placed between the start and end signs of the restricted zone.",
+            uk: "Підтверджує, що заборона продовжує діяти. Встановлюється між початковим та кінцевим знаками обмеження.",
+            el: "Επιβεβαιώνει ότι η απαγόρευση εξακολουθεί να ισχύει. Τοποθετείται μεταξύ της αρχής και του τέλους της ζώνης.",
+            ru: "Подтверждает, что запрет продолжает действовать. Устанавливается между начальным и конечным знаками ограничения."
+        },
+        file: "Vienna_Convention_road_sign_H4b-V1-1.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "End of validity of no stopping/parking",
+            uk: "Кінець зони заборони зупинки/стоянки",
+            el: "Τέλος ισχύος απαγόρευσης στάσης/στάθμευσης",
+            ru: "End of validity of no stopping/parking (Конец зоны запрета остановки/стоянки)"
+        },
+        hint: {
+            en: "The downward arrow indicates the end of the restricted zone. Parking is permitted after this sign.",
+            uk: "Стрілка, що вказує вниз, означає завершення зони дії заборони. Після цього знака зупинка дозволена.",
+            el: "Το βέλος προς τα κάτω υποδεικνύει το τέλος της ζώνης περιορισμού. Η στάθμευση επιτρέπεται μετά από αυτή την πινακίδα.",
+            ru: "Стрелка, указывающая вниз, означает завершение зоны действия запрета. После этого знака остановка разрешена."
+        },
+        file: "Vienna_Convention_road_sign_H4c-V1-1.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Disabled badge holders only",
+            uk: "Тільки для транспортних засобів осіб з інвалідністю",
+            el: "Μόνο για οχήματα ατόμων με αναπηρία",
+            ru: "Только для транспортных средств инвалидов"
+        },
+        hint: {
+            en: "Indicates that parking or access is strictly reserved for vehicles displaying a valid disabled permit.",
+            uk: "Вказує, що місце для паркування або проїзд призначені виключно для водіїв з інвалідністю.",
+            el: "Υποδεικνύει ότι η στάθμευση ή η πρόσβαση προορίζεται αποκλειστικά για οχήματα με έγκυρη κάρτα αναπηρίας.",
+            ru: "Указывает, что парковка или проезд разрешены только для транспортных средств со знаком «Инвалид»."
+        },
+        file: "Vienna_Convention_road_sign_H7-V1-1.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Direction of priority road",
+            uk: "Напрямок головної дороги",
+            el: "Κατεύθυνση οδού προτεραιότητας",
+            ru: "Направление главной дороги"
+        },
+        hint: {
+            en: "Diagram of an intersection where the thick line represents the path and continuity of the priority road.",
+            uk: "Схема перехрестя, де жирна лінія показує напрямок головної дороги.",
+            el: "Διάγραμμα διασταύρωσης όπου η παχιά γραμμή αντιπροσωπεύει την πορεία της οδού προτεραιότητας.",
+            ru: "Схема перекрестка, где жирная линия показывает путь главной дороги."
+        },
+        file: "Vienna_Convention_road_sign_H8b-V1-1.svg",
+        cat: "regulatory",
+        fav: false
+    },
+    {
+        name: {
+            en: "Icy road",
+            uk: "Ожеледиця",
+            el: "Παγετός στο οδόστρωμα",
+            ru: "Гололедица"
+        },
+        hint: {
+            en: "Warns of potential ice on the road surface. Typically used with other warning signs during winter.",
+            uk: "Попереджає про можливість обледеніння проїзної частини. Використовується разом із попереджувальними знаками.",
+            el: "Προειδοποιεί για πιθανό πάγο στο οδόστρωμα. Χρησιμοποιείται συνήθως με άλλες προειδοποιητικές πινακίδες το χειμώνα.",
+            ru: "Указывает на возможность обледенения проезжей части. Используется вместе с предупреждающими знаками."
+        },
+        file: "Vienna_Convention_road_sign_H9-V1-1.svg",
+        cat: "warning",
+        fav: false
+    },
+    {
+        name: {
+            en: "General warning",
+            uk: "Інша небезпека",
+            el: "Άλλοι κίνδυνοι",
+            ru: "Общая опасность"
+        },
+        hint: {
+            en: "Caution! Hazard ahead that is not represented by a specific sign. Reduce your speed.",
+            uk: "Увага! Попереду небезпека, не передбачена іншими знаками. Знизьте швидкість.",
+            el: "Προσοχή! Κίνδυνος μπροστά που δεν προβλέπεται από άλλα σήματα. Μειώστε ταχύτητα.",
+            ru: "Внимание! Впереди опасность, не предусмотренная другими знаками. Снизьте скорость."
+        },
+        file: "Warning_sign_in_Cyprus.png",
+        cat: "warning",
+        fav: false
+    }
+];
