@@ -1,9 +1,9 @@
-const CACHE_NAME = 'cyprus-signs-dynamic-v1.3';
+const CACHE_NAME = 'cyprus-signs-dynamic-v1.4';
 
 // При установке кешируем только самую базу: HTML-страницу
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(['index.html']))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(['index.html', 'signs-data.js']))
   );
 });
 
