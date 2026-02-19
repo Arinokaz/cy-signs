@@ -520,6 +520,15 @@
             btn.classList.add('active');
         }
 
+        function shuffle(array) {
+            const arr = [...array]; // Копируем, чтобы не мутировать оригинал
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+        
         // Запуск теста
         function start() {
             const isFavOnly = document.getElementById('fav-only').checked;
@@ -541,7 +550,7 @@
             let totalQuestions = Math.min(requestedCount, base.length);
 
             // Перемешивание Фишера-Йейтса для честного рандома
-            testSet = [...base].sort(() => 0.5 - Math.random()).slice(0, totalQuestions);
+            testSet = shuffle(base).slice(0, totalQuestions);
 
             current = 0;
             points = 0;
@@ -659,5 +668,6 @@
 
 
 </html>
+
 
 
