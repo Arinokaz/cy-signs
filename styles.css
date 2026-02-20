@@ -288,8 +288,9 @@ button.wrong {
 
 /* Hide translate button on start and result screens */
 #start-screen .translate-btn,
-#result-screen .translate-btn {
-    display: none;
+#result-screen .translate-btn,
+#reference-screen .translate-btn {
+    display: none !important;
 }
 
 /* ==================== HINT BOX ==================== */

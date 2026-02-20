@@ -14,7 +14,6 @@ let savedTestSet = null; // Збережений тест для повтору
 // Flashcard state
 let flashcardMode = false;
 let flashcardAnswerShown = false;
-let flashcardTranslateShown = false;
 
 // ==================== INITIALIZATION ====================
 window.addEventListener('DOMContentLoaded', () => {
@@ -491,12 +490,11 @@ function startFlashcard() {
         alert('Error: Signs database not loaded. Please refresh the page.');
         return;
     }
-    
+
     flashcardMode = true;
     quizLang = document.getElementById('quiz-lang').value;
     helperLang = document.getElementById('helper-lang').value;
-    flashcardTranslateShown = false;
-    
+
     const isFavOnly = document.getElementById('fav-only').checked;
     let base = isFavOnly ? allSigns.filter(s => s.fav) : allSigns;
     base = selectedCategory === 'all' ? base : base.filter(s => s.cat === selectedCategory);
@@ -530,60 +528,51 @@ function startFlashcard() {
 function renderFlashcard() {
     const q = testSet[current];
     const t = UI_TRANSLATIONS[interfaceLang];
-    
+
     // Оновлюємо прогрес-бар
     const progressPercent = ((current + 1) / testSet.length) * 100;
     document.getElementById('flashcard-progress-fill').style.width = `${progressPercent}%`;
     document.getElementById('flashcard-progress').innerText = `${t.progress} ${current + 1} ${t.of} ${testSet.length}`;
-    
+
     // Зображення
     document.getElementById('flashcard-q-img').src = "./img/" + q.file;
-    
+
     // Скидаємо стан
     flashcardAnswerShown = false;
-    flashcardTranslateShown = false;
-    
+
     // Ховаємо відповідь
     document.getElementById('flashcard-answer').classList.add('hidden');
-    
+
     // Показуємо кнопку "Show Answer"
     const showAnswerBtn = document.getElementById('flashcard-show-answer');
     showAnswerBtn.style.display = 'block';
     showAnswerBtn.disabled = false;
     showAnswerBtn.textContent = t.showAnswer;
-    
+
     // Блокуємо кнопки Correct/Wrong
     document.getElementById('flashcard-correct').disabled = true;
     document.getElementById('flashcard-wrong').disabled = true;
-    
-    // Ховаємо кнопку перекладу
-    document.getElementById('flashcard-translate-toggle').style.display = 'none';
-    
+
     questionStartTime = Date.now();
 }
 
 function showFlashcardAnswer() {
     const q = testSet[current];
     const t = UI_TRANSLATIONS[interfaceLang];
-    
+
     flashcardAnswerShown = true;
-    
+
     // Показуємо відповідь
     document.getElementById('flashcard-name').textContent = getDisplayName(q, quizLang);
     document.getElementById('flashcard-hint').innerHTML = `<strong>💡 ${t.hintLabel}</strong><br>${getDisplayHint(q, helperLang)}`;
     document.getElementById('flashcard-answer').classList.remove('hidden');
-    
+
     // Ховаємо кнопку "Show Answer"
     document.getElementById('flashcard-show-answer').style.display = 'none';
-    
+
     // Активуємо кнопки Correct/Wrong
     document.getElementById('flashcard-correct').disabled = false;
     document.getElementById('flashcard-wrong').disabled = false;
-    
-    // Показуємо кнопку перекладу
-    const translateBtn = document.getElementById('flashcard-translate-toggle');
-    translateBtn.style.display = 'block';
-    translateBtn.textContent = t.showTranslate;
 }
 
 function handleFlashcardAnswer(isCorrect) {
@@ -592,37 +581,24 @@ function handleFlashcardAnswer(isCorrect) {
         showToast(UI_TRANSLATIONS[interfaceLang].checkAnswerFirst);
         return;
     }
-    
+
     const q = testSet[current];
-    const quizLangCurrent = flashcardTranslateShown ? helperLang : quizLang;
-    const userAnswerText = getDisplayName(q, quizLangCurrent);
+    const userAnswerText = getDisplayName(q, quizLang);
     const timeSpent = (Date.now() - questionStartTime) / 1000;
-    
+
     questionTimes.push({ time: timeSpent, isCorrect: isCorrect });
     results.push({ q, isOk: isCorrect, userChoice: userAnswerText, time: timeSpent });
-    
+
     if (isCorrect) {
         points++;
     }
-    
+
     current++;
     if (current < testSet.length) {
         renderFlashcard();
     } else {
         finish();
     }
-}
-
-function toggleFlashcardTranslate() {
-    flashcardTranslateShown = !flashcardTranslateShown;
-    const q = testSet[current];
-    const t = UI_TRANSLATIONS[interfaceLang];
-    const btn = document.getElementById('flashcard-translate-toggle');
-    
-    btn.textContent = flashcardTranslateShown ? t.hideTranslate : t.showTranslate;
-    
-    // Оновлюємо назву знака
-    document.getElementById('flashcard-name').textContent = getDisplayName(q, flashcardTranslateShown ? helperLang : quizLang);
 }
 
 function showToast(message) {
