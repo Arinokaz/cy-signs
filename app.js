@@ -11,10 +11,26 @@ let questionTimes = []; // Масив {time: number, isCorrect: boolean}
 let totalStartTime = 0; // Час початку всього тесту
 let savedTestSet = null; // Збережений тест для повтору
 
+// Flashcard state
+let flashcardMode = false;
+let flashcardAnswerShown = false;
+let flashcardTranslateShown = false;
+
 // ==================== INITIALIZATION ====================
-window.addEventListener('DOMContentLoaded', () => { 
+window.addEventListener('DOMContentLoaded', () => {
     updateUI();
     setupServiceWorker();
+    
+    // Ховаємо spinner коли все завантажено
+    setTimeout(() => {
+        if (typeof allSigns !== 'undefined' && allSigns.length > 0) {
+            document.getElementById('loading-spinner').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        } else {
+            document.getElementById('loading-text').textContent = 'Error loading signs. Please refresh.';
+            document.getElementById('loading-text').style.color = 'var(--danger)';
+        }
+    }, 500);
 });
 
 // ==================== SERVICE WORKER ====================
@@ -69,7 +85,8 @@ function updateUI() {
     document.getElementById('ui-helper-lang').textContent = t.helperLang;
     document.getElementById('ui-category').textContent = t.category;
     document.getElementById('ui-questions').textContent = t.questions;
-    document.getElementById('ui-start-btn').textContent = t.startBtn;
+    document.getElementById('ui-quiz-mode-btn').textContent = t.quizModeBtn;
+    document.getElementById('ui-flashcard-btn').textContent = t.flashcardBtn;
     document.getElementById('ui-back-btn').textContent = t.backToMenu;
     document.getElementById('ui-retry-btn').textContent = t.retryBtn;
     document.getElementById('ui-reference-btn').textContent = t.referenceBtn;
@@ -161,6 +178,12 @@ function shuffle(array) {
 }
 
 function start() {
+    // Перевірка наявності даних
+    if (!allSigns || allSigns.length === 0) {
+        alert('Error: Signs database not loaded. Please refresh the page.');
+        return;
+    }
+    
     quizLang = document.getElementById('quiz-lang').value;
     helperLang = document.getElementById('helper-lang').value;
     showingTranslation = false;
@@ -184,7 +207,11 @@ function start() {
     questionTimes = [];
     totalStartTime = Date.now(); // Запускаємо загальний таймер
 
+    // Ховаємо ВСІ екрани крім quiz-screen
     document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('flashcard-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('reference-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     render();
 }
@@ -322,19 +349,23 @@ function retry() {
 function backToMenu() {
     // Скидаємо збережений тест
     savedTestSet = null;
+    flashcardMode = false;
 
     // Скидаємо фільтри до дефолтних
     selectedCategory = 'all';
     document.getElementById('fav-only').checked = false;
-    document.getElementById('quiz-lang').value = quizLang;  // Зберігаємо поточну мову
-    document.getElementById('helper-lang').value = helperLang;  // Зберігаємо поточну мову
-    // interfaceLang не змінюємо - залишаємо поточний
+    document.getElementById('quiz-lang').value = quizLang;
+    document.getElementById('helper-lang').value = helperLang;
 
     // Ховаємо ВСІ екрани крім start-screen
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('flashcard-screen').classList.add('hidden');
     document.getElementById('reference-screen').classList.add('hidden');
     document.getElementById('start-screen').classList.remove('hidden');
+
+    // Повертаємо кнопку Retry (вона сховається якщо був Flashcard)
+    document.getElementById('ui-retry-btn').style.display = 'block';
 
     // Скидаємо активну категорію
     document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
@@ -346,8 +377,14 @@ function backToMenu() {
 
 function finish() {
     const t = UI_TRANSLATIONS[interfaceLang];
+    
+    // Ховаємо ВСІ екрани крім result-screen
+    document.getElementById('start-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('flashcard-screen').classList.add('hidden');
+    document.getElementById('reference-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
+    
     document.getElementById('score').innerText = points;
     document.getElementById('total-q').innerText = testSet.length;
 
@@ -356,6 +393,14 @@ function finish() {
     document.getElementById('result-title').innerHTML =
         `${t.score}: <span id="score">${points}</span> / <span id="total-q">${testSet.length}</span><br>
         <span style="font-size: 16px; color: #666; font-weight: 500; margin-top: 8px; display: inline-block;">${t.totalTime}: ${formatTime(totalTime)}</span>`;
+
+    // Для Flashcard Mode ховаємо кнопку Retry
+    const retryBtn = document.getElementById('ui-retry-btn');
+    if (flashcardMode) {
+        retryBtn.style.display = 'none';
+    } else {
+        retryBtn.style.display = 'block';
+    }
 
     const log = document.getElementById('log');
     log.innerHTML = '';
@@ -383,6 +428,12 @@ function finish() {
 
 // ==================== REFERENCE MODE ====================
 function showReference() {
+    // Перевірка наявності даних
+    if (!allSigns || allSigns.length === 0) {
+        alert('Error: Signs database not loaded. Please refresh the page.');
+        return;
+    }
+    
     const t = UI_TRANSLATIONS[interfaceLang];
     
     // Оновлюємо заголовок
@@ -395,6 +446,7 @@ function showReference() {
     allSigns.forEach(sign => {
         const item = document.createElement('div');
         item.className = 'reference-item';
+        item.setAttribute('data-name', getDisplayName(sign, interfaceLang));
         
         // Отримуємо назву категорії з захистом від undefined
         const categoryName = t.categories[sign.cat] || sign.cat;
@@ -411,10 +463,177 @@ function showReference() {
         `;
         list.appendChild(item);
     });
-    
+
     // Показуємо екран довідника
     document.getElementById('start-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('flashcard-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.add('hidden');
     document.getElementById('reference-screen').classList.remove('hidden');
+}
+
+// ==================== FILTER REFERENCE ====================
+function filterReference() {
+    const query = document.getElementById('reference-search').value.toLowerCase();
+    const items = document.querySelectorAll('.reference-item');
+    
+    items.forEach(item => {
+        // Шукаємо тільки по назві знака (data-name атрибут)
+        const signName = item.getAttribute('data-name').toLowerCase();
+        item.style.display = signName.includes(query) ? 'flex' : 'none';
+    });
+}
+
+// ==================== FLASHCARD MODE ====================
+function startFlashcard() {
+    // Перевірка наявності даних
+    if (!allSigns || allSigns.length === 0) {
+        alert('Error: Signs database not loaded. Please refresh the page.');
+        return;
+    }
+    
+    flashcardMode = true;
+    quizLang = document.getElementById('quiz-lang').value;
+    helperLang = document.getElementById('helper-lang').value;
+    flashcardTranslateShown = false;
+    
+    const isFavOnly = document.getElementById('fav-only').checked;
+    let base = isFavOnly ? allSigns.filter(s => s.fav) : allSigns;
+    base = selectedCategory === 'all' ? base : base.filter(s => s.cat === selectedCategory);
+    
+    if (base.length === 0) {
+        alert(UI_TRANSLATIONS[interfaceLang].noSignsInCat);
+        return;
+    }
+    
+    const countSelect = document.getElementById('question-count').value;
+    let requestedCount = countSelect === 'all' ? base.length : parseInt(countSelect);
+    let totalQuestions = Math.min(requestedCount, base.length);
+    
+    testSet = shuffle(base).slice(0, totalQuestions);
+    savedTestSet = [...testSet];
+    current = 0;
+    points = 0;
+    results = [];
+    questionTimes = [];
+    totalStartTime = Date.now();
+
+    // Ховаємо ВСІ екрани крім flashcard-screen
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('reference-screen').classList.add('hidden');
+    document.getElementById('flashcard-screen').classList.remove('hidden');
+    renderFlashcard();
+}
+
+function renderFlashcard() {
+    const q = testSet[current];
+    const t = UI_TRANSLATIONS[interfaceLang];
+    
+    // Оновлюємо прогрес-бар
+    const progressPercent = ((current + 1) / testSet.length) * 100;
+    document.getElementById('flashcard-progress-fill').style.width = `${progressPercent}%`;
+    document.getElementById('flashcard-progress').innerText = `${t.progress} ${current + 1} ${t.of} ${testSet.length}`;
+    
+    // Зображення
+    document.getElementById('flashcard-q-img').src = "./img/" + q.file;
+    
+    // Скидаємо стан
+    flashcardAnswerShown = false;
+    flashcardTranslateShown = false;
+    
+    // Ховаємо відповідь
+    document.getElementById('flashcard-answer').classList.add('hidden');
+    
+    // Показуємо кнопку "Show Answer"
+    const showAnswerBtn = document.getElementById('flashcard-show-answer');
+    showAnswerBtn.style.display = 'block';
+    showAnswerBtn.disabled = false;
+    showAnswerBtn.textContent = t.showAnswer;
+    
+    // Блокуємо кнопки Correct/Wrong
+    document.getElementById('flashcard-correct').disabled = true;
+    document.getElementById('flashcard-wrong').disabled = true;
+    
+    // Ховаємо кнопку перекладу
+    document.getElementById('flashcard-translate-toggle').style.display = 'none';
+    
+    questionStartTime = Date.now();
+}
+
+function showFlashcardAnswer() {
+    const q = testSet[current];
+    const t = UI_TRANSLATIONS[interfaceLang];
+    
+    flashcardAnswerShown = true;
+    
+    // Показуємо відповідь
+    document.getElementById('flashcard-name').textContent = getDisplayName(q, quizLang);
+    document.getElementById('flashcard-hint').innerHTML = `<strong>💡 ${t.hintLabel}</strong><br>${getDisplayHint(q, helperLang)}`;
+    document.getElementById('flashcard-answer').classList.remove('hidden');
+    
+    // Ховаємо кнопку "Show Answer"
+    document.getElementById('flashcard-show-answer').style.display = 'none';
+    
+    // Активуємо кнопки Correct/Wrong
+    document.getElementById('flashcard-correct').disabled = false;
+    document.getElementById('flashcard-wrong').disabled = false;
+    
+    // Показуємо кнопку перекладу
+    const translateBtn = document.getElementById('flashcard-translate-toggle');
+    translateBtn.style.display = 'block';
+    translateBtn.textContent = t.showTranslate;
+}
+
+function handleFlashcardAnswer(isCorrect) {
+    if (!flashcardAnswerShown) {
+        // Показуємо повідомлення "Check your answer first"
+        showToast(UI_TRANSLATIONS[interfaceLang].checkAnswerFirst);
+        return;
+    }
+    
+    const q = testSet[current];
+    const quizLangCurrent = flashcardTranslateShown ? helperLang : quizLang;
+    const userAnswerText = getDisplayName(q, quizLangCurrent);
+    const timeSpent = (Date.now() - questionStartTime) / 1000;
+    
+    questionTimes.push({ time: timeSpent, isCorrect: isCorrect });
+    results.push({ q, isOk: isCorrect, userChoice: userAnswerText, time: timeSpent });
+    
+    if (isCorrect) {
+        points++;
+    }
+    
+    current++;
+    if (current < testSet.length) {
+        renderFlashcard();
+    } else {
+        finish();
+    }
+}
+
+function toggleFlashcardTranslate() {
+    flashcardTranslateShown = !flashcardTranslateShown;
+    const q = testSet[current];
+    const t = UI_TRANSLATIONS[interfaceLang];
+    const btn = document.getElementById('flashcard-translate-toggle');
+    
+    btn.textContent = flashcardTranslateShown ? t.hideTranslate : t.showTranslate;
+    
+    // Оновлюємо назву знака
+    document.getElementById('flashcard-name').textContent = getDisplayName(q, flashcardTranslateShown ? helperLang : quizLang);
+}
+
+function showToast(message) {
+    // Видаляємо існуючі toast повідомлення
+    const existing = document.querySelector('.flashcard-toast');
+    if (existing) existing.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = 'flashcard-toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => toast.remove(), 2000);
 }

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="manifest" href="manifest.json?v=1.4">
+    <link rel="manifest" href="manifest.json?v=3.1">
     <link rel="icon" type="image/png" href="img/main-icon.png">
     <link rel="apple-touch-icon" href="img/main-icon.png">
     <meta name="mobile-web-app-capable" content="yes">
@@ -12,12 +12,16 @@
     <meta name="apple-mobile-web-app-title" content="Cyprus Signs">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cyprus Driving Test</title>
-    <link rel="stylesheet" href="styles.css?v=1.4">
+    <link rel="stylesheet" href="styles.css?v=3.1">
 </head>
 
 <body>
     <div id="app">
-        <div id="start-screen">
+        <div id="loading-spinner">
+            <div class="spinner"></div>
+            <p id="loading-text">Loading signs...</p>
+        </div>
+        <div id="start-screen" class="hidden">
             <h1 id="ui-title">Cyprus Road Signs</h1>
             <div style="margin: 20px 0; display: flex; align-items: center; justify-content: center; gap: 10px;">
                 <label class="switch">
@@ -31,28 +35,28 @@
                 <div class="lang-row">
                     <label>🌐 <span id="ui-interface-lang">Interface Language</span>:</label>
                     <select id="interface-lang" onchange="updateUILanguage()">
-                        <option value="en" selected>English</option>
-                        <option value="uk">Українська</option>
-                        <option value="el">Ελληνικά</option>
-                        <option value="ru">Русский</option>
+                        <option value="en" selected>🇬🇧 English</option>
+                        <option value="uk">🇺🇦 Українська</option>
+                        <option value="el">🇬🇷 Ελληνικά</option>
+                        <option value="ru">🇷🇺 Русский</option>
                     </select>
                 </div>
                 <div class="lang-row">
                     <label>📝 <span id="ui-quiz-lang">Quiz Language</span>:</label>
                     <select id="quiz-lang" onchange="saveQuizLang()">
-                        <option value="en" selected>English</option>
-                        <option value="uk">Українська</option>
-                        <option value="el">Ελληνικά</option>
-                        <option value="ru">Русский</option>
+                        <option value="en" selected>🇬🇧 English</option>
+                        <option value="uk">🇺🇦 Українська</option>
+                        <option value="el">🇬🇷 Ελληνικά</option>
+                        <option value="ru">🇷🇺 Русский</option>
                     </select>
                 </div>
                 <div class="lang-row">
                     <label>💡 <span id="ui-helper-lang">Helper Language</span>:</label>
                     <select id="helper-lang" onchange="saveHelperLang()">
-                        <option value="en" selected>English</option>
-                        <option value="uk">Українська</option>
-                        <option value="el">Ελληνικά</option>
-                        <option value="ru">Русский</option>
+                        <option value="en" selected>🇬🇧 English</option>
+                        <option value="uk">🇺🇦 Українська</option>
+                        <option value="el">🇬🇷 Ελληνικά</option>
+                        <option value="ru">🇷🇺 Русский</option>
                     </select>
                 </div>
             </div>
@@ -75,8 +79,9 @@
                 <option value="50">50 questions</option>
                 <option value="all">All signs</option>
             </select>
-            <button class="main-btn" id="ui-start-btn" onclick="start()">Start Training</button>
-            <button class="main-btn" id="ui-reference-btn" onclick="showReference()" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); margin-top: 10px;">📖 All Signs</button>
+            <button class="main-btn" id="ui-quiz-mode-btn" onclick="start()" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">📝 Quiz Mode</button>
+            <button class="main-btn" id="ui-flashcard-btn" onclick="startFlashcard()" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); margin-top: 10px;">🗣 Flashcard Mode</button>
+            <button class="main-btn" id="ui-reference-btn" onclick="showReference()" style="background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); margin-top: 10px;">📖 All Signs</button>
         </div>
         <div id="quiz-screen" class="hidden">
             <div class="progress-container">
@@ -100,13 +105,33 @@
         </div>
         <div id="reference-screen" class="hidden">
             <h2>📖 Road Signs Reference</h2>
+            <input type="text" id="reference-search" placeholder="🔍 Search signs..." oninput="filterReference()" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 15px;">
             <div id="reference-list" style="max-height: 60vh; overflow-y: auto; padding: 10px 0; margin-bottom: 15px;"></div>
             <button class="main-btn" onclick="backToMenu()">← Back to Menu</button>
         </div>
+        <div id="flashcard-screen" class="hidden">
+            <div class="progress-container">
+                <div class="progress-fill" id="flashcard-progress-fill"></div>
+            </div>
+            <div class="progress" id="flashcard-progress"></div>
+            <div class="sign-box">
+                <img id="flashcard-q-img" src="" class="sign-img" loading="lazy" onerror="handleImageError(this)">
+            </div>
+            <button id="flashcard-show-answer" class="main-btn" onclick="showFlashcardAnswer()" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); min-height: 50px;">👁 Show Answer</button>
+            <div id="flashcard-answer" class="flashcard-answer hidden">
+                <div class="flashcard-name" id="flashcard-name"></div>
+                <div class="flashcard-hint" id="flashcard-hint"></div>
+            </div>
+            <div class="flashcard-buttons">
+                <button id="flashcard-correct" class="flashcard-btn flashcard-correct" onclick="handleFlashcardAnswer(true)" disabled>✅ Correct</button>
+                <button id="flashcard-wrong" class="flashcard-btn flashcard-wrong" onclick="handleFlashcardAnswer(false)" disabled>❌ Wrong</button>
+            </div>
+            <button id="flashcard-translate-toggle" class="translate-btn" onclick="toggleFlashcardTranslate()" style="display: none;">🔄 Show Translation</button>
+        </div>
     </div>
-    <script src="translations.js?v=1.4"></script>
-    <script src="signs-data.js?v=1.4"></script>
-    <script src="app.js?v=1.4"></script>
+    <script src="translations.js?v=3.1"></script>
+    <script src="signs-data.js?v=3.1"></script>
+    <script src="app.js?v=3.3"></script>
 </body>
 
 </html>
