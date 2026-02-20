@@ -1,0 +1,738 @@
+/* ==================== CYPRUS ROAD SIGNS - STYLES ==================== 
+   Version: 1.4
+   Last Updated: 2026-02-20
+====================================================================== */
+
+/* ==================== RESET & BASE ==================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #2c3e50;
+    --accent: #3498db;
+    --success: #27ae60;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    --bg: #f1f2f6;
+    --hint-bg: #fff3cd;
+    --hint-text: #856404;
+    --text: #2c3e50;
+    --border: #e0e0e0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg);
+    margin: 0;
+    padding: 20px;
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ==================== MAIN CONTAINER ==================== */
+#app {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+/* ==================== SCREENS ==================== */
+.hidden {
+    display: none !important;
+}
+
+/* ==================== TYPOGRAPHY ==================== */
+h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 20px 0;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 15px 0;
+}
+
+p {
+    margin: 12px 0;
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* ==================== PROGRESS ==================== */
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background: #e8ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #2ecc71);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+    border-radius: 4px;
+}
+
+.progress {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 16px;
+}
+
+/* ==================== SIGN DISPLAY ==================== */
+.sign-box {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.sign-img {
+    max-height: 160px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* ==================== ANSWER OPTIONS ==================== */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+/* ==================== BUTTONS ==================== */
+button {
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid var(--border);
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    color: var(--text);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #f0f4f8 0%, #e8ecef 100%);
+    border-color: var(--accent);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+    transform: translateY(-2px);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(0);
+    background: linear-gradient(135deg, #e8ecef 0%, #d5d8dd 100%);
+    border-color: var(--accent);
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.15);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button.correct {
+    background: var(--success) !important;
+    color: white !important;
+    border-color: var(--success) !important;
+}
+
+button.wrong {
+    background: var(--danger) !important;
+    color: white !important;
+    border-color: var(--danger) !important;
+}
+
+/* Category buttons */
+#category-selector {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.category-btn {
+    background: #f5f7fa;
+    border: 1px solid var(--border);
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 20px;
+}
+
+.category-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* Main action button */
+.main-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 16px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 12px;
+    margin-top: 12px;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.main-btn:hover:not(:disabled) {
+    background: #2980b9;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}
+
+/* Translate button */
+.translate-btn {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    margin-top: 16px;
+    width: auto;
+    display: inline-block;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    transition: all 0.2s ease;
+}
+
+.translate-btn:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #2471a3 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4) !important;
+    transform: translateY(-2px);
+}
+
+.translate-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(52, 152, 219, 0.25);
+}
+
+.translate-btn.active {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%) !important;
+    box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);
+}
+
+.translate-btn.active:hover {
+    background: linear-gradient(135deg, #229954 0%, #1e8449 100%) !important;
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4) !important;
+}
+
+/* Hide translate button on start and result screens */
+#start-screen .translate-btn,
+#result-screen .translate-btn {
+    display: none;
+}
+
+/* ==================== HINT BOX ==================== */
+.hint-box {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffe8a1 100%);
+    color: var(--hint-text);
+    padding: 18px 20px;
+    border-radius: 12px;
+    margin: 16px 0;
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: left;
+    border: 2px solid #ffc107;
+    border-left: 5px solid #ffc107;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.15);
+    animation: slideDown 0.3s ease-out;
+}
+
+.hint-box strong {
+    color: #856404;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== LANGUAGE SETTINGS ==================== */
+.lang-settings {
+    background: #f5f7fa;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.lang-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 12px 0;
+    gap: 12px;
+}
+
+.lang-row label {
+    font-size: 14px;
+    color: var(--text);
+    min-width: 150px;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.lang-row select {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    background: white;
+    color: var(--text);
+    min-width: 120px;
+}
+
+/* ==================== TOGGLE SWITCH ==================== */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 28px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider {
+    background-color: var(--accent);
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* ==================== RESULTS ==================== */
+#log {
+    max-height: 450px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 16px 0;
+    text-align: left;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    background: #fafafa;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.result-item img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.result-item > div {
+    flex: 1;
+    text-align: left;
+}
+
+.result-item .status {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.result-item .answer {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 4px 0;
+}
+
+.result-item .user-answer {
+    font-size: 13px;
+    color: #888;
+    margin: 4px 0;
+}
+
+.result-item .hint {
+    font-size: 13px;
+    color: var(--hint-text);
+    font-style: italic;
+    margin: 6px 0 0 0;
+}
+
+.result-item .time {
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+/* ==================== DESKTOP QUIZ SCREEN ==================== */
+@media (min-width: 481px) {
+    #quiz-screen:not(.hidden) {
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .sign-box {
+        margin: 16px auto;
+    }
+}
+
+/* ==================== MOBILE STYLES ==================== */
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+        align-items: flex-start;
+    }
+    
+    #app {
+        padding: 16px;
+        border-radius: 12px;
+    }
+    
+    h1 {
+        font-size: 1.4rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+    }
+    
+    /* Larger touch targets */
+    button:not(.translate-btn):not(.category-btn) {
+        min-height: 50px;
+        padding: 14px 18px;
+    }
+    
+    .category-btn {
+        min-height: 42px;
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+    
+    .main-btn {
+        min-height: 52px;
+        padding: 16px 20px;
+        font-size: 16px;
+    }
+    
+    /* Larger progress bar */
+    .progress-container {
+        height: 10px;
+    }
+    
+    /* Sign box adjustments */
+    .sign-box {
+        min-height: 160px;
+        padding: 16px;
+    }
+    
+    .sign-img {
+        max-height: 130px;
+    }
+    
+    /* Language settings - stack vertically */
+    .lang-settings {
+        padding: 14px;
+    }
+    
+    .lang-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .lang-row label {
+        min-width: auto;
+        width: 100%;
+        margin-bottom: 6px;
+    }
+    
+    .lang-row select {
+        width: 100%;
+    }
+    
+    /* Results - larger images, centered */
+    .result-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 14px;
+    }
+    
+    .result-item img {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .result-item > div {
+        text-align: center;
+        width: 100%;
+    }
+    
+    #log {
+        max-height: 55vh;
+        padding: 8px 0;
+    }
+    
+    /* Hint box on mobile */
+    .hint-box {
+        padding: 16px;
+        font-size: 14px;
+        margin: 12px 0;
+    }
+}
+
+/* ==================== QUIZ BUTTONS CONTAINER ==================== */
+#quiz-buttons {
+    width: 100%;
+    margin-top: 12px;
+}
+
+#quiz-buttons .main-btn {
+    width: 100%;
+    min-height: 50px;
+    padding: 16px 20px;
+    font-size: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ==================== STICKY NEXT BUTTON (MOBILE) ==================== */
+@media (max-width: 480px) {
+    #quiz-screen:not(.hidden) {
+        position: relative;
+        padding-bottom: 20px;
+    }
+    
+    #quiz-buttons {
+        margin-top: 12px;
+    }
+    
+    #quiz-buttons .main-btn {
+        width: 100%;
+        min-height: 52px;
+        padding: 16px 20px;
+        font-size: 16px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Ensure options have space */
+    #options {
+        margin-bottom: 12px;
+    }
+    
+    .sign-box {
+        margin-top: 8px;
+        margin-bottom: 16px;
+    }
+    
+    .options {
+        gap: 10px;
+    }
+}
+
+/* ==================== VERY SMALL SCREENS ==================== */
+@media (max-width: 360px) {
+    body {
+        padding: 8px;
+    }
+    
+    #app {
+        padding: 14px;
+    }
+    
+    /* Two columns for category buttons */
+    #category-selector {
+        gap: 6px;
+    }
+    
+    .category-btn {
+        flex: 1 1 calc(50% - 6px);
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    h1 {
+        font-size: 1.25rem;
+    }
+    
+    .sign-box {
+        min-height: 140px;
+        padding: 12px;
+    }
+    
+    .sign-img {
+        max-height: 110px;
+    }
+}
+
+/* ==================== SAFE AREA FOR IPHONE ==================== */
+@supports (padding: max(0px)) {
+    #app {
+        border-bottom-left-radius: max(12px, env(safe-area-inset-left));
+        border-bottom-right-radius: max(12px, env(safe-area-inset-right));
+    }
+}
+
+/* ==================== REFERENCE SCREEN ==================== */
+#reference-screen h2 {
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+#reference-list {
+    -webkit-overflow-scrolling: touch;
+}
+
+.reference-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    background: #fafafa;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+}
+
+.reference-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    flex-shrink: 0;
+    background: white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.reference-content {
+    flex: 1;
+    text-align: left;
+}
+
+.reference-category {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.reference-category.warning { background: #ffeaa7; color: #d35400; }
+.reference-category.regulatory { background: #ffcccc; color: #c0392b; }
+.reference-category.mandatory { background: #d6eaf8; color: #2980b9; }
+.reference-category.information { background: #d5f5e3; color: #27ae60; }
+.reference-category.police { background: #e8daef; color: #8e44ad; }
+.reference-category.markings { background: #f9e79f; color: #b7950b; }
+
+.reference-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.reference-hint {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+/* Mobile reference styles */
+@media (max-width: 480px) {
+    .reference-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .reference-content {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .reference-item img {
+        width: 100px;
+        height: 100px;
+    }
+}

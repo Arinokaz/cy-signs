@@ -1,10 +1,30 @@
 const CACHE_NAME = 'cyprus-signs-dynamic-v1.4';
 
-// При установке кешируем только самую базу: HTML-страницу
+// При установке кешируем базовые файлы
 self.addEventListener('install', (event) => {
+  // Пропускаем ожидание и сразу активируем новую версию
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(['index.html', 'signs-data.js']))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(['index.html', 'styles.css', 'translations.js', 'signs-data.js', 'app.js', 'manifest.json']))
   );
+});
+
+// При активации удаляем старый кеш
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  // Сообщаем клиентам, что SW готов
+  self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {

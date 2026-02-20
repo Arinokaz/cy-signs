@@ -3,299 +3,34 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json?v=1.4">
+    <link rel="icon" type="image/png" href="img/main-icon.png">
+    <link rel="apple-touch-icon" href="img/main-icon.png">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Cyprus Signs">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cyprus Driving Test</title>
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --success: #27ae60;
-            --danger: #e74c3c;
-            --bg: #f1f2f6;
-            --hint-bg: #fff3cd;
-            --hint-text: #856404;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        #app {
-            background: white;
-            width: 100%;
-            max-width: 500px;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .sign-box {
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            background: #fafafa;
-            border-radius: 10px;
-            border: 1px solid #eee;
-            padding: 15px;
-        }
-
-        .sign-img {
-            max-height: 150px;
-            max-width: 90%;
-            object-fit: contain;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        button {
-            padding: 12px;
-            font-size: 18px;
-            border: 2px solid #eee;
-            background: #fff;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-weight: 500;
-            outline: none;
-        }
-
-        button:hover:not(:disabled) {
-            background: #f8f9fa;
-            border-color: var(--accent);
-        }
-
-        button.correct {
-            background: var(--success) !important;
-            color: white;
-            border-color: var(--success);
-        }
-
-        button.wrong {
-            background: var(--danger) !important;
-            color: white;
-            border-color: var(--danger);
-        }
-
-        .hint-box {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffe8a1 100%);
-            color: var(--hint-text);
-            padding: 16px 20px;
-            border-radius: 10px;
-            margin: 15px 0;
-            font-size: 0.95em;
-            border: 2px solid #ffc107;
-            border-left: 5px solid #ffc107;
-            line-height: 1.5;
-            text-align: left;
-            animation: slideDown 0.4s ease-out;
-            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
-        }
-
-        .hint-box strong {
-            color: #856404;
-            font-weight: 600;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-15px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .category-btn {
-            background: #f8f9fa;
-            border: 1px solid #ddd;
-            padding: 8px 16px;
-            margin: 4px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 15px;
-            transition: 0.2s;
-        }
-
-        .category-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-
-        .main-btn {
-            background: var(--accent);
-            color: rgb(0, 0, 0);
-            border: none;
-            padding: 15px;
-            width: 100%;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .result-item {
-            display: flex;
-            align-items: center;
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-            gap: 15px;
-        }
-
-        .result-item img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked+.slider {
-            background-color: var(--accent);
-        }
-
-        input:checked+.slider:before {
-            transform: translateX(26px);
-        }
-
-        .lang-settings {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: left;
-        }
-
-        .lang-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 10px 0;
-            gap: 10px;
-        }
-
-        .lang-row label {
-            font-size: 14px;
-            color: var(--primary);
-            min-width: 140px;
-            white-space: nowrap;
-        }
-
-        .lang-row select {
-            flex: 1;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-            background: white;
-        }
-
-        .translate-btn {
-            background: var(--accent);
-            color: rgb(0, 0, 0);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.2s;
-            margin-top: 15px;
-        }
-
-        .translate-btn:hover {
-            background: #2980b9;
-        }
-
-        .translate-btn.active {
-            background: var(--success);
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css?v=1.4">
 </head>
 
 <body>
     <div id="app">
         <div id="start-screen">
-            <h1 id="ui-title">Дорожні знаки Кіпру</h1>
+            <h1 id="ui-title">Cyprus Road Signs</h1>
             <div style="margin: 20px 0; display: flex; align-items: center; justify-content: center; gap: 10px;">
                 <label class="switch">
                     <input type="checkbox" id="fav-only">
                     <span class="slider"></span>
                 </label>
-                <span id="ui-fav-only">Тільки обрані знаки ⭐</span>
+                <span id="ui-fav-only">Favorite signs only ⭐</span>
             </div>
             <!-- Language Settings -->
             <div class="lang-settings">
                 <div class="lang-row">
-                    <label>🌐 <span id="ui-interface-lang">Мова інтерфейсу</span>:</label>
+                    <label>🌐 <span id="ui-interface-lang">Interface Language</span>:</label>
                     <select id="interface-lang" onchange="updateUILanguage()">
-                        <option value="uk" selected>Українська</option>
-                        <option value="en">English</option>
-                        <option value="el">Ελληνικά</option>
-                        <option value="ru">Русский</option>
-                    </select>
-                </div>
-                <div class="lang-row">
-                    <label>📝 <span id="ui-quiz-lang">Мова тесту</span>:</label>
-                    <select id="quiz-lang">
                         <option value="en" selected>English</option>
                         <option value="uk">Українська</option>
                         <option value="el">Ελληνικά</option>
@@ -303,411 +38,75 @@
                     </select>
                 </div>
                 <div class="lang-row">
-                    <label>💡 <span id="ui-helper-lang">Мова підказок</span>:</label>
-                    <select id="helper-lang">
-                        <option value="uk" selected>Українська</option>
-                        <option value="en">English</option>
+                    <label>📝 <span id="ui-quiz-lang">Quiz Language</span>:</label>
+                    <select id="quiz-lang" onchange="saveQuizLang()">
+                        <option value="en" selected>English</option>
+                        <option value="uk">Українська</option>
+                        <option value="el">Ελληνικά</option>
+                        <option value="ru">Русский</option>
+                    </select>
+                </div>
+                <div class="lang-row">
+                    <label>💡 <span id="ui-helper-lang">Helper Language</span>:</label>
+                    <select id="helper-lang" onchange="saveHelperLang()">
+                        <option value="en" selected>English</option>
+                        <option value="uk">Українська</option>
                         <option value="el">Ελληνικά</option>
                         <option value="ru">Русский</option>
                     </select>
                 </div>
             </div>
-            <p id="ui-category">Категорія:</p>
+            <p id="ui-category">Category:</p>
             <div id="category-selector">
-                <button class="category-btn active" onclick="setCat('all', this)" data-key="all">Всі знаки</button>
-                <button class="category-btn" onclick="setCat('warning', this)" data-key="warning">⚠ Небезпека</button>
+                <button class="category-btn active" onclick="setCat('all', this)" data-key="all">All Signs</button>
+                <button class="category-btn" onclick="setCat('warning', this)" data-key="warning">⚠ Warning</button>
                 <button class="category-btn" onclick="setCat('regulatory', this)" data-key="regulatory">🚫
-                    Заборона</button>
+                    Regulatory</button>
                 <button class="category-btn" onclick="setCat('mandatory', this)" data-key="mandatory">🔵
-                    Приписи</button>
-                <button class="category-btn" onclick="setCat('police', this)" data-key="police">👮 Поліція</button>
-                <button class="category-btn" onclick="setCat('markings', this)" data-key="markings">🛣 Розмітка</button>
+                    Mandatory</button>
+                <button class="category-btn" onclick="setCat('police', this)" data-key="police">👮 Police</button>
+                <button class="category-btn" onclick="setCat('markings', this)" data-key="markings">🛣 Markings</button>
             </div>
-            <p id="ui-questions">Запитань:</p>
+            <p id="ui-questions">Questions:</p>
             <select id="question-count" style="padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 20px;">
-                <option value="10">10 запитань</option>
-                <option value="20" selected>20 запитань</option>
-                <option value="50">50 запитань</option>
-                <option value="all">Весь список</option>
+                <option value="5">5 questions</option>
+                <option value="10">10 questions</option>
+                <option value="20" selected>20 questions</option>
+                <option value="50">50 questions</option>
+                <option value="all">All signs</option>
             </select>
-            <button class="main-btn" id="ui-start-btn" onclick="start()">Почати тренування</button>
+            <button class="main-btn" id="ui-start-btn" onclick="start()">Start Training</button>
+            <button class="main-btn" id="ui-reference-btn" onclick="showReference()" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); margin-top: 10px;">📖 All Signs</button>
         </div>
         <div id="quiz-screen" class="hidden">
+            <div class="progress-container">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
             <div class="progress" id="progress"></div>
             <div class="sign-box">
-                <img id="q-img" src="" class="sign-img">
+                <img id="q-img" src="" class="sign-img" loading="lazy" onerror="handleImageError(this)">
             </div>
             <div id="options" class="options"></div>
-            <button id="translate-toggle" class="translate-btn" onclick="toggleTranslate()">🔄 Показати
-                переклад</button>
+            <button id="translate-toggle" class="translate-btn" onclick="toggleTranslate()">🔄 Show Translation</button>
+            <div id="quiz-buttons"></div>
         </div>
         <div id="result-screen" class="hidden">
-            <h2 id="result-title"><span id="ui-score">Ваш рахунок</span>: <span id="score"></span> / <span
+            <h2 id="result-title"><span id="ui-score">Your Score</span>: <span id="score"></span> / <span
                     id="total-q"></span></h2>
             <div id="log" style="max-height: 450px; overflow-y: auto;"></div>
-            <button class="main-btn" id="ui-back-btn" onclick="location.reload()">До головного меню</button>
+            <button class="main-btn" id="ui-retry-btn" onclick="retry()" style="margin-top: 15px;">🔄 Retry
+                Test</button>
+            <button class="main-btn" id="ui-back-btn" onclick="backToMenu()">Back to Menu</button>
+        </div>
+        <div id="reference-screen" class="hidden">
+            <h2>📖 Road Signs Reference</h2>
+            <div id="reference-list" style="max-height: 60vh; overflow-y: auto; padding: 10px 0; margin-bottom: 15px;"></div>
+            <button class="main-btn" onclick="backToMenu()">← Back to Menu</button>
         </div>
     </div>
-    <script src="signs-data.js"></script>
-    <script>
-        // ==================== LANGUAGE SETTINGS ====================
-        const UI_TRANSLATIONS = {
-            uk: {
-                title: "Дорожні знаки Кіпру",
-                favOnly: "Тільки обрані знаки ⭐",
-                interfaceLang: "Мова інтерфейсу",
-                quizLang: "Мова тесту",
-                helperLang: "Мова підказок",
-                category: "Категорія:",
-                questions: "Запитань:",
-                startBtn: "Почати тренування",
-                backToMenu: "До головного меню",
-                score: "Ваш рахунок",
-                mistakesTitle: "Розбір помилок:",
-                showTranslate: "🔄 Показати переклад",
-                hideTranslate: "✅ Показати оригінал",
-                nextBtn: "Зрозуміло, далі",
-                hintLabel: "💡 Підказка:",
-                noSignsInCat: "У цій категорії ще немає знаків!",
-                progress: "Запитання",
-                of: "з",
-                categories: {
-                    all: "Всі знаки", warning: "⚠ Небезпека", regulatory: "🚫 Заборона",
-                    mandatory: "🔵 Приписи", police: "👮 Поліція", markings: "🛣 Розмітка"
-                },
-                questionCount: { "10": "10 запитань", "20": "20 запитань", "50": "50 запитань", "all": "Весь список" }
-            },
-            en: {
-                title: "Cyprus Road Signs",
-                favOnly: "Favorite signs only ⭐",
-                interfaceLang: "Interface Language",
-                quizLang: "Quiz Language",
-                helperLang: "Helper Language",
-                category: "Category:",
-                questions: "Questions:",
-                startBtn: "Start Training",
-                backToMenu: "Back to Menu",
-                score: "Your Score",
-                mistakesTitle: "Mistakes Review:",
-                showTranslate: "🔄 Show Translation",
-                hideTranslate: "✅ Show Original",
-                nextBtn: "Got it, Next",
-                hintLabel: "💡 Hint:",
-                noSignsInCat: "No signs in this category yet!",
-                progress: "Question",
-                of: "of",
-                categories: {
-                    all: "All Signs", warning: "⚠ Warning", regulatory: "🚫 Regulatory",
-                    mandatory: "🔵 Mandatory", police: "👮 Police", markings: "🛣 Markings"
-                },
-                questionCount: { "10": "10 questions", "20": "20 questions", "50": "50 questions", "all": "All signs" }
-            },
-            el: {
-                title: "Οδικές Πινακίδες Κύπρου",
-                favOnly: "Μόνο αγαπημένες πινακίδες ⭐",
-                interfaceLang: "Γλώσσα Περιβάλλοντος",
-                quizLang: "Γλώσσα Κουίζ",
-                helperLang: "Γλώσσα Βοήθειας",
-                category: "Κατηγορία:",
-                questions: "Ερωτήσεις:",
-                startBtn: "Έναρξη Προπόνησης",
-                backToMenu: "Πίσω στο Μενού",
-                score: "Η Βαθμολογία Σας",
-                mistakesTitle: "Ανασκόπηση Λαθών:",
-                showTranslate: "🔄 Εμφάνιση Μετάφρασης",
-                hideTranslate: "✅ Εμφάνιση Πρωτοτύπου",
-                nextBtn: "Κατάλαβα, Επόμενο",
-                hintLabel: "💡 Υπόδειξη:",
-                noSignsInCat: "Δεν υπάρχουν πινακίδες σε αυτή την κατηγορία!",
-                progress: "Ερώτηση",
-                of: "από",
-                categories: {
-                    all: "Όλες οι Πινακίδες", warning: "⚠ Προειδοποίηση", regulatory: "🚫 Κανονιστικές",
-                    mandatory: "🔵 Υποχρεωτικές", police: "👮 Αστυνομία", markings: "🛣 Σημάνσεις"
-                },
-                questionCount: { "10": "10 ερωτήσεις", "20": "20 ερωτήσεις", "50": "50 ερωτήσεις", "all": "Όλες οι πινακίδες" }
-            },
-            ru: {
-                title: "Дорожные знаки Кипра",
-                favOnly: "Только избранные знаки ⭐",
-                interfaceLang: "Язык интерфейса",
-                quizLang: "Язык теста",
-                helperLang: "Язык подсказок",
-                category: "Категория:",
-                questions: "Вопросов:",
-                startBtn: "Начать тренировку",
-                backToMenu: "В главное меню",
-                score: "Ваш счет",
-                mistakesTitle: "Разбор ошибок:",
-                showTranslate: "🔄 Показать перевод",
-                hideTranslate: "✅ Показать оригинал",
-                nextBtn: "Понятно, дальше",
-                hintLabel: "💡 Подсказка:",
-                noSignsInCat: "В этой категории пока нет знаков!",
-                progress: "Вопрос",
-                of: "из",
-                categories: {
-                    all: "Все знаки", warning: "⚠ Опасность", regulatory: "🚫 Запрет",
-                    mandatory: "🔵 Предписания", police: "👮 Полиция", markings: "🛣 Разметка"
-                },
-                questionCount: { "10": "10 вопросов", "20": "20 вопросов", "50": "50 вопросов", "all": "Весь список" }
-            }
-        };
-
-        // ==================== DEFAULT LANGUAGE SETTINGS ====================
-        let interfaceLang = 'uk';  // Default: Ukrainian
-        let quizLang = 'en';        // Default: English
-        let helperLang = 'uk';      // Default: Ukrainian
-        let showingTranslation = false;
-
-        // ==================== SIGNS DATABASE ====================
-
-
-        // ==================== STATE ====================
-        let current = 0, points = 0, testSet = [], results = [], selectedCategory = 'all';
-        let currentOptionsSigns = []; // Зберігаємо знаки для поточних варіантів відповідей
-
-        // ==================== INITIALIZATION ====================
-        window.addEventListener('DOMContentLoaded', () => { updateUI(); });
-
-        // Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('SW registered!', reg))
-                    .catch(err => console.log('SW error:', err));
-            });
-        }
-
-        // ==================== LANGUAGE FUNCTIONS ====================
-        function updateUILanguage() {
-            interfaceLang = document.getElementById('interface-lang').value;
-            updateUI();
-        }
-
-        function updateUI() {
-            const t = UI_TRANSLATIONS[interfaceLang];
-            document.getElementById('ui-title').textContent = t.title;
-            document.getElementById('ui-fav-only').textContent = t.favOnly;
-            document.getElementById('ui-interface-lang').textContent = t.interfaceLang;
-            document.getElementById('ui-quiz-lang').textContent = t.quizLang;
-            document.getElementById('ui-helper-lang').textContent = t.helperLang;
-            document.getElementById('ui-category').textContent = t.category;
-            document.getElementById('ui-questions').textContent = t.questions;
-            document.getElementById('ui-start-btn').textContent = t.startBtn;
-            document.getElementById('ui-back-btn').textContent = t.backToMenu;
-            document.getElementById('ui-score').textContent = t.score;
-            document.getElementById('translate-toggle').textContent = t.showTranslate;
-
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                const key = btn.dataset.key;
-                if (key && t.categories[key]) btn.textContent = t.categories[key];
-            });
-
-            const opts = document.getElementById('question-count').querySelectorAll('option');
-            opts[0].textContent = t.questionCount["10"];
-            opts[1].textContent = t.questionCount["20"];
-            opts[2].textContent = t.questionCount["50"];
-            opts[3].textContent = t.questionCount["all"];
-        }
-
-        function getDisplayName(sign, lang) { return sign.name[lang] || sign.name.en; }
-        function getDisplayHint(sign, lang) { return sign.hint[lang] || sign.hint.en; }
-
-        function toggleTranslate() {
-            showingTranslation = !showingTranslation;
-            const btn = document.getElementById('translate-toggle');
-            const t = UI_TRANSLATIONS[interfaceLang];
-            btn.textContent = showingTranslation ? t.hideTranslate : t.showTranslate;
-            btn.classList.toggle('active', showingTranslation);
-
-            // Оновлюємо тільки текст кнопок, а не генеруємо нові
-            if (testSet.length > 0 && current < testSet.length) {
-                updateOptionsText();
-            }
-        }
-
-        function updateOptionsText() {
-            const quizLangCurrent = getCurrentQuizLang();
-            const buttons = document.querySelectorAll('#options button');
-
-            // Оновлюємо текст кнопок на основі збережених знаків
-            currentOptionsSigns.forEach((sign, index) => {
-                if (index < buttons.length) {
-                    buttons[index].innerText = getDisplayName(sign, quizLangCurrent);
-                }
-            });
-        }
-
-        function getCurrentQuizLang() { return showingTranslation ? helperLang : quizLang; }
-
-        // ==================== GAME FUNCTIONS ====================
-        function setCat(cat, btn) {
-            selectedCategory = cat;
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-
-        function shuffle(array) {
-            const arr = [...array];
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr;
-        }
-
-        function start() {
-            quizLang = document.getElementById('quiz-lang').value;
-            helperLang = document.getElementById('helper-lang').value;
-            showingTranslation = false;
-
-            const isFavOnly = document.getElementById('fav-only').checked;
-            let base = isFavOnly ? allSigns.filter(s => s.fav) : allSigns;
-            base = selectedCategory === 'all' ? base : base.filter(s => s.cat === selectedCategory);
-
-            if (base.length === 0) {
-                alert(UI_TRANSLATIONS[interfaceLang].noSignsInCat);
-                return;
-            }
-
-            const countSelect = document.getElementById('question-count').value;
-            let requestedCount = countSelect === 'all' ? base.length : parseInt(countSelect);
-            let totalQuestions = Math.min(requestedCount, base.length);
-
-            testSet = shuffle(base).slice(0, totalQuestions);
-            current = 0; points = 0; results = [];
-
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-            render();
-        }
-
-        function render() {
-            const q = testSet[current];
-            const t = UI_TRANSLATIONS[interfaceLang];
-            const quizLangCurrent = getCurrentQuizLang();
-
-            document.getElementById('progress').innerText = `${t.progress} ${current + 1} ${t.of} ${testSet.length}`;
-            document.getElementById('q-img').src = "./img/" + q.file;
-
-            const oldHint = document.getElementById('active-hint');
-            if (oldHint) oldHint.remove();
-            const oldNext = document.getElementById('next-btn-manual');
-            if (oldNext) oldNext.remove();
-
-            // Генеруємо варіанти відповідей
-            let optionsSigns = [q]; // Правильна відповідь
-            let others = allSigns.filter(s => s.file !== q.file)
-                .sort(() => 0.5 - Math.random()).slice(0, 3);
-            optionsSigns = [...optionsSigns, ...others].sort(() => 0.5 - Math.random());
-
-            // Зберігаємо знаки для перемикання мов
-            currentOptionsSigns = optionsSigns;
-
-            const container = document.getElementById('options');
-            container.innerHTML = '';
-            optionsSigns.forEach(sign => {
-                const b = document.createElement('button');
-                b.innerText = getDisplayName(sign, quizLangCurrent);
-                b.onclick = () => check(sign, b);
-                container.appendChild(b);
-            });
-
-            const translateBtn = document.getElementById('translate-toggle');
-            translateBtn.textContent = showingTranslation ? t.hideTranslate : t.showTranslate;
-            if (showingTranslation) translateBtn.classList.add('active');
-        }
-
-        function check(ans, btn) {
-            const q = testSet[current];
-            const quizLangCurrent = getCurrentQuizLang();
-            const correct = getDisplayName(q, quizLangCurrent);
-            const btns = document.querySelectorAll('#options button');
-            btns.forEach(b => b.disabled = true);
-
-            // ans тепер знак, а не текст
-            const userAnswerText = getDisplayName(ans, quizLangCurrent);
-            const isOk = ans.file === q.file;
-            results.push({ q, isOk, userChoice: userAnswerText });
-
-            if (isOk) {
-                btn.classList.add('correct');
-                points++;
-                setTimeout(next, 1000);
-            } else {
-                btn.classList.add('wrong');
-                btns.forEach(b => {
-                    if (b.innerText === correct) b.classList.add('correct');
-                });
-
-                const t = UI_TRANSLATIONS[interfaceLang];
-
-                // Отримуємо підказку
-                const hintText = getDisplayHint(q, helperLang);
-
-                // Створюємо красиву підказку
-                const hintDiv = document.createElement('div');
-                hintDiv.id = 'active-hint';
-                hintDiv.className = 'hint-box';
-                hintDiv.innerHTML = `<strong>💡 ${t.hintLabel}</strong><br>${hintText || 'Підказка відсутня'}`;
-
-                // Вставляємо підказку відразу після кнопок
-                const optionsContainer = document.getElementById('options');
-                optionsContainer.appendChild(hintDiv);
-
-                // Кнопка "Далі" з'являється під підказкою
-                const nextBtn = document.createElement('button');
-                nextBtn.id = 'next-btn-manual';
-                nextBtn.innerText = t.nextBtn;
-                nextBtn.className = "main-btn";
-                nextBtn.style.marginTop = "10px";
-                nextBtn.onclick = next;
-                optionsContainer.appendChild(nextBtn);
-
-                // Прокручуємо до підказки
-                setTimeout(() => {
-                    hintDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 100);
-            }
-        }
-
-        function next() {
-            current++;
-            currentOptionsSigns = []; // Очищаємо старі опції
-            if (current < testSet.length) render();
-            else finish();
-        }
-
-        function finish() {
-            const t = UI_TRANSLATIONS[interfaceLang];
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
-            document.getElementById('score').innerText = points;
-            document.getElementById('total-q').innerText = testSet.length;
-            document.getElementById('result-title').innerHTML = `${t.score}: <span id="score">${points}</span> / <span id="total-q">${testSet.length}</span>`;
-
-            const log = document.getElementById('log');
-            log.innerHTML = `<h3 style="padding:10px">${t.mistakesTitle}</h3>`;
-
-            results.forEach(r => {
-                const row = document.createElement('div');
-                row.className = 'result-item';
-                row.innerHTML = `
-                    <img src="./img/${r.q.file}">
-                    <div style="text-align:left">
-                        <div style="color:${r.isOk ? '#27ae60' : '#e74c3c'}; font-weight:bold; font-size:13px;">
-                            ${r.isOk ? '✅ ' + t.categories.all : '❌ ' + t.categories.all}
-                        </div>
-                        <div style="font-size:13px; margin:4px 0;">${getDisplayName(r.q, quizLang)}</div>
-                        ${!r.isOk ? `<div style="color:#888; font-size:11px;">${t.categories.all}: ${r.userChoice}</div>` : ''}
-                        <div style="color:#856404; font-size:11px; font-style:italic; margin-top:4px;">${t.hintLabel} ${getDisplayHint(r.q, helperLang)}</div>
-                    </div>
-                `;
-                log.appendChild(row);
-            });
-        }
-    </script>
+    <script src="translations.js?v=1.4"></script>
+    <script src="signs-data.js?v=1.4"></script>
+    <script src="app.js?v=1.4"></script>
 </body>
 
 </html>
