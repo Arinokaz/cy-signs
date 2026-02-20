@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="manifest" href="manifest.json?v=3.1">
+    <link rel="canonical" href="https://arinokaz.github.io/cy-signs/">
+    <link rel="manifest" href="manifest.json?v=3.4">
     <link rel="icon" type="image/png" href="img/main-icon.png">
     <link rel="apple-touch-icon" href="img/main-icon.png">
     <meta name="mobile-web-app-capable" content="yes">
@@ -11,12 +12,137 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Cyprus Signs">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cyprus Driving Test</title>
-    <link rel="stylesheet" href="styles.css?v=3.1">
+    <meta name="description" content="Interactive quiz app for learning Cyprus road signs. 217 signs, 4 languages (EN/UK/EL/RU), offline PWA support. Free driving test preparation.">
+    <meta name="keywords" content="Cyprus road signs, driving test Cyprus, traffic signs quiz, PWA quiz, road signs learning, Cyprus driving license, δωρικα σημαδια Κυπρου, дорожні знаки Кіпру">
+    <meta name="author" content="Cyprus Driving Test">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://arinokaz.github.io/cy-signs/">
+    <meta property="og:title" content="Cyprus Road Signs Quiz — Learn 217 Signs">
+    <meta property="og:description" content="Free interactive quiz for Cyprus driving test. 217 road signs, 4 languages, offline mode.">
+    <meta property="og:image" content="https://arinokaz.github.io/cy-signs/img/main-icon.png">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:locale:alternate" content="uk_UA">
+    <meta property="og:locale:alternate" content="el_CY">
+    <meta property="og:locale:alternate" content="ru_RU">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://arinokaz.github.io/cy-signs/">
+    <meta name="twitter:title" content="Cyprus Road Signs Quiz">
+    <meta name="twitter:description" content="Free interactive quiz for Cyprus driving test. 217 signs, 4 languages.">
+    <meta name="twitter:image" content="https://arinokaz.github.io/cy-signs/img/main-icon.png">
+    
+    <title>Cyprus Road Signs Quiz — Free Driving Test Practice (217 Signs)</title>
+    <link rel="preload" href="styles.css?v=3.4" as="style">
+    <link rel="stylesheet" href="styles.css?v=3.4">
+    
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LearningProject",
+      "name": "Cyprus Road Signs Quiz",
+      "description": "Interactive quiz app for learning Cyprus road signs with 217 signs in 4 languages (English, Ukrainian, Greek, Russian)",
+      "url": "https://arinokaz.github.io/cy-signs",
+      "image": "https://arinokaz.github.io/cy-signs/img/main-icon.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Cyprus Driving Test"
+      },
+      "educationalLevel": "Beginner",
+      "inLanguage": ["en", "uk", "el", "ru"],
+      "learningResourceType": "Quiz",
+      "typicalAgeRange": "18+",
+      "timeRequired": "PT30M",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "hasPart": [
+        {
+          "@type": "LearningResource",
+          "name": "Warning Signs",
+          "educationalLevel": "Beginner"
+        },
+        {
+          "@type": "LearningResource",
+          "name": "Regulatory Signs",
+          "educationalLevel": "Beginner"
+        },
+        {
+          "@type": "LearningResource",
+          "name": "Mandatory Signs",
+          "educationalLevel": "Beginner"
+        },
+        {
+          "@type": "LearningResource",
+          "name": "Information Signs",
+          "educationalLevel": "Beginner"
+        },
+        {
+          "@type": "LearningResource",
+          "name": "Police Signals",
+          "educationalLevel": "Intermediate"
+        },
+        {
+          "@type": "LearningResource",
+          "name": "Road Markings",
+          "educationalLevel": "Intermediate"
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>
-    <div id="app">
+    <!-- SEO Content Block (for search engines) -->
+    <section id="seo-content" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+        <article>
+            <h1>Cyprus Road Signs Quiz — Free Driving Test Practice</h1>
+            <p>Master all 217 official Cyprus road signs with our interactive quiz app. Perfect for driving test preparation with quiz mode, flashcard mode, and complete reference guide.</p>
+            
+            <h2>Key Features</h2>
+            <ul>
+                <li>217 official Cyprus road signs</li>
+                <li>Quiz mode with 5, 10, 20, 50 questions or all signs</li>
+                <li>Flashcard mode for memorization</li>
+                <li>Complete reference guide with all signs</li>
+                <li>4 languages: English, Ukrainian, Greek, Russian</li>
+                <li>Offline support (Progressive Web App)</li>
+                <li>Works on mobile and desktop</li>
+                <li>Free to use</li>
+            </ul>
+            
+            <h2>Road Sign Categories</h2>
+            <p>Learn all 6 categories of Cyprus road signs:</p>
+            <ul>
+                <li><strong>Warning Signs</strong> — Red triangles warning of hazards ahead</li>
+                <li><strong>Regulatory Signs</strong> — Prohibitory and priority signs (STOP, Give Way)</li>
+                <li><strong>Mandatory Signs</strong> — Blue circles showing required actions</li>
+                <li><strong>Information Signs</strong> — Blue and white signs with route information</li>
+                <li><strong>Police Signals</strong> — Hand signals by traffic officers</li>
+                <li><strong>Road Markings</strong> — Yellow lines and road markings</li>
+            </ul>
+            
+            <h2>How to Use</h2>
+            <ol>
+                <li>Choose your language and quiz settings</li>
+                <li>Select a category or practice all signs</li>
+                <li>Take the quiz or use flashcard mode</li>
+                <li>Review mistakes with detailed explanations</li>
+                <li>Repeat until you master all 217 signs</li>
+            </ol>
+            
+            <h2>Perfect For</h2>
+            <p>This app is ideal for anyone preparing for the Cyprus driving theory test, learning road signs for the first time, or refreshing their knowledge before a driving exam.</p>
+        </article>
+    </section>
+
+    <main id="app" role="main">
         <div id="loading-spinner">
             <div class="spinner"></div>
             <p id="loading-text">Loading signs...</p>
@@ -99,8 +225,7 @@
             <h2 id="result-title"><span id="ui-score">Your Score</span>: <span id="score"></span> / <span
                     id="total-q"></span></h2>
             <div id="log" style="max-height: 450px; overflow-y: auto;"></div>
-            <button class="main-btn" id="ui-retry-btn" onclick="retry()" style="margin-top: 15px;">🔄 Retry
-                Test</button>
+            <button class="main-btn" id="ui-retry-btn" onclick="retry()" style="display: none;">🔄 Retry Test</button>
             <button class="main-btn" id="ui-back-btn" onclick="backToMenu()">Back to Menu</button>
         </div>
         <div id="reference-screen" class="hidden">
@@ -128,9 +253,10 @@
             </div>
         </div>
     </div>
-    <script src="translations.js?v=3.1"></script>
-    <script src="signs-data.js?v=3.1"></script>
-    <script src="app.js?v=3.3"></script>
+    <script src="translations.js?v=3.4"></script>
+    <script src="signs-data.js?v=3.4"></script>
+    <script src="app.js?v=3.4"></script>
+</main>
 </body>
 
 </html>

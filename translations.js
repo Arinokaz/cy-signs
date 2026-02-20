@@ -195,7 +195,9 @@ const UI_TRANSLATIONS = {
 };
 
 // ==================== DEFAULT LANGUAGE SETTINGS ====================
-let interfaceLang = 'en';  // Default: English
-let quizLang = 'en';        // Default: English
-let helperLang = 'en';      // Default: English
-let showingTranslation = false;
+// Note: Language settings are now managed in AppState (app.js)
+// These defaults are set in AppState.settings:
+//   interfaceLang: 'en'
+//   quizLang: 'en'
+//   helperLang: 'en'
+//   showingTranslation: false

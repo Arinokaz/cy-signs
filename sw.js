@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cyprus-signs-dynamic-v3.2';
+const CACHE_NAME = 'cyprus-signs-dynamic-v3.4';
 
 // При установке кешируем базовые файлы
 self.addEventListener('install', (event) => {
