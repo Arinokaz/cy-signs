@@ -816,21 +816,31 @@ async function shareApp() {
         url: window.location.href
     };
 
+    // Проверяем Web Share API
     if (navigator.share) {
         try {
             await navigator.share(shareData);
+            showToast('✅ Shared!');
         } catch (err) {
+            // Пользователь отменил или ошибка
             if (err.name !== 'AbortError') {
-                showToast('❌ Share failed');
+                fallbackShare(shareData);
             }
         }
     } else {
         // Fallback — copy to clipboard
-        try {
-            await navigator.clipboard.writeText(`${shareData.text}\n\n🔗 ${shareData.url}`);
-            showToast('📋 Link copied to clipboard!');
-        } catch (err) {
-            showToast('❌ Failed to copy');
-        }
+        fallbackShare(shareData);
     }
+}
+
+// Fallback функция для копирования в буфер
+function fallbackShare(shareData) {
+    navigator.clipboard.writeText(`${shareData.text}\n\n🔗 ${shareData.url}`)
+        .then(() => {
+            showToast('📋 Link copied to clipboard!');
+        })
+        .catch(() => {
+            // Если clipboard не работает — показываем alert
+            alert(`${shareData.text}\n\n${shareData.url}`);
+        });
 }

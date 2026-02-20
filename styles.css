@@ -86,10 +86,12 @@ body {
     border: none !important;
     border-radius: 12px;
     cursor: pointer;
-    display: flex;
+    display: flex !important;  /* ✅ Принудительно показываем кнопку */
     align-items: center;
     justify-content: center;
     transition: transform 0.2s ease;
+    visibility: visible !important;  /* ✅ Гарантия видимости */
+    opacity: 1 !important;  /* ✅ Гарантия непрозрачности */
 }
 
 .share-btn:hover {
