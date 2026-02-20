@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <!-- Main Page -->
   <url>
@@ -8,45 +7,6 @@
     <lastmod>2026-02-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    
-    <!-- Multilingual alternatives -->
-    <xhtml:link rel="alternate" hreflang="en" href="https://arinokaz.github.io/cy-signs/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://arinokaz.github.io/cy-signs/?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="el" href="https://arinokaz.github.io/cy-signs/?lang=el"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://arinokaz.github.io/cy-signs/?lang=ru"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://arinokaz.github.io/cy-signs/"/>
-  </url>
-  
-  <!-- Reference Page (if you add separate URL) -->
-  <url>
-    <loc>https://arinokaz.github.io/cy-signs/reference</loc>
-    <lastmod>2026-02-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Quiz Page (if you add separate URL) -->
-  <url>
-    <loc>https://arinokaz.github.io/cy-signs/quiz</loc>
-    <lastmod>2026-02-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Flashcard Page (if you add separate URL) -->
-  <url>
-    <loc>https://arinokaz.github.io/cy-signs/flashcards</loc>
-    <lastmod>2026-02-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- About Page (if you add it) -->
-  <url>
-    <loc>https://arinokaz.github.io/cy-signs/about</loc>
-    <lastmod>2026-02-20</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
   </url>
   
 </urlset>

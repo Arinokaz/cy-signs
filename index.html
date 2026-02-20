@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="canonical" href="https://arinokaz.github.io/cy-signs/">
-    <link rel="manifest" href="manifest.json?v=3.4">
+    <link rel="manifest" href="manifest.json?v=3.10">
     <link rel="icon" type="image/png" href="img/main-icon.png">
     <link rel="apple-touch-icon" href="img/main-icon.png">
     <meta name="mobile-web-app-capable" content="yes">
@@ -36,10 +36,11 @@
     <meta name="twitter:image" content="https://arinokaz.github.io/cy-signs/img/main-icon.png">
     
     <title>Cyprus Road Signs Quiz — Free Driving Test Practice (217 Signs)</title>
-    <link rel="preload" href="styles.css?v=3.4" as="style">
-    <link rel="stylesheet" href="styles.css?v=3.4">
-    
-    <!-- Structured Data (Schema.org) -->
+    <link rel="preload" href="styles.css?v=3.10" as="style">
+    <link rel="stylesheet" href="styles.css?v=3.10">
+    <script src="translations.js?v=3.10"></script>
+    <script src="signs-data.js?v=3.10"></script>
+    <script src="app.js?v=3.10"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -148,6 +149,13 @@
             <p id="loading-text">Loading signs...</p>
         </div>
         <div id="start-screen" class="hidden">
+            <!-- Header bar for action icons -->
+            <div class="start-actions">
+                <button class="share-btn" onclick="shareApp()" aria-label="Share this app" title="Share">
+                    <img src="img/share.svg" alt="Share" width="24" height="24">
+                </button>
+            </div>
+            
             <h1 id="ui-title">Cyprus Road Signs</h1>
             <div style="margin: 20px 0; display: flex; align-items: center; justify-content: center; gap: 10px;">
                 <label class="switch">
@@ -253,9 +261,6 @@
             </div>
         </div>
     </div>
-    <script src="translations.js?v=3.4"></script>
-    <script src="signs-data.js?v=3.4"></script>
-    <script src="app.js?v=3.4"></script>
 </main>
 </body>
 

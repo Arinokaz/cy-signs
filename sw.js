@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cyprus-signs-dynamic-v3.4';
+const CACHE_NAME = 'cyprus-signs-dynamic-v3.10';
 
 // При установке кешируем базовые файлы
 self.addEventListener('install', (event) => {
@@ -16,14 +16,12 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     })
   );
-  // Сообщаем клиентам, что SW готов
   self.clients.claim();
 });
 

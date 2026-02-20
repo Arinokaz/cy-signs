@@ -51,12 +51,25 @@ window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('loading-spinner').classList.add('hidden');
             document.getElementById('start-screen').classList.remove('hidden');
         } else {
-            document.getElementById('loading-text').innerHTML = `
-                <span style="color: var(--danger)">Error loading signs.</span><br>
-                <button onclick="location.reload()" class="main-btn" style="margin-top: 15px;">
-                    🔄 Refresh Page
-                </button>
-            `;
+            const loadingText = document.getElementById('loading-text');
+            if (loadingText) {
+                loadingText.innerHTML = '';
+                
+                const errorSpan = document.createElement('span');
+                errorSpan.style.color = 'var(--danger)';
+                errorSpan.textContent = 'Error loading signs.';
+                loadingText.appendChild(errorSpan);
+                
+                const lineBreak = document.createElement('br');
+                loadingText.appendChild(lineBreak);
+                
+                const refreshBtn = document.createElement('button');
+                refreshBtn.className = 'main-btn';
+                refreshBtn.style.marginTop = '15px';
+                refreshBtn.textContent = '🔄 Refresh Page';
+                refreshBtn.onclick = () => location.reload();
+                loadingText.appendChild(refreshBtn);
+            }
         }
     }, 500);
 });
@@ -65,6 +78,21 @@ window.addEventListener('DOMContentLoaded', () => {
 function detectAndSetBrowserLanguage() {
     const supportedLangs = ['en', 'uk', 'el', 'ru'];
     
+    // 1. Сначала проверяем URL параметр ?lang=
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    
+    if (urlLang && supportedLangs.includes(urlLang)) {
+        AppState.settings.interfaceLang = urlLang;
+        const interfaceLangSelect = document.getElementById('interface-lang');
+        if (interfaceLangSelect) {
+            interfaceLangSelect.value = urlLang;
+        }
+        document.documentElement.lang = urlLang;
+        return;
+    }
+    
+    // 2. Если нет в URL — проверяем язык браузера
     const browserLang = navigator.language || navigator.userLanguage;
     const primaryLang = browserLang.split('-')[0].toLowerCase();
     
@@ -78,6 +106,7 @@ function detectAndSetBrowserLanguage() {
         
         document.documentElement.lang = primaryLang;
     }
+    // 3. Если не поддерживается — остаётся English (по умолчанию в AppState)
 }
 
 // ==================== SERVICE WORKER ====================
@@ -86,11 +115,8 @@ function setupServiceWorker() {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js')
                 .then(reg => {
-                    console.log('SW registered!', reg);
-
                     reg.addEventListener('updatefound', () => {
                         const newWorker = reg.installing;
-                        console.log('SW update found');
 
                         newWorker.addEventListener('statechange', () => {
                             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
@@ -101,7 +127,7 @@ function setupServiceWorker() {
                         });
                     });
                 })
-                .catch(err => console.log('SW error:', err));
+                .catch(() => {});
         });
     }
 }
@@ -716,7 +742,11 @@ function showFlashcardAnswer() {
 
     const hintContainer = document.getElementById('flashcard-hint');
     if (hintContainer) {
-        hintContainer.innerHTML = '';
+        // ✅ XSS FIXED: Using DOM methods instead of innerHTML
+        while (hintContainer.firstChild) {
+            hintContainer.removeChild(hintContainer.firstChild);
+        }
+        
         const hintTitle = document.createElement('strong');
         hintTitle.textContent = `💡 ${t.hintLabel}`;
         hintContainer.appendChild(hintTitle);
@@ -771,4 +801,36 @@ function showToast(message) {
     document.body.appendChild(toast);
 
     setTimeout(() => toast.remove(), 2000);
+}
+
+// ==================== SHARE FUNCTIONALITY ====================
+async function shareApp() {
+    const shareData = {
+        title: 'Cyprus Road Signs Quiz — Free Driving Test Practice',
+        text: '🚗 Learn 217 Cyprus road signs for free!\n\n' +
+              '✅ Quiz Mode\n' +
+              '✅ Flashcard Mode\n' +
+              '✅ 4 languages (EN/UK/EL/RU)\n' +
+              '✅ Offline support\n\n' +
+              'Try it now!',
+        url: window.location.href
+    };
+
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+        } catch (err) {
+            if (err.name !== 'AbortError') {
+                showToast('❌ Share failed');
+            }
+        }
+    } else {
+        // Fallback — copy to clipboard
+        try {
+            await navigator.clipboard.writeText(`${shareData.text}\n\n🔗 ${shareData.url}`);
+            showToast('📋 Link copied to clipboard!');
+        } catch (err) {
+            showToast('❌ Failed to copy');
+        }
+    }
 }
