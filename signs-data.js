@@ -116,7 +116,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_cul_de_sac.svg",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -133,7 +133,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_cul_de_sac_ahead_left.svg",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -150,7 +150,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_cul_de_sac_ahead_right.svg",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -252,7 +252,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_end_maximum_speed.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -286,7 +286,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_end_no_parking_zone.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -303,7 +303,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_end_road_for_motorvehicles.svg",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -422,7 +422,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_mandatory_go_or_left.svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -439,7 +439,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_mandatory_go_or_right.svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -456,7 +456,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_mandatory_go_streight.svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -473,7 +473,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_mandatory_left_or_right.svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -592,7 +592,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_maximum_speed.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -898,7 +898,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_no_park_impares.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -915,7 +915,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_no_park_pares.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -932,7 +932,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_no_parking_zone.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -949,7 +949,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_no_water_heavy_vehicles.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -983,7 +983,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_one_way_lateral_road.svg",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -1000,7 +1000,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_one_way_road.svg",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -1017,7 +1017,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_parking.svg",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -1034,7 +1034,7 @@ const allSigns = [
         },
         file: "Vienna_Convention_road_sign_E17a-EA.svg.png",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -1051,7 +1051,7 @@ const allSigns = [
         },
         file: "120px-Vienna_Convention_road_sign_E17b-EA.svg.png",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -1068,7 +1068,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_pedonal_crossing.svg",
         cat: "warning",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -1085,7 +1085,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_police.svg",
         cat: "police",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -1136,7 +1136,7 @@ const allSigns = [
         },
         file: "Cyprus_road_sign_road_for_motorvehicles.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -1323,7 +1323,7 @@ const allSigns = [
         },
         file: "Cyprus_warning_road_sign_distance_to_level_crossing.svg",
         cat: "warning",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -1480,6 +1480,40 @@ const allSigns = [
     },
     {
         name: {
+            en: "Single yellow line",
+            uk: "Одна жовта лінія",
+            el: "Μονή κίτρινη γραμμή",
+            ru: "Одна желтая линия"
+        },
+        hint: {
+            en: "No waiting or parking during specific times (usually daytime). Check nearby signs for exact hours of operation.",
+            uk: "Заборона паркування та очікування у певний час. Перевірте найближчі знаки, щоб дізнатися графік дії обмеження.",
+            el: "Απαγορεύεται η αναμονή ή η στάθμευση σε συγκεκριμένες ώρες. Ελέγξτε τις κοντινές πινακίδες για το ωράριο ισχύος.",
+            ru: "Запрет парковки и ожидания в определенное время. Часы действия обычно указаны на табличке рядом."
+        },
+        file: "Single_yellow_line.png",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
+            en: "Broken white line",
+            uk: "Переривчаста біла лінія",
+            el: "Διακεκομμένη λευκή γραμμή",
+            ru: "Прерывистая белая линия"
+        },
+        hint: {
+            en: "Separates lanes or marks the center of the road. You may cross it for overtaking or lane changes if it is safe to do so.",
+            uk: "Розділяє смуги руху або позначає центр дороги. Її можна перетинати для обгону або зміни смуги, якщо це безпечно.",
+            el: "Διαχωρίζει τις λωρίδες κυκλοφορίας ή οριοθετεί το κέντρο του δρόμου. Μπορείτε να τη διασχίσετε για προσπέραση αν είναι ασφαλές.",
+            ru: "Разделяет полосы движения. Её можно пересекать для обгона или смены полосы, если это не создает помех другим водителям."
+        },
+        file: "Broken_side_line.png",
+        cat: "markings",
+        fav: true
+    },
+    {
+        name: {
             en: "Arrows depicting lane direction on roundabouts",
             uk: "Стрілки напрямку руху по смугах на кільцевих розв'язках",
             el: "Βέλη κατεύθυνσης λωρίδων σε κυκλικούς κόμβους",
@@ -1582,7 +1616,7 @@ const allSigns = [
     },
     {
         name: {
-            en: "Double white lines: no parking or overtaking",
+            en: "Double white lines",
             uk: "Подвійна суцільна біла лінія",
             el: "Διπλή συνεχή λευκή γραμμή",
             ru: "Двойная сплошная белая линия"
@@ -1599,7 +1633,7 @@ const allSigns = [
     },
     {
         name: {
-            en: "Single white line: no parking or overtaking",
+            en: "Single white line",
             uk: "Одинарна суцільна біла лінія",
             el: "Μονή συνεχή λευκή γραμμή",
             ru: "Одинарная сплошная белая линия"
@@ -2105,7 +2139,7 @@ const allSigns = [
         },
         file: "Traffic_Sign_GR_-_KOK_2009_-_P-61.svg",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -2122,7 +2156,7 @@ const allSigns = [
         },
         file: "Traffic_Sign_GR_-_KOK_2009_-_P-62.svg",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -2139,7 +2173,7 @@ const allSigns = [
         },
         file: "Traffic_Sign_GR_-_KOK_2009_-_P-63.svg",
         cat: "information",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -2704,6 +2738,23 @@ const allSigns = [
     },
     {
         name: {
+            en: "Ditch",
+            uk: "Вибоїна або канава",
+            el: "Λακκούβα ή εγκάρσιο αυλάκι",
+            ru: "Выбоина или канава"
+        },
+        hint: {
+            en: "Warns of a deep pothole or a transverse ditch/dip in the road. Slow down significantly to prevent vehicle damage or loss of control.",
+            uk: "Попереджає про глибоку вибоїну або поперечну канаву на дорозі. Необхідно суттєво знизити швидкість, щоб не пошкодити авто.",
+            el: "Προειδοποιεί για βαθιά λακκούβα ή εγκάρσιο αυλάκι στο οδόστρωμα. Μειώστε την ταχύτητα για να αποφύγετε ζημιές στο όχημα.",
+            ru: "Предупреждает о наличии глубокой выбоины или поперечной канавы на проезжей части. Необходимо снизить скорость, чтобы избежать повреждения автомобиля."
+        },
+        file: "ditch.png",
+        cat: "warning",
+        fav: true
+    },
+    {
+        name: {
             en: "Uneven road",
             uk: "Нерівна дорога",
             el: "Ανώμαλο οδόστρωμα",
@@ -2921,7 +2972,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_606_(left).svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -2938,7 +2989,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_606_(right).svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -2955,7 +3006,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_609_(left).svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -2972,7 +3023,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_609_(right).svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -2989,7 +3040,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_610_(left).svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3006,7 +3057,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_610_(right).svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3023,7 +3074,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_611.svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3040,7 +3091,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_611.1.svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3210,7 +3261,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_622.8.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3244,7 +3295,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_636.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3261,7 +3312,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_642.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3278,7 +3329,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_671.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3295,7 +3346,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_672.svg",
         cat: "mandatory",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3312,7 +3363,24 @@ const allSigns = [
         },
         file: "UK_traffic_sign_673.svg",
         cat: "mandatory",
-        fav: false
+        fav: true
+    },
+    {
+        name: {
+            en: "Recommended speed",
+            uk: "Рекомендована швидкість",
+            el: "Συνιστώμενη ταχύτητα",
+            ru: "Рекомендуемая скорость"
+        },
+        hint: {
+            en: "Suggests a safe speed for the current road section. It is not a legal limit, but advised for safety in good conditions.",
+            uk: "Радить швидкість для безпечного руху. Не є обов'язковим обмеженням, але рекомендується для вашої безпеки.",
+            el: "Προτείνει μια ασφαλή ταχύτητα για το συγκεκριμένο τμήμα του δρόμου. Δεν είναι υποχρεωτικό όριο, αλλά συνιστάται για την ασφάλεια.",
+            ru: "Указывает скорость, с которой рекомендуется двигаться. Это не запрет ехать быстрее, а совет для вашей безопасности."
+        },
+        file: "Recommended_speed_limit.png",
+        cat: "information",
+        fav: true
     },
     {
         name: {
@@ -3380,7 +3448,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_770.svg",
         cat: "warning",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3397,7 +3465,7 @@ const allSigns = [
         },
         file: "UK_traffic_sign_771.svg",
         cat: "warning",
-        fav: false
+        fav: true
     },
     {
         name: {
@@ -3754,7 +3822,7 @@ const allSigns = [
         },
         file: "Vienna_Convention_road_sign_H7-V1-1.svg",
         cat: "regulatory",
-        fav: false
+        fav: true
     },
     {
         name: {
