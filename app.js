@@ -207,7 +207,9 @@ function updateUI() {
         'ui-back-btn': t.backToMenu,
         'ui-retry-btn': t.retryBtn,
         'ui-reference-btn': t.referenceBtn,
-        'ui-feedback-title': t.feedbackTitle
+        'ui-feedback-title': t.feedbackTitle,
+        'ui-reference-back-btn': t.backToMenu,
+        'ui-feedback-back-btn': t.backToMenu
     };
 
     for (const [id, text] of Object.entries(elements)) {

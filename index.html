@@ -55,11 +55,11 @@
     <meta name="twitter:image" content="https://cy-signs.com/img/main-icon.png">
 
     <title>Cyprus Road Signs Quiz — Free Driving Test Practice (217 Signs)</title>
-    <link rel="preload" href="styles.css?v=3.19" as="style">
-    <link rel="stylesheet" href="styles.css?v=3.19">
-    <script src="translations.js?v=3.19"></script>
-    <script src="signs-data.js?v=3.19"></script>
-    <script src="app.js?v=3.19"></script>
+    <link rel="preload" href="styles.css?v=3.20" as="style">
+    <link rel="stylesheet" href="styles.css?v=3.20">
+    <script src="translations.js?v=3.20"></script>
+    <script src="signs-data.js?v=3.20"></script>
+    <script src="app.js?v=3.20"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -321,7 +321,7 @@
                 style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 15px;">
             <div id="reference-list" style="max-height: 60vh; overflow-y: auto; padding: 10px 0; margin-bottom: 15px;">
             </div>
-            <button class="main-btn" onclick="backToMenu()">← Back to Menu</button>
+            <button class="main-btn" onclick="backToMenu()">← <span id="ui-reference-back-btn">Back to Menu</span></button>
         </div>
         <div id="flashcard-screen" class="hidden">
             <div class="progress-container">
@@ -397,7 +397,7 @@
 
             <button class="main-btn" onclick="backToMenu()"
                 style="background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%); margin-top: 10px;">
-                ← Back to Menu
+                ← <span id="ui-feedback-back-btn">Back to Menu</span>
             </button>
         </div>
 
