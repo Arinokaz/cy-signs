@@ -147,8 +147,31 @@ function showScreen(screenId) {
 function updateUILanguage() {
     const interfaceLangSelect = document.getElementById('interface-lang');
     if (interfaceLangSelect) {
-        AppState.settings.interfaceLang = interfaceLangSelect.value;
-        document.documentElement.lang = AppState.settings.interfaceLang;
+        const lang = interfaceLangSelect.value;
+        AppState.settings.interfaceLang = lang;
+        document.documentElement.lang = lang;
+        
+        // Динамічний Title для SEO
+        const titles = {
+            en: 'Cyprus Road Signs Quiz — Free Driving Test Practice (217 Signs)',
+            uk: 'Дорожні знаки Кіпру — Безкоштовний онлайн тест (217 знаків)',
+            el: 'Οδικές Πινακίδες Κύπρου — Δωρεάν Θεωρητικό Τεστ (217 Σήματα)',
+            ru: 'Дорожные знаки Кипра — Бесплатный онлайн тест (217 знаков)'
+        };
+        document.title = titles[lang] || titles.en;
+        
+        // Динамічний meta description
+        const descriptions = {
+            en: 'Interactive quiz app for learning Cyprus road signs. 217 signs, 4 languages, offline PWA support. Free driving test preparation.',
+            uk: 'Інтерактивний додаток для вивчення дорожніх знаків Кіпру. 217 знаків, 4 мови, офлайн режим. Безкоштовна підготовка до екзамену.',
+            el: 'Διαδραστική εφαρμογή για την εκμάθηση οδικών πινακίδων Κύπρου. 217 σήματα, 4 γλώσσες, υποστήριξη εκτός σύνδεσης.',
+            ru: 'Интерактивное приложение для изучения дорожных знаков Кипра. 217 знаков, 4 языка, офлайн режим. Бесплатная подготовка к экзамену.'
+        };
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+            metaDesc.setAttribute('content', descriptions[lang] || descriptions.en);
+        }
+        
         updateUI();
     }
 }
@@ -335,6 +358,10 @@ function start() {
     AppState.timing.questionTimes = [];
     AppState.timing.totalStartTime = Date.now();
 
+    // Ховаємо SEO футер під час тесту
+    const seoFooter = document.getElementById('seo-footer');
+    if (seoFooter) seoFooter.style.display = 'none';
+
     showScreen('quiz-screen');
     render();
 }
@@ -491,6 +518,10 @@ function backToMenu() {
 
     showScreen('start-screen');
 
+    // Показуємо SEO футер на головному екрані
+    const seoFooter = document.getElementById('seo-footer');
+    if (seoFooter) seoFooter.style.display = 'block';
+
     document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
     const defaultCat = document.querySelector('.category-btn[data-key="all"]');
     if (defaultCat) defaultCat.classList.add('active');
@@ -606,13 +637,29 @@ function showReference() {
     const referenceTitle = document.querySelector('#reference-screen h2');
     if (referenceTitle) referenceTitle.textContent = `📖 ${t.referenceTitle}`;
 
+    // Очищуємо поле пошуку при відкритті Reference Mode
+    const searchInput = document.getElementById('reference-search');
+    if (searchInput) {
+        searchInput.value = '';
+    }
+
+    // Отримуємо фільтри з головної сторінки (як для Quiz/Flashcard)
+    const isFavOnly = document.getElementById('fav-only')?.checked || false;
+    const selectedCat = AppState.quiz.selectedCategory || 'all';
+
+    // Фільтруємо знаки за тими ж правилами що й для тестів
+    let filteredSigns = isFavOnly ? allSigns.filter(s => s.fav) : allSigns;
+    if (selectedCat !== 'all') {
+        filteredSigns = filteredSigns.filter(s => s.cat === selectedCat);
+    }
+
     const list = document.getElementById('reference-list');
     if (list) {
         while (list.firstChild) {
             list.removeChild(list.firstChild);
         }
 
-        allSigns.forEach(sign => {
+        filteredSigns.forEach(sign => {
             const item = document.createElement('div');
             item.className = 'reference-item';
             item.setAttribute('data-name', getDisplayName(sign, AppState.settings.interfaceLang));
@@ -649,7 +696,17 @@ function showReference() {
             item.appendChild(contentDiv);
             list.appendChild(item);
         });
+
+        // Оновлюємо заголовок з кількістю знаків
+        const referenceTitleEl = document.querySelector('#reference-screen h2');
+        if (referenceTitleEl) {
+            referenceTitleEl.textContent = `📖 ${t.referenceTitle} (${filteredSigns.length})`;
+        }
     }
+
+    // Ховаємо SEO футер під час перегляду довідника
+    const seoFooter = document.getElementById('seo-footer');
+    if (seoFooter) seoFooter.style.display = 'none';
 
     showScreen('reference-screen');
 }
@@ -711,6 +768,10 @@ function startFlashcard() {
     AppState.quiz.results = [];
     AppState.timing.questionTimes = [];
     AppState.timing.totalStartTime = Date.now();
+
+    // Ховаємо SEO футер під час тесту
+    const seoFooter = document.getElementById('seo-footer');
+    if (seoFooter) seoFooter.style.display = 'none';
 
     showScreen('flashcard-screen');
     renderFlashcard();
