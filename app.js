@@ -296,6 +296,13 @@ function start() {
         return;
     }
 
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'mode_select', {
+            event_category: 'training',
+            event_label: 'Quiz Mode'
+        });
+    }
+
     const quizLangSelect = document.getElementById('quiz-lang');
     const helperLangSelect = document.getElementById('helper-lang');
     const favOnlyCheckbox = document.getElementById('fav-only');
@@ -587,6 +594,13 @@ function showReference() {
         return;
     }
 
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'mode_select', {
+            event_category: 'training',
+            event_label: 'Reference Mode'
+        });
+    }
+
     const t = UI_TRANSLATIONS[AppState.settings.interfaceLang];
 
     const referenceTitle = document.querySelector('#reference-screen h2');
@@ -657,6 +671,13 @@ function startFlashcard() {
     if (!allSigns || allSigns.length === 0) {
         alert('Error: Signs database not loaded. Please refresh the page.');
         return;
+    }
+
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'mode_select', {
+            event_category: 'training',
+            event_label: 'Flashcard Mode'
+        });
     }
 
     AppState.flashcard.mode = true;
