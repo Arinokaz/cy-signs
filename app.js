@@ -134,7 +134,7 @@ function setupServiceWorker() {
 
 // ==================== SCREEN MANAGEMENT ====================
 function showScreen(screenId) {
-    const screens = ['start-screen', 'quiz-screen', 'result-screen', 'flashcard-screen', 'reference-screen'];
+    const screens = ['start-screen', 'quiz-screen', 'result-screen', 'flashcard-screen', 'reference-screen', 'feedback-screen'];
     screens.forEach(id => {
         const screen = document.getElementById(id);
         if (screen) {
@@ -192,7 +192,7 @@ function saveHelperLang() {
 
 function updateUI() {
     const t = UI_TRANSLATIONS[AppState.settings.interfaceLang];
-    
+
     // Безопасное обновление UI элементов
     const elements = {
         'ui-title': t.title,
@@ -206,14 +206,34 @@ function updateUI() {
         'ui-flashcard-btn': t.flashcardBtn,
         'ui-back-btn': t.backToMenu,
         'ui-retry-btn': t.retryBtn,
-        'ui-reference-btn': t.referenceBtn
+        'ui-reference-btn': t.referenceBtn,
+        'ui-feedback-title': t.feedbackTitle
     };
-    
+
     for (const [id, text] of Object.entries(elements)) {
         const el = document.getElementById(id);
         if (el) el.textContent = text;
     }
+
+    // Обновляем label'ы для формы feedback
+    const feedbackNameLabel = document.querySelector('label[for="feedback-name"]');
+    if (feedbackNameLabel) feedbackNameLabel.textContent = `${t.feedbackName}`;
     
+    const feedbackEmailLabel = document.querySelector('label[for="feedback-email"]');
+    if (feedbackEmailLabel) feedbackEmailLabel.textContent = `${t.feedbackEmail}`;
+    
+    const feedbackRatingLabel = document.querySelector('label[for="feedback-rating"]');
+    if (feedbackRatingLabel) feedbackRatingLabel.textContent = `${t.feedbackRating}`;
+    
+    const feedbackMessageLabel = document.querySelector('label[for="feedback-message"]');
+    if (feedbackMessageLabel) feedbackMessageLabel.textContent = `${t.feedbackMessage}`;
+    
+    const feedbackTextarea = document.getElementById('feedback-message');
+    if (feedbackTextarea) feedbackTextarea.placeholder = t.feedbackPlaceholder;
+    
+    const feedbackSubmitBtn = document.getElementById('feedback-submit-btn');
+    if (feedbackSubmitBtn) feedbackSubmitBtn.textContent = t.feedbackSend;
+
     // ui-score на экране результатов — может быть null
     const uiScore = document.getElementById('ui-score');
     if (uiScore) {
@@ -918,4 +938,99 @@ function fallbackShare(shareData) {
         .catch(() => {
             alert(`${shareData.text}\n\n${shareData.url}`);
         });
+}
+
+// ==================== FEEDBACK FUNCTIONALITY ====================
+let currentRating = 0;
+
+function openFeedbackScreen() {
+    showScreen('feedback-screen');
+    currentRating = 0;
+    resetRating();
+    const form = document.getElementById('feedback-form');
+    if (form) form.reset();
+}
+
+function setRating(rating) {
+    currentRating = rating;
+    const stars = document.querySelectorAll('#feedback-rating span');
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add('active');
+            star.textContent = '★';
+        } else {
+            star.classList.remove('active');
+            star.textContent = '☆';
+        }
+    });
+}
+
+function resetRating() {
+    const stars = document.querySelectorAll('#feedback-rating span');
+    stars.forEach(star => {
+        star.classList.remove('active');
+        star.textContent = '☆';
+    });
+}
+
+async function submitFeedback(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('feedback-name').value.trim();
+    const email = document.getElementById('feedback-email').value.trim();
+    const message = document.getElementById('feedback-message').value.trim();
+    
+    if (!message) {
+        showToast('⚠️ Please enter a message');
+        return;
+    }
+    
+    const submitBtn = document.getElementById('feedback-submit-btn');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = '⏳ Sending...';
+    
+    const feedbackData = {
+        name: name || 'Anonymous',
+        email: email || 'Not provided',
+        rating: currentRating || 'Not rated',
+        message: message,
+        url: window.location.href,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent
+    };
+    
+    const formattedMessage = `📝 Feedback from ${feedbackData.url}\n\n` +
+                             `🕒 Time: ${feedbackData.timestamp}\n` +
+                             `👤 Name: ${feedbackData.name}\n` +
+                             `📧 Email: ${feedbackData.email}\n` +
+                             `⭐ Rating: ${feedbackData.rating}/5\n\n` +
+                             `💬 Message:\n${feedbackData.message}`;
+    
+    try {
+        const response = await fetch('https://us-central1-cy-signs-online.cloudfunctions.net/sendFeedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: formattedMessage })
+        });
+        
+        if (response.ok) {
+            showToast('✅ Thank you for your feedback!');
+            document.getElementById('feedback-form').reset();
+            resetRating();
+            setTimeout(() => backToMenu(), 1000);
+        } else {
+            throw new Error('Server error');
+        }
+    } catch (error) {
+        resetRating();
+        setTimeout(() => backToMenu(), 1000);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+    }
+}
+
+async function sendFeedback() {
+    openFeedbackScreen();
 }

@@ -46,7 +46,15 @@ const UI_TRANSLATIONS = {
             "20": "20 запитань",
             "50": "50 запитань",
             "all": "Весь список"
-        }
+        },
+        feedbackTitle: "💡 Зворотний зв'язок",
+        feedbackName: "👤 Ім'я (необов'язково)",
+        feedbackEmail: "📧 Email (необов'язково)",
+        feedbackRating: "⭐ Оцінка",
+        feedbackMessage: "💬 Повідомлення",
+        feedbackPlaceholder: "Знайшли баг? Маєте пропозицію? Напишіть нам!",
+        feedbackSend: "📤 Надіслати",
+        feedbackBack: "← До головного меню"
     },
     en: {
         title: "Cyprus Road Signs",
@@ -94,7 +102,15 @@ const UI_TRANSLATIONS = {
             "20": "20 questions",
             "50": "50 questions",
             "all": "All signs"
-        }
+        },
+        feedbackTitle: "💡 Feedback",
+        feedbackName: "👤 Name (optional)",
+        feedbackEmail: "📧 Email (optional)",
+        feedbackRating: "⭐ Rating",
+        feedbackMessage: "💬 Message",
+        feedbackPlaceholder: "Found a bug? Have a suggestion? Let us know!",
+        feedbackSend: "📤 Send",
+        feedbackBack: "← Back to Menu"
     },
     el: {
         title: "Οδικές Πινακίδες Κύπρου",
@@ -142,7 +158,15 @@ const UI_TRANSLATIONS = {
             "20": "20 ερωτήσεις",
             "50": "50 ερωτήσεις",
             "all": "Όλες οι πινακίδες"
-        }
+        },
+        feedbackTitle: "💡 Σχόλια",
+        feedbackName: "👤 Όνομα (προαιρετικό)",
+        feedbackEmail: "📧 Email (προαιρετικό)",
+        feedbackRating: "⭐ Βαθμολογία",
+        feedbackMessage: "💬 Μήνυμα",
+        feedbackPlaceholder: "Βρήκατε κάποιο σφάλμα; Έχετε κάποια πρόταση; Ενημερώστε μας!",
+        feedbackSend: "📤 Αποστολή",
+        feedbackBack: "← Πίσω στο Μενού"
     },
     ru: {
         title: "Дорожные знаки Кипра",
@@ -190,7 +214,15 @@ const UI_TRANSLATIONS = {
             "20": "20 вопросов",
             "50": "50 вопросов",
             "all": "Весь список"
-        }
+        },
+        feedbackTitle: "💡 Обратная связь",
+        feedbackName: "👤 Имя (необязательно)",
+        feedbackEmail: "📧 Email (необязательно)",
+        feedbackRating: "⭐ Оценка",
+        feedbackMessage: "💬 Сообщение",
+        feedbackPlaceholder: "Нашли баг? Есть предложение? Напишите нам!",
+        feedbackSend: "📤 Отправить",
+        feedbackBack: "← В главное меню"
     }
 };
 
