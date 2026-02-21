@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cyprus-signs-dynamic-v3.18';
+const CACHE_NAME = 'cyprus-signs-dynamic-v3.19';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -23,6 +23,19 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  const url = event.request.url;
+  const method = event.request.method;
+
+  if (method !== 'GET') {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
+  if (url.includes('cloudfunctions.net') || url.includes('firebaseio.com') || url.includes('firestore.googleapis.com')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) return cachedResponse;
@@ -39,6 +52,5 @@ self.addEventListener('fetch', (event) => {
       });
     })
   );
-
 });
 
