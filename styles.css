@@ -82,26 +82,26 @@ body {
     width: 44px;
     height: 44px;
     padding: 10px;
-    background: linear-gradient(135deg, #9b59b6 0%, #2ecc71 100%) !important;  /* ✅ Фиксированный градиент */
+    background: linear-gradient(135deg, #9b59b6 0%, #2ecc71 100%) !important;
     border: none !important;
     border-radius: 12px;
     cursor: pointer;
-    display: flex !important;  /* ✅ Принудительно показываем кнопку */
+    display: flex !important;
     align-items: center;
     justify-content: center;
     transition: transform 0.2s ease;
-    visibility: visible !important;  /* ✅ Гарантия видимости */
-    opacity: 1 !important;  /* ✅ Гарантия непрозрачности */
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .share-btn:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, #9b59b6 0%, #2ecc71 100%) !important;  /* ✅ Запрет смены цвета */
+    background: linear-gradient(135deg, #9b59b6 0%, #2ecc71 100%) !important;
 }
 
 .share-btn:active {
     transform: translateY(0);
-    background: linear-gradient(135deg, #9b59b6 0%, #2ecc71 100%) !important;  /* ✅ Запрет смены цвета */
+    background: linear-gradient(135deg, #9b59b6 0%, #2ecc71 100%) !important;
 }
 
 .share-btn img {
@@ -132,7 +132,6 @@ body {
     font-weight: 500;
 }
 
-/* Mobile share button - квадратная версия */
 @media (max-width: 480px) {
     .start-actions {
         margin-bottom: 8px;
@@ -579,7 +578,7 @@ input:checked + .slider:before {
         height: 44px !important;
         padding: 10px !important;
         flex-shrink: 0;
-        min-height: 44px !important;  /* ✅ Перебиваем min-height: 50px */
+        min-height: 44px !important;
     }
     
     .category-btn {

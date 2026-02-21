@@ -538,7 +538,6 @@ function finish() {
         const timeColor = getTimeColor(r.time);
         const statusText = r.isOk ? `✅ ${t.correct}` : `❌ ${t.wrong}`;
 
-        // ✅ XSS FIXED: Using createElement and textContent
         const img = document.createElement('img');
         img.src = `./img/${r.q.file}`;
         img.alt = 'Sign';
@@ -742,7 +741,6 @@ function showFlashcardAnswer() {
 
     const hintContainer = document.getElementById('flashcard-hint');
     if (hintContainer) {
-        // ✅ XSS FIXED: Using DOM methods instead of innerHTML
         while (hintContainer.firstChild) {
             hintContainer.removeChild(hintContainer.firstChild);
         }
@@ -816,31 +814,26 @@ async function shareApp() {
         url: window.location.href
     };
 
-    // Проверяем Web Share API
     if (navigator.share) {
         try {
             await navigator.share(shareData);
             showToast('✅ Shared!');
         } catch (err) {
-            // Пользователь отменил или ошибка
             if (err.name !== 'AbortError') {
                 fallbackShare(shareData);
             }
         }
     } else {
-        // Fallback — copy to clipboard
         fallbackShare(shareData);
     }
 }
 
-// Fallback функция для копирования в буфер
 function fallbackShare(shareData) {
     navigator.clipboard.writeText(`${shareData.text}\n\n🔗 ${shareData.url}`)
         .then(() => {
             showToast('📋 Link copied to clipboard!');
         })
         .catch(() => {
-            // Если clipboard не работает — показываем alert
             alert(`${shareData.text}\n\n${shareData.url}`);
         });
 }

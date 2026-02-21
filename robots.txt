@@ -1,5 +1,5 @@
 # robots.txt for Cyprus Road Signs Quiz
-# https://arinokaz.github.io/cy-signs/
+# https://cy-signs.com/
 
 User-agent: *
 Allow: /
@@ -17,7 +17,7 @@ Allow: /sw.js
 Allow: /img/
 
 # Sitemap location
-Sitemap: https://arinokaz.github.io/cy-signs/sitemap.xml
+Sitemap: https://cy-signs.com/sitemap.xml
 
 # Crawl-delay (optional, polite crawling)
 Crawl-delay: 1
