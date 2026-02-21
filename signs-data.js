@@ -64,7 +64,7 @@ const allSigns = [
             ru: "Место остановки маршрутных автобусов. Остановка других ТС запрещена."
         },
         file: "Cyprus_road_sign_bus_stop.svg",
-        cat: "regulatory",
+        cat: "information",
         fav: false
     },
     {
@@ -982,7 +982,7 @@ const allSigns = [
             ru: "Указывает, что на дороге, на которую вы выезжаете, движение разрешено только в одну сторону (по направлению стрелки)."
         },
         file: "Cyprus_road_sign_one_way_lateral_road.svg",
-        cat: "information",
+        cat: "mandatory",
         fav: true
     },
     {
@@ -999,7 +999,7 @@ const allSigns = [
             ru: "Движение по всей ширине дороги разрешено только в одном направлении (вперед)."
         },
         file: "Cyprus_road_sign_one_way_road.svg",
-        cat: "information",
+        cat: "mandatory",
         fav: true
     },
     {
@@ -1203,7 +1203,7 @@ const allSigns = [
             ru: "Карта-схема, заранее показывающая выезды и направления к населенным пунктам на круговой развязке."
         },
         file: "Cyprus_road_sign_roundabound_destinations.svg",
-        cat: "markings",
+        cat: "information",
         fav: false
     },
     {
@@ -3106,7 +3106,7 @@ const allSigns = [
             el: "Απαγορεύεται η στροφή προς τα αριστερά στη διασταύρωση αυτή.",
             ru: "Запрещает поворот налево на данном перекрестке."
         },
-        file: "UK_traffic_sign_612.svg",
+        file: "UK_traffic_sign_613.svg",
         cat: "regulatory",
         fav: true
     },
@@ -3123,7 +3123,7 @@ const allSigns = [
             el: "Απαγορεύεται η στροφή προς τα δεξιά στη διασταύρωση αυτή.",
             ru: "Запрещает поворот направо на данном перекрестке."
         },
-        file: "UK_traffic_sign_613.svg",
+        file: "UK_traffic_sign_612.svg",
         cat: "regulatory",
         fav: true
     },
