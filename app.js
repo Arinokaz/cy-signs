@@ -25,7 +25,8 @@ const AppState = {
         savedTestSet: null,
         showRetry: true,
         isProcessing: false,
-        hintsUsed: 0          // ✅ Счетчик использованных подсказок
+        hintsUsed: 0,
+        currentAttempt: 0      // ✅ Номер текущей попытки (для новой логики)
     },
     timing: {
         questionStartTime: 0,
@@ -431,6 +432,7 @@ function start() {
     AppState.quiz.points = 0;
     AppState.quiz.results = [];
     AppState.quiz.hintsUsed = 0;  // ✅ Сброс счетчика подсказок
+    AppState.quiz.currentAttempt = 0;  // ✅ Сброс счетчика попыток
     AppState.timing.questionTimes = [];
     AppState.timing.totalStartTime = Date.now();
 
@@ -502,66 +504,109 @@ function render() {
 }
 
 function check(ans, btn) {
+    // ✅ Защита от гонок состояний (race condition)
     if (AppState.quiz.isProcessing) {
         return;
     }
-    AppState.quiz.isProcessing = true;
-    
+    AppState.quiz.isProcessing = true;  // Блокируем
+
     const q = AppState.quiz.testSet[AppState.quiz.current];
     const quizLangCurrent = getCurrentQuizLang();
     const correct = getDisplayName(q, quizLangCurrent);
     const btns = document.querySelectorAll('#options button');
-    btns.forEach(b => b.disabled = true);
 
     const userAnswerText = getDisplayName(ans, quizLangCurrent);
     const isOk = ans.file === q.file;
 
     const timeSpent = (Date.now() - AppState.timing.questionStartTime) / 1000;
+
+    // ✅ Записываем каждую попытку в результаты
+    AppState.quiz.results.push({
+        q,
+        isOk,
+        userChoice: userAnswerText,
+        time: timeSpent,
+        attempt: AppState.quiz.currentAttempt + 1  // Номер попытки
+    });
     AppState.timing.questionTimes.push({ time: timeSpent, isCorrect: isOk });
-    AppState.quiz.results.push({ q, isOk, userChoice: userAnswerText, time: timeSpent });
+
+    // ✅ Скрываем подсказки при ЛЮБОМ ответе (сразу после клика)
+    const allHintItems = document.querySelectorAll('.hint-item');
+    allHintItems.forEach(item => item.remove());
 
     if (isOk) {
-        // ✅ При правильном ответе — скрываем подсказки
-        const allHintItems = document.querySelectorAll('.hint-item');
-        allHintItems.forEach(item => item.remove());
-
+        // ✅ ПРАВИЛЬНО — переходим дальше
         if (btn) btn.classList.add('correct');
         AppState.quiz.points++;
+
+        // ✅ Переход к следующему вопросу через 1 секунду
         setTimeout(() => {
             AppState.quiz.isProcessing = false;
+            AppState.quiz.currentAttempt = 0;  // Сброс попыток для следующего вопроса
             next();
         }, 1000);
     } else {
-        if (btn) btn.classList.add('wrong');
-        btns.forEach(b => {
-            if (b.innerText === correct) b.classList.add('correct');
-        });
+        // ❌ ОШИБКА — красная подсветка, скрытие через 0.5 сек, перемешивание
+        if (btn) {
+            btn.classList.add('wrong');
+            btn.disabled = true;
+        }
 
-        // ❌ УБРАТЬ: Авто-показ подсказки при ошибке
-        const t = UI_TRANSLATIONS[AppState.settings.interfaceLang];
+        // ✅ Блокируем все кнопки на время анимации
+        btns.forEach(b => b.disabled = true);
 
-        const nextBtn = document.createElement('button');
-        nextBtn.id = 'next-btn-manual';
-        nextBtn.innerText = t.nextBtn;
-        nextBtn.className = "main-btn";
-        // ✅ Сброс флага при клике на "Далі" + скрытие подсказок
-        nextBtn.onclick = () => {
+        // ✅ Через 0.5 сек удаляем неправильный ответ и перемешиваем
+        setTimeout(() => {
+            // Удаляем неправильную кнопку
+            if (btn) btn.remove();
+
+            // ✅ Перемешиваем оставшиеся кнопки
+            shuffleRemainingButtons();
+
+            // ✅ Разблокируем кнопки для новой попытки
+            const remainingBtns = document.querySelectorAll('#options button:not(.removed)');
+            remainingBtns.forEach(b => b.disabled = false);
+
+            // ✅ Увеличиваем счетчик попыток
+            AppState.quiz.currentAttempt++;
+
+            // ✅ Сбрасываем флаг обработки
             AppState.quiz.isProcessing = false;
-            // ✅ Скрыть подсказки при нажатии "Далі"
-            const allHintItems = document.querySelectorAll('.hint-item');
-            allHintItems.forEach(item => item.remove());
-            next();
-        };
-        const quizButtons = document.getElementById('quiz-buttons');
-        if (quizButtons) quizButtons.appendChild(nextBtn);
+
+            // ✅ Записываем время начала новой попытки
+            AppState.timing.questionStartTime = Date.now();
+        }, 500);
     }
 }
 
-function next() {
-    if (AppState.quiz.isProcessing) {
-        return;
+// ✅ Функция перемешивания оставшихся кнопок
+function shuffleRemainingButtons() {
+    const container = document.getElementById('options');
+    if (!container) return;
+    
+    // Получаем все оставшиеся кнопки
+    const buttons = Array.from(container.querySelectorAll('button:not(.removed)'));
+    
+    // Перемешиваем
+    for (let i = buttons.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [buttons[i], buttons[j]] = [buttons[j], buttons[i]];
     }
     
+    // Перераспределяем в контейнере
+    buttons.forEach(btn => container.appendChild(btn));
+    
+    // ✅ Добавляем анимацию перемешивания
+    buttons.forEach((btn, index) => {
+        btn.style.animation = 'none';
+        setTimeout(() => {
+            btn.style.animation = `shuffle 0.2s ease-in-out ${index * 0.03}s`;
+        }, 10);
+    });
+}
+
+// ✅ Переход к следующему вопросу
+function next() {
     AppState.quiz.current++;
     AppState.quiz.currentOptionsSigns = [];
     
@@ -614,6 +659,7 @@ function retry() {
     AppState.quiz.results.length = 0;
     AppState.quiz.currentOptionsSigns.length = 0;
     AppState.quiz.hintsUsed = 0;  // ✅ Сброс счетчика подсказок
+    AppState.quiz.currentAttempt = 0;  // ✅ Сброс счетчика попыток
 
     AppState.quiz.testSet = [...AppState.quiz.savedTestSet];
     AppState.quiz.current = 0;
@@ -703,52 +749,97 @@ function finish() {
         }
     }
 
+    // ✅ Группируем результаты по вопросам (для подсчета ошибок)
+    const questionStats = {};
     AppState.quiz.results.forEach(r => {
+        const key = r.q.file;
+        if (!questionStats[key]) {
+            questionStats[key] = { attempts: 0, errors: 0, lastResult: null };
+        }
+        questionStats[key].attempts++;
+        if (!r.isOk) {
+            questionStats[key].errors++;
+        } else {
+            questionStats[key].lastResult = r;  // Сохраняем последний правильный ответ
+        }
+    });
+
+    // ✅ Показываем ВСЕ вопросы в порядке их прохождения
+    AppState.quiz.testSet.forEach(q => {
+        const key = q.file;
+        const stats = questionStats[key];
         const row = document.createElement('div');
         row.className = 'result-item';
-        const timeColor = getTimeColor(r.time);
-        const statusText = r.isOk ? `✅ ${t.correct}` : `❌ ${t.wrong}`;
+
+        // ✅ Определяем статус: если были ошибки — ❌, иначе ✅
+        const hasErrors = stats.errors > 0;
+        
+        // ✅ Для Flashcard Mode — просто ✅ или ❌ (без попыток)
+        // Для Quiz Mode — с количеством попыток если были ошибки
+        let statusText;
+        if (AppState.flashcard.mode) {
+            // Flashcard: просто ✅ или ❌
+            statusText = hasErrors ? `❌ ${t.wrong}` : `✅ ${t.correct}`;
+        } else {
+            // Quiz Mode: ✅ или ❌ с попытками
+            statusText = hasErrors
+                ? `❌ ${t.wrong} (${stats.attempts} ${getAttemptText(stats.attempts, AppState.settings.interfaceLang)})`
+                : `✅ ${t.correct}`;
+        }
 
         const img = document.createElement('img');
-        img.src = `./img/${r.q.file}`;
+        img.src = `./img/${q.file}`;
         img.alt = 'Sign';
 
         const contentDiv = document.createElement('div');
 
         const statusDiv = document.createElement('div');
         statusDiv.className = 'status';
-        statusDiv.style.color = r.isOk ? 'var(--success)' : 'var(--danger)';
+        statusDiv.style.color = hasErrors ? 'var(--danger)' : 'var(--success)';
         statusDiv.textContent = statusText;
 
         const answerDiv = document.createElement('div');
         answerDiv.className = 'answer';
-        answerDiv.textContent = getDisplayName(r.q, AppState.settings.quizLang);
-
-        if (!r.isOk) {
-            const userAnswerDiv = document.createElement('div');
-            userAnswerDiv.className = 'user-answer';
-            userAnswerDiv.textContent = `${t.categories.all}: ${r.userChoice}`;
-            contentDiv.appendChild(userAnswerDiv);
-        }
+        answerDiv.textContent = getDisplayName(q, AppState.settings.quizLang);
 
         const hintDiv = document.createElement('div');
         hintDiv.className = 'hint';
-        hintDiv.textContent = `${t.hintLabel} ${getDisplayHint(r.q, AppState.settings.helperLang)}`;
+        hintDiv.textContent = `${t.hintLabel} ${getDisplayHint(q, AppState.settings.helperLang)}`;
 
-        const timeDiv = document.createElement('div');
-        timeDiv.className = 'time';
-        timeDiv.style.color = timeColor;
-        timeDiv.textContent = `${t.answerTime}: ${r.time.toFixed(1)} ${t.seconds}`;
+        // ✅ Показываем время для последней попытки (и для Quiz, и для Flashcard)
+        if (stats.lastResult) {
+            const timeColor = getTimeColor(stats.lastResult.time);
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'time';
+            timeDiv.style.color = timeColor;
+            timeDiv.textContent = `${t.answerTime}: ${stats.lastResult.time.toFixed(1)} ${t.seconds}`;
+            contentDiv.appendChild(timeDiv);
+        }
 
         contentDiv.appendChild(statusDiv);
         contentDiv.appendChild(answerDiv);
         contentDiv.appendChild(hintDiv);
-        contentDiv.appendChild(timeDiv);
 
         row.appendChild(img);
         row.appendChild(contentDiv);
         log.appendChild(row);
     });
+}
+
+// ✅ Функция для склонения слова "попытка"
+function getAttemptText(count, lang) {
+    if (lang === 'ru') {
+        if (count === 1) return 'попытка';
+        if (count >= 2 && count <= 4) return 'попытки';
+        return 'попыток';
+    } else if (lang === 'uk') {
+        if (count === 1) return 'спроба';
+        if (count >= 2 && count <= 4) return 'спроби';
+        return 'спроб';
+    } else {
+        // EN, EL - просто plural
+        return count === 1 ? 'attempt' : 'attempts';
+    }
 }
 
 // ==================== REFERENCE MODE ====================
@@ -896,6 +987,7 @@ function startFlashcard() {
     AppState.quiz.points = 0;
     AppState.quiz.results = [];
     AppState.quiz.hintsUsed = 0;  // ✅ Сброс счетчика подсказок (для Flashcard не используется)
+    AppState.quiz.currentAttempt = 0;  // ✅ Сброс счетчика попыток
     AppState.timing.questionTimes = [];
     AppState.timing.totalStartTime = Date.now();
 

@@ -414,6 +414,26 @@ button.wrong {
     animation: slideDown 0.25s ease-out;
 }
 
+/* ✅ Анимация для неправильного ответа (исчезновение) */
+@keyframes fadeOut {
+    from { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+    to { 
+        opacity: 0; 
+        transform: scale(0.8); 
+    }
+}
+
+/* ✅ Анимация перемешивания кнопок */
+@keyframes shuffle {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
 @keyframes slideDown {
     from {
         opacity: 0;
@@ -423,6 +443,16 @@ button.wrong {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ✅ Анимация для неправильного ответа (исчезновение) — ТОЛЬКО QUIZ MODE */
+#quiz-screen button.wrong {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+/* ✅ Анимация перемешивания кнопок — ТОЛЬКО кнопки ответов в #options */
+#quiz-screen #options button {
+    animation: shuffle 0.2s ease-in-out;
 }
 
 /* ==================== LANGUAGE SETTINGS ==================== */
