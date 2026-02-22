@@ -919,7 +919,7 @@ const allSigns = [
     },
     {
         name: {
-            en: "No parking",
+            en: "No parking (zone)",
             uk: "Зона заборони стоянки",
             el: "Περιοχή απαγόρευσης στάθμευσης",
             ru: "Зона запрета парковки"

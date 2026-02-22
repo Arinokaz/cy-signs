@@ -1,12 +1,20 @@
 /* ==================== CYPRUS ROAD SIGNS - APP LOGIC ====================
-   Version: 2.1
-   Last Updated: 2026-02-20
-   Refactored: XSS fixed, showScreen(), AppState, null-safe checks
+   Version: 2.2
+   Last Updated: 2026-02-22
+   Refactored: XSS fixed, race condition fixed, memory leak fixed, null-safe checks
 ====================================================================== */
+
+// ==================== SECURITY: XSS SANITIZATION ====================
+function sanitizeHTML(str) {
+    if (typeof str !== 'string') return str;
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
 
 // ==================== STATE ====================
 const AppState = {
-    showRetryButton: false,  // ✅ Глобальный динамический флаг
+    showRetryButton: false,
     quiz: {
         current: 0,
         points: 0,
@@ -15,7 +23,9 @@ const AppState = {
         selectedCategory: 'all',
         currentOptionsSigns: [],
         savedTestSet: null,
-        showRetry: true      // ✅ Константа: Quiz ВСЕГДА показывает кнопку
+        showRetry: true,
+        isProcessing: false,
+        hintsUsed: 0          // ✅ Счетчик использованных подсказок
     },
     timing: {
         questionStartTime: 0,
@@ -25,7 +35,7 @@ const AppState = {
     flashcard: {
         mode: false,
         answerShown: false,
-        showRetry: false     // ✅ Константа: Flashcard НИКОГДА не показывает кнопку
+        showRetry: false
     },
     settings: {
         interfaceLang: 'en',
@@ -37,10 +47,8 @@ const AppState = {
 
 // ==================== INITIALIZATION ====================
 window.addEventListener('DOMContentLoaded', () => {
-    // При загрузке — кнопка Retry скрыта
     AppState.showRetryButton = false;
     
-    // Определяем язык браузера и устанавливаем если поддерживается
     detectAndSetBrowserLanguage();
     
     updateUI();
@@ -78,7 +86,6 @@ window.addEventListener('DOMContentLoaded', () => {
 function detectAndSetBrowserLanguage() {
     const supportedLangs = ['en', 'uk', 'el', 'ru'];
     
-    // 1. Сначала проверяем URL параметр ?lang=
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
     
@@ -92,7 +99,6 @@ function detectAndSetBrowserLanguage() {
         return;
     }
     
-    // 2. Если нет в URL — проверяем язык браузера
     const browserLang = navigator.language || navigator.userLanguage;
     const primaryLang = browserLang.split('-')[0].toLowerCase();
     
@@ -106,7 +112,6 @@ function detectAndSetBrowserLanguage() {
         
         document.documentElement.lang = primaryLang;
     }
-    // 3. Если не поддерживается — остаётся English (по умолчанию в AppState)
 }
 
 // ==================== SERVICE WORKER ====================
@@ -151,7 +156,6 @@ function updateUILanguage() {
         AppState.settings.interfaceLang = lang;
         document.documentElement.lang = lang;
         
-        // Динамічний Title для SEO
         const titles = {
             en: 'Cyprus Road Signs Quiz — Free Driving Test Practice (217 Signs)',
             uk: 'Дорожні знаки Кіпру — Безкоштовний онлайн тест (217 знаків)',
@@ -160,7 +164,6 @@ function updateUILanguage() {
         };
         document.title = titles[lang] || titles.en;
         
-        // Динамічний meta description
         const descriptions = {
             en: 'Interactive quiz app for learning Cyprus road signs. 217 signs, 4 languages, offline PWA support. Free driving test preparation.',
             uk: 'Інтерактивний додаток для вивчення дорожніх знаків Кіпру. 217 знаків, 4 мови, офлайн режим. Безкоштовна підготовка до екзамену.',
@@ -193,23 +196,22 @@ function saveHelperLang() {
 function updateUI() {
     const t = UI_TRANSLATIONS[AppState.settings.interfaceLang];
 
-    // Безопасное обновление UI элементов
     const elements = {
-        'ui-title': t.title,
-        'ui-fav-only': t.favOnly,
-        'ui-interface-lang': t.interfaceLang,
-        'ui-quiz-lang': t.quizLang,
-        'ui-helper-lang': t.helperLang,
-        'ui-category': t.category,
-        'ui-questions': t.questions,
-        'ui-quiz-mode-btn': t.quizModeBtn,
-        'ui-flashcard-btn': t.flashcardBtn,
-        'ui-back-btn': t.backToMenu,
-        'ui-retry-btn': t.retryBtn,
-        'ui-reference-btn': t.referenceBtn,
-        'ui-feedback-title': t.feedbackTitle,
-        'ui-reference-back-btn': t.backToMenu,
-        'ui-feedback-back-btn': t.backToMenu
+        'ui-title': sanitizeHTML(t.title),
+        'ui-fav-only': sanitizeHTML(t.favOnly),
+        'ui-interface-lang': sanitizeHTML(t.interfaceLang),
+        'ui-quiz-lang': sanitizeHTML(t.quizLang),
+        'ui-helper-lang': sanitizeHTML(t.helperLang),
+        'ui-category': sanitizeHTML(t.category),
+        'ui-questions': sanitizeHTML(t.questions),
+        'ui-quiz-mode-btn': sanitizeHTML(t.quizModeBtn),
+        'ui-flashcard-btn': sanitizeHTML(t.flashcardBtn),
+        'ui-back-btn': sanitizeHTML(t.backToMenu),
+        'ui-retry-btn': sanitizeHTML(t.retryBtn),
+        'ui-reference-btn': sanitizeHTML(t.referenceBtn),
+        'ui-feedback-title': sanitizeHTML(t.feedbackTitle),
+        'ui-reference-back-btn': sanitizeHTML(t.backToMenu),
+        'ui-feedback-back-btn': sanitizeHTML(t.backToMenu)
     };
 
     for (const [id, text] of Object.entries(elements)) {
@@ -217,49 +219,47 @@ function updateUI() {
         if (el) el.textContent = text;
     }
 
-    // Обновляем label'ы для формы feedback
     const feedbackNameLabel = document.querySelector('label[for="feedback-name"]');
-    if (feedbackNameLabel) feedbackNameLabel.textContent = `${t.feedbackName}`;
-    
-    const feedbackEmailLabel = document.querySelector('label[for="feedback-email"]');
-    if (feedbackEmailLabel) feedbackEmailLabel.textContent = `${t.feedbackEmail}`;
-    
-    const feedbackRatingLabel = document.querySelector('label[for="feedback-rating"]');
-    if (feedbackRatingLabel) feedbackRatingLabel.textContent = `${t.feedbackRating}`;
-    
-    const feedbackMessageLabel = document.querySelector('label[for="feedback-message"]');
-    if (feedbackMessageLabel) feedbackMessageLabel.textContent = `${t.feedbackMessage}`;
-    
-    const feedbackTextarea = document.getElementById('feedback-message');
-    if (feedbackTextarea) feedbackTextarea.placeholder = t.feedbackPlaceholder;
-    
-    const feedbackSubmitBtn = document.getElementById('feedback-submit-btn');
-    if (feedbackSubmitBtn) feedbackSubmitBtn.textContent = t.feedbackSend;
+    if (feedbackNameLabel) feedbackNameLabel.textContent = sanitizeHTML(t.feedbackName);
 
-    // ui-score на экране результатов — может быть null
+    const feedbackEmailLabel = document.querySelector('label[for="feedback-email"]');
+    if (feedbackEmailLabel) feedbackEmailLabel.textContent = sanitizeHTML(t.feedbackEmail);
+
+    const feedbackRatingLabel = document.querySelector('label[for="feedback-rating"]');
+    if (feedbackRatingLabel) feedbackRatingLabel.textContent = sanitizeHTML(t.feedbackRating);
+
+    const feedbackMessageLabel = document.querySelector('label[for="feedback-message"]');
+    if (feedbackMessageLabel) feedbackMessageLabel.textContent = sanitizeHTML(t.feedbackMessage);
+
+    const feedbackTextarea = document.getElementById('feedback-message');
+    if (feedbackTextarea) feedbackTextarea.placeholder = sanitizeHTML(t.feedbackPlaceholder);
+
+    const feedbackSubmitBtn = document.getElementById('feedback-submit-btn');
+    if (feedbackSubmitBtn) feedbackSubmitBtn.textContent = sanitizeHTML(t.feedbackSend);
+
     const uiScore = document.getElementById('ui-score');
     if (uiScore) {
-        uiScore.textContent = t.score;
+        uiScore.textContent = sanitizeHTML(t.score);
     }
-    
+
     const translateToggle = document.getElementById('translate-toggle');
     if (translateToggle) {
-        translateToggle.textContent = t.showTranslate;
+        translateToggle.textContent = sanitizeHTML(t.showTranslate);
     }
 
     document.querySelectorAll('.category-btn').forEach(btn => {
         const key = btn.dataset.key;
-        if (key && t.categories[key]) btn.textContent = t.categories[key];
+        if (key && t.categories[key]) btn.textContent = sanitizeHTML(t.categories[key]);
     });
 
     const questionCount = document.getElementById('question-count');
     if (questionCount) {
         const opts = questionCount.querySelectorAll('option');
-        if (opts[0]) opts[0].textContent = t.questionCount["5"];
-        if (opts[1]) opts[1].textContent = t.questionCount["10"];
-        if (opts[2]) opts[2].textContent = t.questionCount["20"];
-        if (opts[3]) opts[3].textContent = t.questionCount["50"];
-        if (opts[4]) opts[4].textContent = t.questionCount["all"];
+        if (opts[0]) opts[0].textContent = sanitizeHTML(t.questionCount["5"]);
+        if (opts[1]) opts[1].textContent = sanitizeHTML(t.questionCount["10"]);
+        if (opts[2]) opts[2].textContent = sanitizeHTML(t.questionCount["20"]);
+        if (opts[3]) opts[3].textContent = sanitizeHTML(t.questionCount["50"]);
+        if (opts[4]) opts[4].textContent = sanitizeHTML(t.questionCount["all"]);
     }
 }
 
@@ -290,7 +290,8 @@ function updateOptionsText() {
     const buttons = document.querySelectorAll('#options button');
 
     AppState.quiz.currentOptionsSigns.forEach((sign, index) => {
-        if (index < buttons.length) {
+        // ✅ Проверка на существование кнопки
+        if (index < buttons.length && buttons[index]) {
             buttons[index].innerText = getDisplayName(sign, quizLangCurrent);
         }
     });
@@ -298,6 +299,58 @@ function updateOptionsText() {
 
 function getCurrentQuizLang() {
     return AppState.settings.showingTranslation ? AppState.settings.helperLang : AppState.settings.quizLang;
+}
+
+// ==================== HINTS FUNCTIONALITY ====================
+function toggleHints() {
+    const t = UI_TRANSLATIONS[AppState.settings.interfaceLang];
+    const helperLang = AppState.settings.helperLang;
+    
+    // Проверяем, показаны ли уже подсказки (по первому элементу)
+    const firstHintItem = document.querySelector('.hint-item');
+    const hintsBtn = document.getElementById('hints-btn');
+    
+    if (firstHintItem) {
+        // Скрыть все подсказки
+        const allHintItems = document.querySelectorAll('.hint-item');
+        allHintItems.forEach(item => item.remove());
+
+        if (hintsBtn) {
+            hintsBtn.textContent = t.showHints;  // ✅ Без дополнительного эмодзи
+        }
+        return;
+    }
+    
+    // Увеличиваем счетчик использования подсказок
+    AppState.quiz.hintsUsed++;
+    
+    // Получаем кнопки с ответами
+    const optionButtons = document.querySelectorAll('#options button');
+    
+    // Показываем подсказку под каждой кнопкой
+    AppState.quiz.currentOptionsSigns.forEach((sign, index) => {
+        if (index < optionButtons.length) {
+            const button = optionButtons[index];
+            
+            // Создаем подсказку
+            const hintItem = document.createElement('div');
+            hintItem.className = 'hint-item';
+            hintItem.style.cssText = 'background: linear-gradient(135deg, #fff3cd 0%, #ffe8a1 100%); color: var(--hint-text); padding: 10px 14px; border-radius: 8px; margin-top: 6px; font-size: 13px; line-height: 1.5; text-align: left; border: 1px solid #ffc107; animation: slideDown 0.25s ease-out;';
+            
+            const name = getDisplayName(sign, helperLang);
+            const hint = getDisplayHint(sign, helperLang);
+            
+            hintItem.innerHTML = `<strong style="color: #856404; display: block; margin-bottom: 4px;">${index + 1}. ${name}</strong><em style="color: #666;">${hint}</em>`;
+            
+            // Вставляем после кнопки
+            button.parentNode.insertBefore(hintItem, button.nextSibling);
+        }
+    });
+    
+    // Обновить текст кнопки
+    if (hintsBtn) {
+        hintsBtn.textContent = t.hideHints;  // ✅ Без дополнительного эмодзи
+    }
 }
 
 // ==================== TIMER FUNCTIONS ====================
@@ -352,7 +405,7 @@ function start() {
     const helperLangSelect = document.getElementById('helper-lang');
     const favOnlyCheckbox = document.getElementById('fav-only');
     const questionCountSelect = document.getElementById('question-count');
-    
+
     if (quizLangSelect) AppState.settings.quizLang = quizLangSelect.value;
     if (helperLangSelect) AppState.settings.helperLang = helperLangSelect.value;
     AppState.settings.showingTranslation = false;
@@ -377,10 +430,10 @@ function start() {
     AppState.quiz.current = 0;
     AppState.quiz.points = 0;
     AppState.quiz.results = [];
+    AppState.quiz.hintsUsed = 0;  // ✅ Сброс счетчика подсказок
     AppState.timing.questionTimes = [];
     AppState.timing.totalStartTime = Date.now();
 
-    // Ховаємо SEO футер під час тесту
     const seoFooter = document.getElementById('seo-footer');
     if (seoFooter) seoFooter.style.display = 'none';
 
@@ -399,23 +452,13 @@ function render() {
 
     const progressEl = document.getElementById('progress');
     if (progressEl) progressEl.innerText = `${t.progress} ${AppState.quiz.current + 1} ${t.of} ${AppState.quiz.testSet.length}`;
-    
+
     const qImg = document.getElementById('q-img');
     if (qImg) qImg.src = "./img/" + q.file;
 
     AppState.timing.questionStartTime = Date.now();
 
-    const oldHint = document.getElementById('active-hint');
-    if (oldHint) oldHint.remove();
-    const oldNext = document.getElementById('next-btn-manual');
-    if (oldNext) oldNext.remove();
-
-    const quizButtons = document.getElementById('quiz-buttons');
-    if (quizButtons) {
-        while (quizButtons.firstChild) {
-            quizButtons.removeChild(quizButtons.firstChild);
-        }
-    }
+    cleanupQuiz();
 
     let optionsSigns = [q];
     let others = allSigns.filter(s => s.file !== q.file)
@@ -440,9 +483,30 @@ function render() {
         translateBtn.textContent = AppState.settings.showingTranslation ? t.hideTranslate : t.showTranslate;
         translateBtn.classList.toggle('active', AppState.settings.showingTranslation);
     }
+    
+    // ✅ Добавляем кнопку подсказки, если её еще нет
+    let hintsBtn = document.getElementById('hints-btn');
+    if (!hintsBtn) {
+        hintsBtn = document.createElement('button');
+        hintsBtn.id = 'hints-btn';
+        hintsBtn.className = 'translate-btn';  // Используем тот же стиль
+        hintsBtn.textContent = t.showHints;  // ✅ Без дополнительного эмодзи
+        hintsBtn.onclick = toggleHints;
+
+        const translateBtn = document.getElementById('translate-toggle');
+        if (translateBtn && translateBtn.parentNode) {
+            // Вставляем после кнопки перевода с небольшим отступом
+            translateBtn.parentNode.insertBefore(hintsBtn, translateBtn.nextSibling);
+        }
+    }
 }
 
 function check(ans, btn) {
+    if (AppState.quiz.isProcessing) {
+        return;
+    }
+    AppState.quiz.isProcessing = true;
+    
     const q = AppState.quiz.testSet[AppState.quiz.current];
     const quizLangCurrent = getCurrentQuizLang();
     const correct = getDisplayName(q, quizLangCurrent);
@@ -457,62 +521,99 @@ function check(ans, btn) {
     AppState.quiz.results.push({ q, isOk, userChoice: userAnswerText, time: timeSpent });
 
     if (isOk) {
+        // ✅ При правильном ответе — скрываем подсказки
+        const allHintItems = document.querySelectorAll('.hint-item');
+        allHintItems.forEach(item => item.remove());
+
         if (btn) btn.classList.add('correct');
         AppState.quiz.points++;
-        setTimeout(next, 1000);
+        setTimeout(() => {
+            AppState.quiz.isProcessing = false;
+            next();
+        }, 1000);
     } else {
         if (btn) btn.classList.add('wrong');
         btns.forEach(b => {
             if (b.innerText === correct) b.classList.add('correct');
         });
 
+        // ❌ УБРАТЬ: Авто-показ подсказки при ошибке
         const t = UI_TRANSLATIONS[AppState.settings.interfaceLang];
-        const hintText = getDisplayHint(q, AppState.settings.helperLang);
-
-        const hintDiv = document.createElement('div');
-        hintDiv.id = 'active-hint';
-        hintDiv.className = 'hint-box';
-        const hintTitle = document.createElement('strong');
-        hintTitle.textContent = `💡 ${t.hintLabel}`;
-        hintDiv.appendChild(hintTitle);
-        hintDiv.appendChild(document.createElement('br'));
-        hintDiv.appendChild(document.createTextNode(hintText || 'Підказка відсутня'));
-
-        const optionsContainer = document.getElementById('options');
-        if (optionsContainer) optionsContainer.appendChild(hintDiv);
 
         const nextBtn = document.createElement('button');
         nextBtn.id = 'next-btn-manual';
         nextBtn.innerText = t.nextBtn;
         nextBtn.className = "main-btn";
-        nextBtn.onclick = next;
+        // ✅ Сброс флага при клике на "Далі" + скрытие подсказок
+        nextBtn.onclick = () => {
+            AppState.quiz.isProcessing = false;
+            // ✅ Скрыть подсказки при нажатии "Далі"
+            const allHintItems = document.querySelectorAll('.hint-item');
+            allHintItems.forEach(item => item.remove());
+            next();
+        };
         const quizButtons = document.getElementById('quiz-buttons');
         if (quizButtons) quizButtons.appendChild(nextBtn);
-
-        setTimeout(() => {
-            if (hintDiv) {
-                hintDiv.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-            }
-        }, 100);
     }
 }
 
 function next() {
+    if (AppState.quiz.isProcessing) {
+        return;
+    }
+    
     AppState.quiz.current++;
     AppState.quiz.currentOptionsSigns = [];
-    if (AppState.quiz.current < AppState.quiz.testSet.length) render();
-    else finish();
+    
+    if (AppState.quiz.current < AppState.quiz.testSet.length) {
+        render();
+    } else {
+        finish();
+    }
 }
 
+// ==================== CLEANUP: MEMORY LEAK FIX ====================
+function cleanupQuiz() {
+    // ✅ Удаляем старую подсказку (для следующего вопроса)
+    const hintDiv = document.getElementById('active-hint');
+    if (hintDiv) hintDiv.remove();
+    
+    // ✅ Удаляем кнопку "Далі"
+    const nextBtn = document.getElementById('next-btn-manual');
+    if (nextBtn) nextBtn.remove();
+    
+    // ✅ Удаляем подсказки вариантов (.hint-item)
+    const allHintItems = document.querySelectorAll('.hint-item');
+    allHintItems.forEach(item => item.remove());
+    
+    // ✅ Удаляем кнопку подсказок (будет создана заново в render())
+    const hintsBtn = document.getElementById('hints-btn');
+    if (hintsBtn) hintsBtn.remove();
+
+    // ✅ Очищаем options с удалением слушателей
+    const options = document.getElementById('options');
+    if (options) {
+        while (options.firstChild) {
+            const button = options.firstChild;
+            const newButton = button.cloneNode(false);
+            button.parentNode.replaceChild(newButton, button);
+            newButton.remove();
+        }
+    }
+
+    AppState.quiz.isProcessing = false;
+}
+
+// ==================== GAME FUNCTIONS ====================
 function retry() {
     if (!AppState.quiz.savedTestSet) return;
+
+    cleanupQuiz();
 
     AppState.timing.questionTimes.length = 0;
     AppState.quiz.results.length = 0;
     AppState.quiz.currentOptionsSigns.length = 0;
+    AppState.quiz.hintsUsed = 0;  // ✅ Сброс счетчика подсказок
 
     AppState.quiz.testSet = [...AppState.quiz.savedTestSet];
     AppState.quiz.current = 0;
@@ -525,15 +626,17 @@ function retry() {
 }
 
 function backToMenu() {
+    cleanupQuiz();
+    
     AppState.quiz.savedTestSet = null;
     AppState.flashcard.mode = false;
     AppState.showRetryButton = false;
     AppState.quiz.selectedCategory = 'all';
-    
+
     const favOnlyCheckbox = document.getElementById('fav-only');
     const quizLangSelect = document.getElementById('quiz-lang');
     const helperLangSelect = document.getElementById('helper-lang');
-    
+
     if (favOnlyCheckbox) favOnlyCheckbox.checked = false;
     if (quizLangSelect) quizLangSelect.value = AppState.settings.quizLang;
     if (helperLangSelect) helperLangSelect.value = AppState.settings.helperLang;
@@ -566,14 +669,22 @@ function finish() {
     const resultTitle = document.getElementById('result-title');
     if (resultTitle) {
         resultTitle.textContent = `${t.score}: ${AppState.quiz.points} / ${AppState.quiz.testSet.length}`;
-        
+
         const timeSpan = document.createElement('span');
         timeSpan.style.cssText = 'font-size: 16px; color: #666; font-weight: 500; margin-top: 8px; display: inline-block;';
         timeSpan.textContent = `${t.totalTime}: ${formatTime(totalTime)}`;
-        
+
         const lineBreak = document.createElement('br');
         resultTitle.appendChild(lineBreak);
         resultTitle.appendChild(timeSpan);
+
+        // ✅ Добавляем счетчик использованных подсказок (только для Quiz Mode)
+        if (AppState.quiz.hintsUsed > 0 && !AppState.flashcard.mode) {
+            const hintsSpan = document.createElement('span');
+            hintsSpan.style.cssText = 'font-size: 14px; color: #f39c12; font-weight: 500; margin-top: 4px; display: inline-block; margin-left: 15px;';
+            hintsSpan.textContent = `💡 ${t.hintsUsed}: ${AppState.quiz.hintsUsed}`;
+            resultTitle.appendChild(hintsSpan);
+        }
     }
 
     const retryBtn = document.getElementById('ui-retry-btn');
@@ -659,17 +770,14 @@ function showReference() {
     const referenceTitle = document.querySelector('#reference-screen h2');
     if (referenceTitle) referenceTitle.textContent = `📖 ${t.referenceTitle}`;
 
-    // Очищуємо поле пошуку при відкритті Reference Mode
     const searchInput = document.getElementById('reference-search');
     if (searchInput) {
         searchInput.value = '';
     }
 
-    // Отримуємо фільтри з головної сторінки (як для Quiz/Flashcard)
     const isFavOnly = document.getElementById('fav-only')?.checked || false;
     const selectedCat = AppState.quiz.selectedCategory || 'all';
 
-    // Фільтруємо знаки за тими ж правилами що й для тестів
     let filteredSigns = isFavOnly ? allSigns.filter(s => s.fav) : allSigns;
     if (selectedCat !== 'all') {
         filteredSigns = filteredSigns.filter(s => s.cat === selectedCat);
@@ -726,7 +834,6 @@ function showReference() {
         }
     }
 
-    // Ховаємо SEO футер під час перегляду довідника
     const seoFooter = document.getElementById('seo-footer');
     if (seoFooter) seoFooter.style.display = 'none';
 
@@ -788,10 +895,10 @@ function startFlashcard() {
     AppState.quiz.current = 0;
     AppState.quiz.points = 0;
     AppState.quiz.results = [];
+    AppState.quiz.hintsUsed = 0;  // ✅ Сброс счетчика подсказок (для Flashcard не используется)
     AppState.timing.questionTimes = [];
     AppState.timing.totalStartTime = Date.now();
 
-    // Ховаємо SEO футер під час тесту
     const seoFooter = document.getElementById('seo-footer');
     if (seoFooter) seoFooter.style.display = 'none';
 
@@ -828,8 +935,14 @@ function renderFlashcard() {
 
     const flashcardCorrect = document.getElementById('flashcard-correct');
     const flashcardWrong = document.getElementById('flashcard-wrong');
-    if (flashcardCorrect) flashcardCorrect.disabled = true;
-    if (flashcardWrong) flashcardWrong.disabled = true;
+    if (flashcardCorrect) {
+        flashcardCorrect.disabled = true;
+        flashcardCorrect.textContent = '✅ ' + t.correct;  // ✅ Перевод кнопки
+    }
+    if (flashcardWrong) {
+        flashcardWrong.disabled = true;
+        flashcardWrong.textContent = '❌ ' + t.wrong;  // ✅ Перевод кнопки
+    }
 
     AppState.timing.questionStartTime = Date.now();
 }

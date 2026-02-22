@@ -10,20 +10,27 @@ const { defineSecret } = require("firebase-functions/params");
 const TELEGRAM_TOKEN = defineSecret("TELEGRAM_TOKEN");
 const TELEGRAM_CHAT_ID = defineSecret("TELEGRAM_CHAT_ID");
 
+const ALLOWED_ORIGINS = [
+    'https://cy-signs.com',
+];
+
 exports.sendFeedback = onRequest(
-  { secrets: [TELEGRAM_TOKEN, TELEGRAM_CHAT_ID], cors: true },
+  { secrets: [TELEGRAM_TOKEN, TELEGRAM_CHAT_ID], cors: false },
   async (req, res) => {
-    // CORS preflight handling
-    res.set('Access-Control-Allow-Origin', '*');
+    const origin = req.get('Origin') || '*';
+    if (ALLOWED_ORIGINS.includes(origin)) {
+      res.set('Access-Control-Allow-Origin', origin);
+    } else {
+      res.set('Access-Control-Allow-Origin', 'https://cy-signs.com');
+    }
     res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.set('Access-Control-Allow-Headers', 'Content-Type');
-    
-    // Handle preflight OPTIONS request
+
     if (req.method === 'OPTIONS') {
       res.status(204).send('');
       return;
     }
-    
+
     const token = TELEGRAM_TOKEN.value();
     const chatId = TELEGRAM_CHAT_ID.value();
     const message = req.body.message;

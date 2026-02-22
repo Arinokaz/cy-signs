@@ -349,10 +349,12 @@ button.wrong {
     font-weight: 600;
     border-radius: 8px;
     margin-top: 16px;
+    margin-right: 8px;  /* ✅ Отступ между кнопками */
     width: auto;
     display: inline-block;
     box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
     transition: all 0.2s ease;
+    vertical-align: middle;  /* ✅ Выравнивание по вертикали */
 }
 
 .translate-btn:hover {
@@ -407,10 +409,15 @@ button.wrong {
     margin-bottom: 6px;
 }
 
+/* ✅ Анимация для подсказок вариантов ответов */
+#hints-box {
+    animation: slideDown 0.25s ease-out;
+}
+
 @keyframes slideDown {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-8px);
     }
     to {
         opacity: 1;
