@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cyprus-signs-dynamic-v3.33';
+const CACHE_NAME = 'cyprus-signs-dynamic-v3.34';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
