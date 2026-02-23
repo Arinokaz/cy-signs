@@ -86,52 +86,29 @@ window.addEventListener('DOMContentLoaded', () => {
 // ==================== LANGUAGE DETECTION ====================
 function detectAndSetBrowserLanguage() {
     const supportedLangs = ['en', 'uk', 'el', 'ru'];
+    let lang = 'en'; // Default
 
-    // ✅ Спочатку перевіряємо ?lang=en (для redirect з 404.html)
+    // ✅ 1. Пріоритет: ?lang=en query parameter
     const urlParams = new URLSearchParams(window.location.search);
-    const urlLang = urlParams.get('lang');
-
-    if (urlLang && supportedLangs.includes(urlLang)) {
-        AppState.settings.interfaceLang = urlLang;
-        const interfaceLangSelect = document.getElementById('interface-lang');
-        if (interfaceLangSelect) {
-            interfaceLangSelect.value = urlLang;
-        }
-        document.documentElement.lang = urlLang;
-        
-        // ✅ Оновлюємо URL на чистий формат (напр. /en)
-        const newUrl = window.location.protocol + '//' + window.location.host + '/' + urlLang;
-        window.history.replaceState({ path: newUrl }, '', newUrl);
-        return;
+    const queryLang = urlParams.get('lang');
+    if (queryLang && supportedLangs.includes(queryLang)) {
+        lang = queryLang;
     }
 
-    // ✅ Парсимо чистий URL (напр. /en, /uk) замість ?lang=en
-    const path = window.location.pathname; // "/en" або "/"
-    const pathLang = path.replace('/', '') || ''; // "en" або ""
-
+    // ✅ 2. Чистий URL: /en, /uk, /el, /ru
+    const path = window.location.pathname; // "/en" or "/"
+    const pathLang = path.replace('/', '') || '';
     if (pathLang && supportedLangs.includes(pathLang)) {
-        AppState.settings.interfaceLang = pathLang;
-        const interfaceLangSelect = document.getElementById('interface-lang');
-        if (interfaceLangSelect) {
-            interfaceLangSelect.value = pathLang;
-        }
-        document.documentElement.lang = pathLang;
-        return;
+        lang = pathLang;
     }
 
-    const browserLang = navigator.language || navigator.userLanguage;
-    const primaryLang = browserLang.split('-')[0].toLowerCase();
-
-    if (supportedLangs.includes(primaryLang)) {
-        AppState.settings.interfaceLang = primaryLang;
-
-        const interfaceLangSelect = document.getElementById('interface-lang');
-        if (interfaceLangSelect) {
-            interfaceLangSelect.value = primaryLang;
-        }
-
-        document.documentElement.lang = primaryLang;
+    // ✅ Встановлюємо мову
+    AppState.settings.interfaceLang = lang;
+    const interfaceLangSelect = document.getElementById('interface-lang');
+    if (interfaceLangSelect) {
+        interfaceLangSelect.value = lang;
     }
+    document.documentElement.lang = lang;
 }
 
 // ==================== SERVICE WORKER ====================
@@ -175,10 +152,6 @@ function updateUILanguage() {
         const lang = interfaceLangSelect.value;
         AppState.settings.interfaceLang = lang;
         document.documentElement.lang = lang;
-
-        // ✅ Оновлюємо URL на чистий формат (напр. /en замість ?lang=en)
-        const newUrl = window.location.protocol + '//' + window.location.host + '/' + lang;
-        window.history.pushState({ path: newUrl }, '', newUrl);
 
         const titles = {
             en: 'Cyprus Road Signs Quiz — Free Driving Test Practice (217 Signs)',
