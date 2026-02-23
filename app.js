@@ -88,22 +88,15 @@ function detectAndSetBrowserLanguage() {
     const supportedLangs = ['en', 'uk', 'el', 'ru'];
     let lang = 'en'; // Default
 
-    // ✅ 1. Чистий URL: /en, /uk, /el, /ru
-    const path = window.location.pathname;
-    const pathLang = path.replace('/', '') || '';
-    if (pathLang && supportedLangs.includes(pathLang)) {
-        lang = pathLang;
-    }
-
-    // ✅ 2. Query parameter ?lang=en (вищий пріоритет ніж URL)
+    // ✅ 1. Query parameter ?lang=en
     const urlParams = new URLSearchParams(window.location.search);
     const queryLang = urlParams.get('lang');
     if (queryLang && supportedLangs.includes(queryLang)) {
         lang = queryLang;
     }
 
-    // ✅ 3. Мова браузера (якщо не знайдено в URL або query)
-    if (!pathLang && !queryLang) {
+    // ✅ 2. Мова браузера (якщо немає query parameter)
+    if (!queryLang) {
         const browserLang = navigator.language || navigator.userLanguage;
         const primaryLang = browserLang.split('-')[0].toLowerCase();
         if (supportedLangs.includes(primaryLang)) {

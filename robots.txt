@@ -16,12 +16,6 @@ Allow: /sw.js
 # Allow image crawling
 Allow: /img/
 
-# Allow language URLs
-Allow: /en
-Allow: /uk
-Allow: /el
-Allow: /ru
-
 # Sitemap location
 Sitemap: https://cy-signs.com/sitemap.xml
 
