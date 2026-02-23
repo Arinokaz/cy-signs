@@ -156,18 +156,18 @@ function updateUILanguage() {
         document.documentElement.lang = lang;
 
         const titles = {
-            en: 'Cyprus Road Signs Quiz — Free Driving Test Practice (217 Signs)',
-            uk: 'Дорожні знаки Кіпру — Безкоштовний онлайн тест (217 знаків)',
-            el: 'Οδικές Πινακίδες Κύπρου — Δωρεάν Θεωρητικό Τεστ (217 Σήματα)',
-            ru: 'Дорожные знаки Кипра — Бесплатный онлайн тест (217 знаков)'
+            en: 'Cyprus Road Signs Quiz — Free Driving Test Practice (228 Signs)',
+            uk: 'Дорожні знаки Кіпру — Безкоштовний онлайн тест (228 знаків)',
+            el: 'Οδικές Πινακίδες Κύπρου — Δωρεάν Θεωρητικό Τεστ (228 Σήματα)',
+            ru: 'Дорожные знаки Кипра — Бесплатный онлайн тест (228 знаков)'
         };
         document.title = titles[lang] || titles.en;
 
         const descriptions = {
-            en: 'Interactive quiz app for learning Cyprus road signs. 217 signs, 4 languages, offline PWA support. Free driving test preparation.',
-            uk: 'Інтерактивний додаток для вивчення дорожніх знаків Кіпру. 217 знаків, 4 мови, офлайн режим. Безкоштовна підготовка до екзамену.',
-            el: 'Διαδραστική εφαρμογή για την εκμάθηση οδικών πινακίδων Κύπρου. 217 σήματα, 4 γλώσσες, υποστήριξη εκτός σύνδεσης.',
-            ru: 'Интерактивное приложение для изучения дорожных знаков Кипра. 217 знаков, 4 языка, офлайн режим. Бесплатная подготовка к экзамену.'
+            en: 'Interactive quiz app for learning Cyprus road signs. 228 signs, 4 languages, offline PWA support. Free driving test preparation.',
+            uk: 'Інтерактивний додаток для вивчення дорожніх знаків Кіпру. 228 знаків, 4 мови, офлайн режим. Безкоштовна підготовка до екзамену.',
+            el: 'Διαδραστική εφαρμογή για την εκμάθηση οδικών πινακίδων Κύπρου. 228 σήματα, 4 γλώσσες, υποστήριξη εκτός σύνδεσης.',
+            ru: 'Интерактивное приложение для изучения дорожных знаков Кипра. 228 знаков, 4 языка, офлайн режим. Бесплатная подготовка к экзамену.'
         };
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) {
@@ -1142,7 +1142,7 @@ function showToast(message) {
 async function shareApp() {
     const shareData = {
         title: 'Cyprus Road Signs Quiz — Free Driving Test Practice',
-        text: '🚗 Learn 217 Cyprus road signs for free!\n\n' +
+        text: '🚗 Learn 228 Cyprus road signs for free!\n\n' +
               '✅ Quiz Mode\n' +
               '✅ Flashcard Mode\n' +
               '✅ 4 languages (EN/UK/EL/RU)\n' +
