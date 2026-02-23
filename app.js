@@ -86,10 +86,11 @@ window.addEventListener('DOMContentLoaded', () => {
 // ==================== LANGUAGE DETECTION ====================
 function detectAndSetBrowserLanguage() {
     const supportedLangs = ['en', 'uk', 'el', 'ru'];
-    
+
+    // ✅ Спочатку перевіряємо ?lang=en (для redirect з 404.html)
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
-    
+
     if (urlLang && supportedLangs.includes(urlLang)) {
         AppState.settings.interfaceLang = urlLang;
         const interfaceLangSelect = document.getElementById('interface-lang');
@@ -97,20 +98,38 @@ function detectAndSetBrowserLanguage() {
             interfaceLangSelect.value = urlLang;
         }
         document.documentElement.lang = urlLang;
+        
+        // ✅ Оновлюємо URL на чистий формат (напр. /en)
+        const newUrl = window.location.protocol + '//' + window.location.host + '/' + urlLang;
+        window.history.replaceState({ path: newUrl }, '', newUrl);
         return;
     }
-    
+
+    // ✅ Парсимо чистий URL (напр. /en, /uk) замість ?lang=en
+    const path = window.location.pathname; // "/en" або "/"
+    const pathLang = path.replace('/', '') || ''; // "en" або ""
+
+    if (pathLang && supportedLangs.includes(pathLang)) {
+        AppState.settings.interfaceLang = pathLang;
+        const interfaceLangSelect = document.getElementById('interface-lang');
+        if (interfaceLangSelect) {
+            interfaceLangSelect.value = pathLang;
+        }
+        document.documentElement.lang = pathLang;
+        return;
+    }
+
     const browserLang = navigator.language || navigator.userLanguage;
     const primaryLang = browserLang.split('-')[0].toLowerCase();
-    
+
     if (supportedLangs.includes(primaryLang)) {
         AppState.settings.interfaceLang = primaryLang;
-        
+
         const interfaceLangSelect = document.getElementById('interface-lang');
         if (interfaceLangSelect) {
             interfaceLangSelect.value = primaryLang;
         }
-        
+
         document.documentElement.lang = primaryLang;
     }
 }
@@ -156,7 +175,11 @@ function updateUILanguage() {
         const lang = interfaceLangSelect.value;
         AppState.settings.interfaceLang = lang;
         document.documentElement.lang = lang;
-        
+
+        // ✅ Оновлюємо URL на чистий формат (напр. /en замість ?lang=en)
+        const newUrl = window.location.protocol + '//' + window.location.host + '/' + lang;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+
         const titles = {
             en: 'Cyprus Road Signs Quiz — Free Driving Test Practice (217 Signs)',
             uk: 'Дорожні знаки Кіпру — Безкоштовний онлайн тест (217 знаків)',
@@ -164,7 +187,7 @@ function updateUILanguage() {
             ru: 'Дорожные знаки Кипра — Бесплатный онлайн тест (217 знаков)'
         };
         document.title = titles[lang] || titles.en;
-        
+
         const descriptions = {
             en: 'Interactive quiz app for learning Cyprus road signs. 217 signs, 4 languages, offline PWA support. Free driving test preparation.',
             uk: 'Інтерактивний додаток для вивчення дорожніх знаків Кіпру. 217 знаків, 4 мови, офлайн режим. Безкоштовна підготовка до екзамену.',
@@ -175,7 +198,7 @@ function updateUILanguage() {
         if (metaDesc) {
             metaDesc.setAttribute('content', descriptions[lang] || descriptions.en);
         }
-        
+
         updateUI();
     }
 }
@@ -265,7 +288,8 @@ function updateUI() {
 }
 
 function getDisplayName(sign, lang) { return sign.name[lang] || sign.name.en; }
-function getDisplayHint(sign, lang) { return sign.hint[lang] || sign.hint.en; }
+function getDisplayHint(sign, lang) { return sign.hint[lang] || sign.hint.en; }  // ✅ Коротка підказка для тесту
+function getDisplayExplanation(sign, lang) { return sign.explanation ? (sign.explanation[lang] || sign.explanation.en) : (sign.hint[lang] || sign.hint.en); }  // ✅ Довге пояснення для довідника
 
 function handleImageError(imgElement) {
     imgElement.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150"><rect fill="%23ddd" width="150" height="150"/><text fill="%23666" x="50%" y="50%" text-anchor="middle" dy=".3em" font-family="Arial" font-size="14">No Image</text></svg>';
@@ -281,19 +305,36 @@ function toggleTranslate() {
         btn.classList.toggle('active', AppState.settings.showingTranslation);
     }
 
+    // ✅ Перевірка перед викликом updateOptionsText()
     if (AppState.quiz.testSet.length > 0 && AppState.quiz.current < AppState.quiz.testSet.length) {
-        updateOptionsText();
+        const options = document.getElementById('options');
+        if (options && options.children.length > 0) {  // ✅ Кнопки існують
+            updateOptionsText();
+        }
     }
 }
 
 function updateOptionsText() {
     const quizLangCurrent = getCurrentQuizLang();
     const buttons = document.querySelectorAll('#options button');
+    const optionsSigns = AppState.quiz.currentOptionsSigns;
 
-    AppState.quiz.currentOptionsSigns.forEach((sign, index) => {
-        // ✅ Проверка на существование кнопки
-        if (index < buttons.length && buttons[index]) {
-            buttons[index].innerText = getDisplayName(sign, quizLangCurrent);
+    // ✅ Перевірка на порожній масив
+    if (!optionsSigns || optionsSigns.length === 0) {
+        return;
+    }
+
+    // ✅ Перевірка на відповідність кількості
+    if (buttons.length !== optionsSigns.length) {
+        console.warn('Кількість кнопок не співпадає з кількістю знаків:', buttons.length, optionsSigns.length);
+        return;
+    }
+
+    // ✅ Безпечне оновлення
+    optionsSigns.forEach((sign, index) => {
+        const button = buttons[index];
+        if (button && typeof button.innerText !== 'undefined') {
+            button.innerText = getDisplayName(sign, quizLangCurrent);
         }
     });
 }
@@ -619,31 +660,26 @@ function next() {
 
 // ==================== CLEANUP: MEMORY LEAK FIX ====================
 function cleanupQuiz() {
-    // ✅ Удаляем старую подсказку (для следующего вопроса)
+    // ✅ Видаляємо стару підказку (для наступного питання)
     const hintDiv = document.getElementById('active-hint');
     if (hintDiv) hintDiv.remove();
-    
-    // ✅ Удаляем кнопку "Далі"
+
+    // ✅ Видаляємо кнопку "Далі"
     const nextBtn = document.getElementById('next-btn-manual');
     if (nextBtn) nextBtn.remove();
-    
-    // ✅ Удаляем подсказки вариантов (.hint-item)
+
+    // ✅ Видаляємо підказки варіантів (.hint-item)
     const allHintItems = document.querySelectorAll('.hint-item');
     allHintItems.forEach(item => item.remove());
-    
-    // ✅ Удаляем кнопку подсказок (будет создана заново в render())
+
+    // ✅ Видаляємо кнопку підказок (буде створена заново в render())
     const hintsBtn = document.getElementById('hints-btn');
     if (hintsBtn) hintsBtn.remove();
 
-    // ✅ Очищаем options с удалением слушателей
+    // ✅ Просте і ефективне очищення options
     const options = document.getElementById('options');
     if (options) {
-        while (options.firstChild) {
-            const button = options.firstChild;
-            const newButton = button.cloneNode(false);
-            button.parentNode.replaceChild(newButton, button);
-            newButton.remove();
-        }
+        options.innerHTML = '';  // ✅ Повне очищення без витоку пам'яті
     }
 
     AppState.quiz.isProcessing = false;
@@ -653,22 +689,37 @@ function cleanupQuiz() {
 function retry() {
     if (!AppState.quiz.savedTestSet) return;
 
+    // ✅ 1. Спочатку очищаємо ВСЕ
     cleanupQuiz();
 
+    // ✅ 2. Додатково перевіряємо чи все чисто
+    const remainingHints = document.querySelectorAll('.hint-item');
+    remainingHints.forEach(hint => hint.remove());
+
+    const remainingHintsBtn = document.getElementById('hints-btn');
+    if (remainingHintsBtn) remainingHintsBtn.remove();
+
+    // ✅ 3. Скидаємо лічильники
     AppState.timing.questionTimes.length = 0;
     AppState.quiz.results.length = 0;
     AppState.quiz.currentOptionsSigns.length = 0;
-    AppState.quiz.hintsUsed = 0;  // ✅ Сброс счетчика подсказок
-    AppState.quiz.currentAttempt = 0;  // ✅ Сброс счетчика попыток
+    AppState.quiz.hintsUsed = 0;
+    AppState.quiz.currentAttempt = 0;
 
+    // ✅ 4. Відновлюємо тест
     AppState.quiz.testSet = [...AppState.quiz.savedTestSet];
     AppState.quiz.current = 0;
     AppState.quiz.points = 0;
     AppState.timing.totalStartTime = Date.now();
     AppState.settings.showingTranslation = false;
 
+    // ✅ 5. Показуємо екран
     showScreen('quiz-screen');
-    render();
+    
+    // ✅ 6. Невелика затримка для повного очищення DOM
+    setTimeout(() => {
+        render();
+    }, 50);
 }
 
 function backToMenu() {
@@ -804,6 +855,7 @@ function finish() {
 
         const hintDiv = document.createElement('div');
         hintDiv.className = 'hint';
+        // ✅ Використовуємо hint для результатів (коротка підказка)
         hintDiv.textContent = `${t.hintLabel} ${getDisplayHint(q, AppState.settings.helperLang)}`;
 
         // ✅ Показываем время для последней попытки (и для Quiz, и для Flashcard)
@@ -887,7 +939,7 @@ function showReference() {
 
             const categoryName = t.categories[sign.cat] || sign.cat;
             const signName = getDisplayName(sign, AppState.settings.interfaceLang);
-            const signHint = getDisplayHint(sign, AppState.settings.interfaceLang);
+            const signExplanation = getDisplayExplanation(sign, AppState.settings.interfaceLang);  // ✅ Використовуємо explanation
 
             const img = document.createElement('img');
             img.src = `./img/${sign.file}`;
@@ -905,13 +957,13 @@ function showReference() {
             nameDiv.className = 'reference-name';
             nameDiv.textContent = signName;
 
-            const hintDiv = document.createElement('div');
-            hintDiv.className = 'reference-hint';
-            hintDiv.textContent = signHint;
+            const explanationDiv = document.createElement('div');
+            explanationDiv.className = 'reference-hint';
+            explanationDiv.textContent = signExplanation;  // ✅ Показуємо довге пояснення
 
             contentDiv.appendChild(categoryDiv);
             contentDiv.appendChild(nameDiv);
-            contentDiv.appendChild(hintDiv);
+            contentDiv.appendChild(explanationDiv);
 
             item.appendChild(img);
             item.appendChild(contentDiv);
@@ -1053,20 +1105,21 @@ function showFlashcardAnswer() {
         while (hintContainer.firstChild) {
             hintContainer.removeChild(hintContainer.firstChild);
         }
-        
+
         const hintTitle = document.createElement('strong');
         hintTitle.textContent = `💡 ${t.hintLabel}`;
         hintContainer.appendChild(hintTitle);
         hintContainer.appendChild(document.createElement('br'));
+        // ✅ Використовуємо hint для флеш-карток (коротка підказка)
         hintContainer.appendChild(document.createTextNode(getDisplayHint(q, AppState.settings.helperLang)));
     }
 
     const flashcardAnswer = document.getElementById('flashcard-answer');
     if (flashcardAnswer) flashcardAnswer.classList.remove('hidden');
-    
+
     const showAnswerBtn = document.getElementById('flashcard-show-answer');
     if (showAnswerBtn) showAnswerBtn.style.display = 'none';
-    
+
     const flashcardCorrect = document.getElementById('flashcard-correct');
     const flashcardWrong = document.getElementById('flashcard-wrong');
     if (flashcardCorrect) flashcardCorrect.disabled = false;

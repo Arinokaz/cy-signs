@@ -12,8 +12,22 @@
         gtag('config', 'G-REEQ28Q912');
     </script>
     <meta charset="UTF-8">
+    
+    <!-- ✅ Content Security Policy (CSP) -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; 
+                   script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com; 
+                   style-src 'self' 'unsafe-inline'; 
+                   img-src 'self' data: https: blob:; 
+                   font-src 'self' data:; 
+                   connect-src 'self' https://us-central1-cy-signs-online.cloudfunctions.net https://www.google-analytics.com https://firestore.googleapis.com; 
+                   frame-ancestors 'none'; 
+                   base-uri 'self'; 
+                   form-action 'self' https://us-central1-cy-signs-online.cloudfunctions.net; 
+                   upgrade-insecure-requests;">
+    
     <link rel="canonical" href="https://cy-signs.com/">
-    <link rel="manifest" href="manifest.json?v=3.11">
+    <link rel="manifest" href="manifest.json?v=3.12">
     <link rel="icon" type="image/png" href="img/main-icon.png">
     <link rel="apple-touch-icon" href="img/main-icon.png">
     <meta name="mobile-web-app-capable" content="yes">
@@ -22,17 +36,17 @@
     <meta name="apple-mobile-web-app-title" content="Cyprus Signs">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description"
-        content="Interactive quiz app for learning Cyprus road signs. 217 signs, 4 languages (EN/UK/EL/RU), offline PWA support. Free driving test preparation.">
+        content="Interactive quiz app for learning Cyprus road signs. 228 signs, 4 languages (EN/UK/EL/RU), offline PWA support. Free driving test preparation.">
     <meta name="keywords"
         content="Cyprus road signs, driving test Cyprus, traffic signs quiz, PWA quiz, road signs learning, Cyprus driving license, δωρικα σημαδια Κυπρου, дорожні знаки Кіпру, дорожные знаки Кипра, θεωρητικό οδήγησης Κύπρος, тести ПДР Кіпр, экзамен ПДД Кипр, права Кипр, learn road signs online, free driving test">
     <meta name="author" content="Cyprus Driving Test">
     <meta name="robots" content="index, follow">
 
     <!-- Hreflang tags for multilingual SEO -->
-    <link rel="alternate" hreflang="en" href="https://cy-signs.com/?lang=en">
-    <link rel="alternate" hreflang="uk" href="https://cy-signs.com/?lang=uk">
-    <link rel="alternate" hreflang="el" href="https://cy-signs.com/?lang=el">
-    <link rel="alternate" hreflang="ru" href="https://cy-signs.com/?lang=ru">
+    <link rel="alternate" hreflang="en" href="https://cy-signs.com/en">
+    <link rel="alternate" hreflang="uk" href="https://cy-signs.com/uk">
+    <link rel="alternate" hreflang="el" href="https://cy-signs.com/el">
+    <link rel="alternate" hreflang="ru" href="https://cy-signs.com/ru">
     <link rel="alternate" hreflang="x-default" href="https://cy-signs.com/">
 
     <!-- Open Graph / Facebook -->
@@ -51,10 +65,10 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://cy-signs.com/">
     <meta name="twitter:title" content="Cyprus Road Signs Quiz">
-    <meta name="twitter:description" content="Free interactive quiz for Cyprus driving test. 217 signs, 4 languages.">
+    <meta name="twitter:description" content="Free interactive quiz for Cyprus driving test. 228 signs, 4 languages.">
     <meta name="twitter:image" content="https://cy-signs.com/img/main-icon.png">
 
-    <title>Cyprus Road Signs Quiz — Free Driving Test Practice (217 Signs)</title>
+    <title>Cyprus Road Signs Quiz — Free Driving Test Practice (228 Signs)</title>
     <link rel="preload" href="styles.css?v=3.30" as="style">
     <link rel="stylesheet" href="styles.css?v=3.30">
     <script src="translations.js?v=3.30"></script>
@@ -65,7 +79,7 @@
       "@context": "https://schema.org",
       "@type": "LearningProject",
       "name": "Cyprus Road Signs Quiz",
-      "description": "Interactive quiz app for learning Cyprus road signs with 217 signs in 4 languages (English, Ukrainian, Greek, Russian)",
+      "description": "Interactive quiz app for learning Cyprus road signs with 228 signs in 4 languages (English, Ukrainian, Greek, Russian)",
       "url": "https://cy-signs.com",
       "image": "https://cy-signs.com/img/main-icon.png",
       "author": {
@@ -124,15 +138,15 @@
         style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
         <article>
             <!-- English -->
-            <h1>Cyprus Road Signs Quiz — Free Driving Test Practice (217 Signs)</h1>
-            <p>Master all 217 official Cyprus road signs with our interactive quiz app. Perfect for driving test
+            <h1>Cyprus Road Signs Quiz — Free Driving Test Practice (228 Signs)</h1>
+            <p>Master all 228 official Cyprus road signs with our interactive quiz app. Perfect for driving test
                 preparation with quiz mode, flashcard mode, and complete reference guide. Available in English,
                 Ukrainian,
                 Greek, and Russian.</p>
 
             <h2>Key Features</h2>
             <ul>
-                <li>217 official Cyprus road signs</li>
+                <li>228 official Cyprus road signs</li>
                 <li>Quiz mode with 5, 10, 20, 50 questions or all signs</li>
                 <li>Flashcard mode for memorization</li>
                 <li>Complete reference guide with all signs</li>
@@ -155,15 +169,15 @@
 
             <!-- Ukrainian -->
             <hr>
-            <h1>Дорожні знаки Кіпру — Безкоштовний онлайн тест (217 знаків)</h1>
-            <p>Вивчіть усі 217 офіційних дорожніх знаків Кіпру з нашим інтертерактивним додатком. Ідеально для
+            <h1>Дорожні знаки Кіпру — Безкоштовний онлайн тест (228 знаків)</h1>
+            <p>Вивчіть усі 228 офіційних дорожніх знаків Кіпру з нашим інтертерактивним додатком. Ідеально для
                 підготовки
                 до теоретичного екзамену з водіння. Доступно українською, англійською, грецькою та російською мовами.
             </p>
 
             <h2>Основні можливості</h2>
             <ul>
-                <li>217 офіційних дорожніх знаків Кіпру</li>
+                <li>228 офіційних дорожніх знаків Кіпру</li>
                 <li>Режим тесту з 5, 10, 20, 50 запитань або всі знаки</li>
                 <li>Режим флеш-карток для запам'ятовування</li>
                 <li>Повний довідник усіх знаків</li>
@@ -175,14 +189,14 @@
 
             <!-- Greek -->
             <hr>
-            <h1>Οδικές Πινακίδες Κύπρου — Δωρεάν Θεωρητικό Τεστ (217 Σήματα)</h1>
-            <p>Μάθετε όλα τα 217 επίσημα οδικά σήματα της Κύπρου με τη διαδραστική μας εφαρμογή. Ιδανικό για την
+            <h1>Οδικές Πινακίδες Κύπρου — Δωρεάν Θεωρητικό Τεστ (228 Σήματα)</h1>
+            <p>Μάθετε όλα τα 228 επίσημα οδικά σήματα της Κύπρου με τη διαδραστική μας εφαρμογή. Ιδανικό για την
                 προετοιμασία
                 των θεωρητικών εξετάσεων οδήγησης. Διαθέσιμο στα Αγγλικά, Ουκρανικά, Ελληνικά και Ρωσικά.</p>
 
             <h2>Βασικά Χαρακτηριστικά</h2>
             <ul>
-                <li>217 επίσημα οδικά σήματα της Κύπρου</li>
+                <li>228 επίσημα οδικά σήματα της Κύπρου</li>
                 <li>Λειτουργία κουίζ με 5, 10, 20, 50 ερωτήσεις</li>
                 <li>Λειτουργία κάρτας flash για απομνημόνευση</li>
                 <li>Πλήρης οδηγός όλων των σημάτων</li>
@@ -194,15 +208,15 @@
 
             <!-- Russian -->
             <hr>
-            <h1>Дорожные знаки Кипра — Бесплатный онлайн тест (217 знаков)</h1>
-            <p>Изучите все 217 официальных дорожных знаков Кипра с нашим интерактивным приложением. Идеально для
+            <h1>Дорожные знаки Кипра — Бесплатный онлайн тест (228 знаков)</h1>
+            <p>Изучите все 228 официальных дорожных знаков Кипра с нашим интерактивным приложением. Идеально для
                 подготовки
                 к теоретическому экзамену по вождению. Доступно на английском, украинском, греческом и русском языках.
             </p>
 
             <h2>Основные возможности</h2>
             <ul>
-                <li>217 официальных дорожных знаков Кипра</li>
+                <li>228 официальных дорожных знаков Кипра</li>
                 <li>Режим теста с 5, 10, 20, 50 вопросов или все знаки</li>
                 <li>Режим флеш-карточек для запоминания</li>
                 <li>Полный справочник всех знаков</li>
@@ -414,7 +428,7 @@
                 Cyprus Road Signs | Дорожні знаки Кіпру | Οδικές Πινακίδες | Дорожные знаки Кипра
             </p>
             <p style="margin: 5px 0;">
-                Free driving test • 217 signs
+                Free driving test • 228 signs
             </p>
         </footer>
     </main>

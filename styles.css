@@ -246,7 +246,7 @@ p {
 .options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;  /* ✅ Більше відстані для кращого UX */
     width: 100%;
 }
 
@@ -639,8 +639,9 @@ input:checked + .slider:before {
     
     /* Larger touch targets */
     button:not(.translate-btn):not(.category-btn):not(.share-btn):not(.feedback-btn) {
-        min-height: 50px;
-        padding: 14px 18px;
+        min-height: 56px;  /* ✅ Рекомендований мінімум (WCAG 2.1) */
+        padding: 16px 18px;
+        font-size: 16px;
     }
 
     /* Share button remains square */
@@ -766,14 +767,28 @@ input:checked + .slider:before {
     #options {
         margin-bottom: 12px;
     }
-    
+
     .sign-box {
         margin-top: 8px;
         margin-bottom: 16px;
     }
-    
+
     .options {
-        gap: 10px;
+        gap: 12px;  /* ✅ Збільшено для кращого UX */
+    }
+    
+    /* ✅ Додаткові покращення для кнопок відповідей */
+    #options button {
+        min-height: 56px;  /* ✅ Рекомендований мінімум для touch */
+        padding: 16px 18px;
+        border-width: 2px;  /* ✅ Чіткіші межі */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;  /* ✅ Більш округлі */
+    }
+    
+    #options button:active {
+        transform: translateY(2px);  /* ✅ Тактильний відгук */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
 }
 

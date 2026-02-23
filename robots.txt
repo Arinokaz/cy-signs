@@ -16,15 +16,14 @@ Allow: /sw.js
 # Allow image crawling
 Allow: /img/
 
+# Allow language URLs
+Allow: /en
+Allow: /uk
+Allow: /el
+Allow: /ru
+
 # Sitemap location
 Sitemap: https://cy-signs.com/sitemap.xml
 
 # Crawl-delay (optional, polite crawling)
 Crawl-delay: 1
-
-# Block common bad bots (optional)
-# User-agent: AhrefsBot
-# Disallow: /
-
-# User-agent: SemrushBot
-# Disallow: /
