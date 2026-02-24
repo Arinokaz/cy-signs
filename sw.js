@@ -1,9 +1,25 @@
-const CACHE_NAME = 'cyprus-signs-dynamic-v3.39';
+const CACHE_NAME = 'cyprus-signs-dynamic-v4.1';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(['index.html', 'styles.css', 'translations.js', 'signs-data.js', 'app.js', 'manifest.json']))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll([
+      './',
+      'index.html',
+      'styles.css',
+      'translations.js',
+      'signs-data.js',
+      'js/app.js',
+      'js/state.js',
+      'js/i18n.js',
+      'js/ui.js',
+      'js/quiz.js',
+      'js/flashcard.js',
+      'js/reference.js',
+      'js/feedback.js',
+      'js/utils.js',
+      'manifest.json'
+    ]))
   );
 });
 
