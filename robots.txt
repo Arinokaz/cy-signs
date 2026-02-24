@@ -6,6 +6,7 @@ Allow: /
 
 # Allow all search engines to crawl the site
 Allow: /index.html
+Allow: /feedback.html
 Allow: /styles.css
 Allow: /app.js
 Allow: /translations.js
@@ -15,6 +16,7 @@ Allow: /sw.js
 
 # Allow image crawling
 Allow: /img/
+Allow: /js/
 
 # Sitemap location
 Sitemap: https://cy-signs.com/sitemap.xml

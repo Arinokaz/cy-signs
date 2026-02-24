@@ -51,6 +51,44 @@ body {
     text-align: center;
 }
 
+/* Feedback page - full height layout */
+body.feedback-page {
+    display: block;
+    padding: 20px;
+    min-height: auto;
+}
+
+body.feedback-page #app {
+    margin: 0 auto;
+    min-height: auto;
+}
+
+/* Feedback footer */
+.feedback-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #999;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feedback-footer p {
+    margin: 5px 0;
+}
+
+.feedback-footer a {
+    color: #999;
+    text-decoration: none;
+}
+
+.feedback-footer a:hover {
+    text-decoration: underline;
+}
+
 /* ==================== SCREENS ==================== */
 .hidden {
     display: none !important;
@@ -126,6 +164,7 @@ body {
     visibility: visible !important;
     opacity: 1 !important;
     margin-right: 8px;
+    text-decoration: none !important;
 }
 
 .feedback-btn:hover {
@@ -332,11 +371,17 @@ button.wrong {
     border-radius: 12px;
     margin-top: 12px;
     box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    text-decoration: none !important;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
 }
 
 .main-btn:hover:not(:disabled) {
     background: #2980b9;
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+    color: white !important;
+    text-decoration: none !important;
 }
 
 /* Translate button */
@@ -1039,8 +1084,16 @@ input:checked + .slider:before {
 
 /* ==================== FEEDBACK SCREEN ==================== */
 #feedback-screen h2 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 1.4rem;
+}
+
+.feedback-description {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 #feedback-form {
@@ -1068,7 +1121,11 @@ input:checked + .slider:before {
     #feedback-screen h2 {
         font-size: 1.25rem;
     }
-    
+
+    .feedback-description {
+        font-size: 0.9rem;
+    }
+
     #feedback-rating {
         font-size: 32px;
     }

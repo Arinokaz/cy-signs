@@ -7,6 +7,7 @@ import { AppState } from './state.js';
 import { showScreen } from './ui.js';
 import { getDisplayName, getDisplayHint, t } from './i18n.js';
 import { shuffle, handleImageError, showToast } from './utils.js';
+import { renderResultsList, renderResultHeader } from './results.js';
 
 // t is the translations object (imported from i18n.js)
 
@@ -134,7 +135,7 @@ export function showFlashcardAnswer() {
         hintContainer.innerHTML = '';
 
         const hintTitle = document.createElement('strong');
-        hintTitle.textContent = `💡 ${translations.hintLabel}`;
+        hintTitle.textContent = `${translations.hintLabel}`;
         hintContainer.appendChild(hintTitle);
         hintContainer.appendChild(document.createElement('br'));
         hintContainer.appendChild(document.createTextNode(getDisplayHint(q, AppState.settings.helperLang)));
@@ -184,8 +185,24 @@ export function handleFlashcardAnswer(isCorrect) {
  * Finish flashcard session
  */
 function finishFlashcard() {
-    // Reuse quiz finish logic - import dynamically to avoid circular dependency
-    import('./quiz.js').then(({ finish }) => {
-        finish();
-    });
+    showScreen('result-screen');
+
+    const totalTime = (Date.now() - AppState.timing.totalStartTime) / 1000;
+
+    // Use shared result rendering logic (flashcard mode = no hints counter)
+    renderResultHeader(
+        AppState.quiz.points,
+        AppState.quiz.testSet.length,
+        totalTime,
+        0, // hintsUsed = 0 for flashcard mode
+        true // isFlashcard = true
+    );
+
+    const retryBtn = document.getElementById('ui-retry-btn');
+    if (retryBtn) {
+        retryBtn.style.display = AppState.showRetryButton ? 'block' : 'none';
+    }
+
+    // Use shared results list rendering
+    renderResultsList(AppState.quiz.results, AppState.quiz.testSet, true);
 }

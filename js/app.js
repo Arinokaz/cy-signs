@@ -11,7 +11,7 @@ import { setupServiceWorker, showScreen } from './ui.js';
 import { setCat, start, backToMenu, retry, toggleTranslate, toggleHints } from './quiz.js';
 import { startFlashcard, showFlashcardAnswer, handleFlashcardAnswer } from './flashcard.js';
 import { showReference, filterReference } from './reference.js';
-import { sendFeedback, submitFeedback, setRating, shareApp } from './feedback.js';
+import { shareApp } from './feedback.js';
 
 // ==================== INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hide loading spinner, show start screen
     setTimeout(() => {
-        if (typeof allSigns !== 'undefined' && allSigns.length > 0) {
+        if (typeof allSigns !== 'undefined' && Array.isArray(allSigns) && allSigns.length > 0) {
             document.getElementById('loading-spinner').classList.add('hidden');
             document.getElementById('start-screen').classList.remove('hidden');
         } else {
@@ -96,23 +96,6 @@ function setupEventListeners() {
         });
     }
 
-    // Sync language changes across browser tabs
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'cy_interface_lang') {
-            AppState.settings.interfaceLang = e.newValue;
-            if (interfaceLangSelect) interfaceLangSelect.value = e.newValue;
-            updateUI();
-        }
-        if (e.key === 'cy_quiz_lang') {
-            AppState.settings.quizLang = e.newValue;
-            if (quizLangSelect) quizLangSelect.value = e.newValue;
-        }
-        if (e.key === 'cy_helper_lang') {
-            AppState.settings.helperLang = e.newValue;
-            if (helperLangSelect) helperLangSelect.value = e.newValue;
-        }
-    });
-
     // Category buttons
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -134,15 +117,7 @@ function setupEventListeners() {
     const shareBtn = document.querySelector('.share-btn');
     if (shareBtn) shareBtn.addEventListener('click', shareApp);
 
-    // Feedback button
-    const feedbackBtn = document.querySelector('.feedback-btn');
-    if (feedbackBtn) feedbackBtn.addEventListener('click', sendFeedback);
-
-    // Feedback form
-    const feedbackForm = document.getElementById('feedback-form');
-    if (feedbackForm) {
-        feedbackForm.addEventListener('submit', submitFeedback);
-    }
+    // Feedback button now links to feedback.html - no event listener needed
 
     // Quiz screen buttons
     const translateBtn = document.getElementById('translate-toggle');
@@ -168,19 +143,6 @@ function setupEventListeners() {
     const referenceSearch = document.getElementById('reference-search');
     if (referenceSearch) {
         referenceSearch.addEventListener('input', filterReference);
-    }
-
-    // Feedback rating stars
-    document.querySelectorAll('#feedback-rating span').forEach((star, index) => {
-        star.addEventListener('click', () => {
-            setRating(index + 1);
-        });
-    });
-
-    // Feedback back button
-    const feedbackBackBtn = document.getElementById('ui-feedback-back-btn');
-    if (feedbackBackBtn) {
-        feedbackBackBtn.addEventListener('click', backToMenu);
     }
 
     // Reference back button
@@ -221,7 +183,5 @@ window.CySigns = {
     start,
     startFlashcard,
     showReference,
-    sendFeedback,
-    setRating,
     shareApp
 };

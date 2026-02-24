@@ -6,7 +6,8 @@
 import { AppState, AD_CONFIG } from './state.js';
 import { showScreen, cleanupQuiz } from './ui.js';
 import { getDisplayName, getCurrentQuizLang, updateUI, getDisplayHint, t } from './i18n.js';
-import { shuffle, handleImageError, getTimeColor, getAttemptText, formatTime } from './utils.js';
+import { shuffle, handleImageError } from './utils.js';
+import { renderResultsList, renderResultHeader } from './results.js';
 
 // t is the translations object (imported from i18n.js)
 
@@ -268,118 +269,26 @@ export function next() {
  * Finish quiz and show results
  */
 export function finish() {
-    const t = UI_TRANSLATIONS[AppState.settings.interfaceLang];
-
     showScreen('result-screen');
-
-    const scoreEl = document.getElementById('score');
-    const totalQEl = document.getElementById('total-q');
-    if (scoreEl) scoreEl.innerText = AppState.quiz.points;
-    if (totalQEl) totalQEl.innerText = AppState.quiz.testSet.length;
 
     const totalTime = (Date.now() - AppState.timing.totalStartTime) / 1000;
 
-    const resultTitle = document.getElementById('result-title');
-    if (resultTitle) {
-        resultTitle.textContent = `${t.score}: ${AppState.quiz.points} / ${AppState.quiz.testSet.length}`;
-
-        const timeSpan = document.createElement('span');
-        timeSpan.style.cssText = 'font-size: 16px; color: #666; font-weight: 500; margin-top: 8px; display: inline-block;';
-        timeSpan.textContent = `${t.totalTime}: ${formatTime(totalTime)}`;
-
-        const lineBreak = document.createElement('br');
-        resultTitle.appendChild(lineBreak);
-        resultTitle.appendChild(timeSpan);
-
-        // Add hints counter
-        if (AppState.quiz.hintsUsed > 0 && !AppState.flashcard.mode) {
-            const hintsSpan = document.createElement('span');
-            hintsSpan.style.cssText = 'font-size: 14px; color: #f39c12; font-weight: 500; margin-top: 4px; display: inline-block; margin-left: 15px;';
-            hintsSpan.textContent = `💡 ${t.hintsUsed}: ${AppState.quiz.hintsUsed}`;
-            resultTitle.appendChild(hintsSpan);
-        }
-    }
+    // Use shared result rendering logic
+    renderResultHeader(
+        AppState.quiz.points,
+        AppState.quiz.testSet.length,
+        totalTime,
+        AppState.quiz.hintsUsed,
+        false // isFlashcard = false
+    );
 
     const retryBtn = document.getElementById('ui-retry-btn');
     if (retryBtn) {
         retryBtn.style.display = AppState.showRetryButton ? 'block' : 'none';
     }
 
-    const log = document.getElementById('log');
-    if (log) {
-        log.innerHTML = '';
-    }
-
-    // Group results by question
-    const questionStats = {};
-    AppState.quiz.results.forEach(r => {
-        const key = r.q.file;
-        if (!questionStats[key]) {
-            questionStats[key] = { attempts: 0, errors: 0, lastResult: null };
-        }
-        questionStats[key].attempts++;
-        if (!r.isOk) {
-            questionStats[key].errors++;
-        } else {
-            questionStats[key].lastResult = r;
-        }
-    });
-
-    // Show all questions in order
-    AppState.quiz.testSet.forEach(q => {
-        const key = q.file;
-        const stats = questionStats[key];
-        const row = document.createElement('div');
-        row.className = 'result-item';
-
-        const hasErrors = stats.errors > 0;
-        let statusText;
-        
-        if (AppState.flashcard.mode) {
-            statusText = hasErrors ? `❌ ${t.wrong}` : `✅ ${t.correct}`;
-        } else {
-            statusText = hasErrors
-                ? `❌ ${t.wrong} (${stats.attempts} ${getAttemptText(stats.attempts, AppState.settings.interfaceLang)})`
-                : `✅ ${t.correct}`;
-        }
-
-        const img = document.createElement('img');
-        img.src = `./img/${q.file}`;
-        img.alt = 'Sign';
-        img.onerror = () => handleImageError(img);
-
-        const contentDiv = document.createElement('div');
-
-        const statusDiv = document.createElement('div');
-        statusDiv.className = 'status';
-        statusDiv.style.color = hasErrors ? 'var(--danger)' : 'var(--success)';
-        statusDiv.textContent = statusText;
-
-        const answerDiv = document.createElement('div');
-        answerDiv.className = 'answer';
-        answerDiv.textContent = getDisplayName(q, AppState.settings.quizLang);
-
-        const hintDiv = document.createElement('div');
-        hintDiv.className = 'hint';
-        hintDiv.textContent = `${t.hintLabel} ${getDisplayHint(q, AppState.settings.helperLang)}`;
-
-        if (stats.lastResult) {
-            const timeColor = getTimeColor(stats.lastResult.time);
-            const timeDiv = document.createElement('div');
-            timeDiv.className = 'time';
-            timeDiv.style.color = timeColor;
-            timeDiv.textContent = `${t.answerTime}: ${stats.lastResult.time.toFixed(1)} ${t.seconds}`;
-            contentDiv.appendChild(timeDiv);
-        }
-
-        contentDiv.appendChild(statusDiv);
-        contentDiv.appendChild(answerDiv);
-        contentDiv.appendChild(hintDiv);
-
-        row.appendChild(img);
-        row.appendChild(contentDiv);
-        log.appendChild(row);
-    });
+    // Use shared results list rendering
+    renderResultsList(AppState.quiz.results, AppState.quiz.testSet, false);
 }
 
 /**
@@ -389,12 +298,6 @@ export function retry() {
     if (!AppState.quiz.savedTestSet) return;
 
     cleanupQuiz();
-
-    const remainingHints = document.querySelectorAll('.hint-item');
-    remainingHints.forEach(hint => hint.remove());
-
-    const remainingHintsBtn = document.getElementById('hints-btn');
-    if (remainingHintsBtn) remainingHintsBtn.remove();
 
     AppState.timing.questionTimes.length = 0;
     AppState.quiz.results.length = 0;
@@ -453,8 +356,8 @@ export function toggleTranslate() {
     AppState.settings.showingTranslation = !AppState.settings.showingTranslation;
     const btn = document.getElementById('translate-toggle');
     if (btn) {
-        const t = UI_TRANSLATIONS[AppState.settings.interfaceLang];
-        btn.textContent = AppState.settings.showingTranslation ? t.hideTranslate : t.showTranslate;
+        const translations = t[AppState.settings.interfaceLang];
+        btn.textContent = AppState.settings.showingTranslation ? translations.hideTranslate : translations.showTranslate;
         btn.classList.toggle('active', AppState.settings.showingTranslation);
     }
 
@@ -495,7 +398,7 @@ function updateOptionsText() {
  * Toggle hints display
  */
 export function toggleHints() {
-    const t = UI_TRANSLATIONS[AppState.settings.interfaceLang];
+    const translations = t[AppState.settings.interfaceLang];
     const helperLang = AppState.settings.helperLang;
 
     const firstHintItem = document.querySelector('.hint-item');
@@ -506,7 +409,7 @@ export function toggleHints() {
         allHintItems.forEach(item => item.remove());
 
         if (hintsBtn) {
-            hintsBtn.textContent = t.showHints;
+            hintsBtn.textContent = translations.showHints;
         }
         return;
     }
@@ -533,6 +436,6 @@ export function toggleHints() {
     });
 
     if (hintsBtn) {
-        hintsBtn.textContent = t.hideHints;
+        hintsBtn.textContent = translations.hideHints;
     }
 }

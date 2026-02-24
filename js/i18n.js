@@ -52,17 +52,8 @@ export function detectAndSetLanguage() {
         localStorage.setItem('cy_interface_lang', lang);
     } else {
         // 2. Check localStorage (from previous page visits)
-        let storedLang = localStorage.getItem('cy_interface_lang');  // ✅ New consistent key
-        
-        // Migrate from old key 'cy_lang' to 'cy_interface_lang'
-        if (!storedLang) {
-            storedLang = localStorage.getItem('cy_lang');
-            if (storedLang && supportedLangs.includes(storedLang)) {
-                localStorage.setItem('cy_interface_lang', storedLang);
-                localStorage.removeItem('cy_lang');  // Clean up old key
-            }
-        }
-        
+        const storedLang = localStorage.getItem('cy_interface_lang');
+
         if (storedLang && supportedLangs.includes(storedLang)) {
             lang = storedLang;
         } else {
@@ -143,7 +134,7 @@ export function updateUILanguage() {
         const lang = interfaceLangSelect.value;
         AppState.settings.interfaceLang = lang;
         document.documentElement.lang = lang;
-        localStorage.setItem('cy_lang', lang);
+        localStorage.setItem('cy_interface_lang', lang);
 
         // Update page title and meta description (SPA only)
         const titles = {
@@ -188,33 +179,13 @@ export function updateUI() {
         'ui-back-btn': sanitizeHTML(t.backToMenu),
         'ui-retry-btn': sanitizeHTML(t.retryBtn),
         'ui-reference-btn': sanitizeHTML(t.referenceBtn),
-        'ui-feedback-title': sanitizeHTML(t.feedbackTitle),
-        'ui-reference-back-btn': sanitizeHTML(t.backToMenu),
-        'ui-feedback-back-btn': sanitizeHTML(t.backToMenu)
+        'ui-reference-back-btn': sanitizeHTML(t.backToMenu)
     };
 
     for (const [id, text] of Object.entries(elements)) {
         const el = document.getElementById(id);
         if (el) el.textContent = text;
     }
-
-    const feedbackNameLabel = document.querySelector('label[for="feedback-name"]');
-    if (feedbackNameLabel) feedbackNameLabel.textContent = sanitizeHTML(t.feedbackName);
-
-    const feedbackEmailLabel = document.querySelector('label[for="feedback-email"]');
-    if (feedbackEmailLabel) feedbackEmailLabel.textContent = sanitizeHTML(t.feedbackEmail);
-
-    const feedbackRatingLabel = document.querySelector('label[for="feedback-rating"]');
-    if (feedbackRatingLabel) feedbackRatingLabel.textContent = sanitizeHTML(t.feedbackRating);
-
-    const feedbackMessageLabel = document.querySelector('label[for="feedback-message"]');
-    if (feedbackMessageLabel) feedbackMessageLabel.textContent = sanitizeHTML(t.feedbackMessage);
-
-    const feedbackTextarea = document.getElementById('feedback-message');
-    if (feedbackTextarea) feedbackTextarea.placeholder = sanitizeHTML(t.feedbackPlaceholder);
-
-    const feedbackSubmitBtn = document.getElementById('feedback-submit-btn');
-    if (feedbackSubmitBtn) feedbackSubmitBtn.textContent = sanitizeHTML(t.feedbackSend);
 
     const uiScore = document.getElementById('ui-score');
     if (uiScore) {

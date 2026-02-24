@@ -61,9 +61,10 @@ export function cleanupQuiz() {
     const hintsBtn = document.getElementById('hints-btn');
     if (hintsBtn) hintsBtn.remove();
 
-    // Clear options container
+    // Clear options container by replacing it (removes event listeners)
     const options = document.getElementById('options');
     if (options) {
-        options.innerHTML = '';
+        const newOptions = options.cloneNode(false);
+        options.parentNode.replaceChild(newOptions, options);
     }
 }

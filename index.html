@@ -226,9 +226,9 @@
         <div id="start-screen" class="hidden">
             <!-- Header bar for action icons -->
             <div class="start-actions">
-                <button class="feedback-btn" aria-label="Send feedback" title="Feedback">
+                <a href="feedback.html" class="feedback-btn" aria-label="Send feedback" title="Feedback">
                     <img src="img/feedback.png" alt="Feedback" width="24" height="24">
-                </button>
+                </a>
                 <button class="share-btn" aria-label="Share this app" title="Share">
                     <img src="img/share.svg" alt="Share" width="24" height="24">
                 </button>
@@ -280,6 +280,8 @@
                     Regulatory</button>
                 <button class="category-btn" data-key="mandatory">🔵
                     Mandatory</button>
+                <button class="category-btn" data-key="information">ℹ
+                    Information</button>
                 <button class="category-btn" data-key="police">👮 Police</button>
                 <button class="category-btn" data-key="markings">🛣 Markings</button>
             </div>
@@ -343,60 +345,6 @@
                 <button id="flashcard-correct" class="flashcard-btn flashcard-correct" disabled>✅ Correct</button>
                 <button id="flashcard-wrong" class="flashcard-btn flashcard-wrong" disabled>❌ Wrong</button>
             </div>
-        </div>
-
-        <!-- Feedback Screen -->
-        <div id="feedback-screen" class="hidden">
-            <h2 id="ui-feedback-title">💡 Feedback</h2>
-
-            <form id="feedback-form" onsubmit="submitFeedback(event)" style="text-align: left;">
-                <div style="margin-bottom: 15px;">
-                    <label for="feedback-name"
-                        style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text);">👤 Name
-                        (optional)</label>
-                    <input type="text" id="feedback-name" placeholder="Your name"
-                        style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px;">
-                </div>
-
-                <div style="margin-bottom: 15px;">
-                    <label for="feedback-email"
-                        style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text);">📧 Email
-                        (optional)</label>
-                    <input type="email" id="feedback-email" placeholder="your@email.com"
-                        style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px;">
-                </div>
-
-                <div style="margin-bottom: 15px;">
-                    <label for="feedback-rating"
-                        style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text);">⭐
-                        Rating</label>
-                    <div id="feedback-rating" style="display: flex; gap: 5px; font-size: 28px; cursor: pointer;">
-                        <span data-rating="1">☆</span>
-                        <span data-rating="2">☆</span>
-                        <span data-rating="3">☆</span>
-                        <span data-rating="4">☆</span>
-                        <span data-rating="5">☆</span>
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <label for="feedback-message"
-                        style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text);">💬
-                        Message</label>
-                    <textarea id="feedback-message" rows="5" placeholder="Found a bug? Have a suggestion? Let us know!"
-                        required
-                        style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; resize: vertical; font-family: inherit;"></textarea>
-                </div>
-
-                <button type="submit" class="main-btn" id="feedback-submit-btn"
-                    style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%);">
-                    📤 Send Feedback
-                </button>
-            </form>
-
-            <button class="main-btn" id="ui-feedback-back-btn">
-                ← Back to Menu
-            </button>
         </div>
 
         <!-- SEO Footer (minimal, visible) -->
