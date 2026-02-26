@@ -6,7 +6,7 @@
 
 // Import modules
 import { AppState } from './state.js';
-import { detectAndSetLanguage, loadSavedLanguagePrefs, updateUI } from './i18n.js';
+import { detectLanguage, loadSavedLanguagePrefs, updateUI } from './i18n.js';
 import { setupServiceWorker, showScreen } from './ui.js';
 import { setCat, start, backToMenu, retry, toggleTranslate, toggleHints } from './quiz.js';
 import { startFlashcard, showFlashcardAnswer, handleFlashcardAnswer } from './flashcard.js';
@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     AppState.showRetryButton = false;
 
     // Detect and set language (from URL, localStorage, or browser)
-    detectAndSetLanguage();
+    // writeToLocalStorage=true → saves to localStorage for other pages
+    detectLanguage(true);
     
     // Load saved language preferences
     loadSavedLanguagePrefs();

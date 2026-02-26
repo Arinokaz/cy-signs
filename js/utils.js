@@ -75,8 +75,8 @@ export function getAttemptText(count, lang) {
  * Handle image loading errors
  */
 export function handleImageError(imgElement) {
+    // Don't change inline styles - let CSS handle it
     imgElement.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150"><rect fill="%23ddd" width="150" height="150"/><text fill="%23666" x="50%" y="50%" text-anchor="middle" dy=".3em" font-family="Arial" font-size="14">No Image</text></svg>';
-    imgElement.style.maxHeight = '100px';
 }
 
 /**

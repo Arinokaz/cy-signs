@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Critical CSS to prevent FOUC -->
+    <style>
+        #reference-screen { display: none; }
+        #loading-spinner { display: flex; }
+    </style>
+
+    <!-- Динамічні title/description (змінюються JS) -->
+    <title id="page-title">All Cyprus Road Signs — Complete Reference (228 Signs)</title>
+    <meta name="description" id="meta-description" 
+          content="Complete reference of all 228 Cyprus road signs with explanations, meanings, and rules. Search and learn at your own pace.">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://cy-signs.com/reference.html">
+    
+    <!-- Hreflang для 4 мов -->
+    <link rel="alternate" hreflang="en" href="https://cy-signs.com/reference.html?lang=en">
+    <link rel="alternate" hreflang="uk" href="https://cy-signs.com/reference.html?lang=uk">
+    <link rel="alternate" hreflang="el" href="https://cy-signs.com/reference.html?lang=el">
+    <link rel="alternate" hreflang="ru" href="https://cy-signs.com/reference.html?lang=ru">
+    <link rel="alternate" hreflang="x-default" href="https://cy-signs.com/reference.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" id="og-title" content="All Cyprus Road Signs">
+    <meta property="og:description" id="og-description" content="Complete reference of 228 Cyprus road signs">
+    <meta property="og:url" content="https://cy-signs.com/reference.html">
+    <meta property="og:image" content="https://cy-signs.com/img/main-icon.png">
+    
+    <!-- Preload -->
+    <link rel="preload" href="styles.css?v=3.37" as="style">
+    <link rel="stylesheet" href="styles.css?v=3.37">
+    
+    <!-- Scripts -->
+    <script src="translations.js?v=3.38"></script>
+    <script src="signs-data.js?v=3.38"></script>
+    <script type="module" src="js/reference-page.js?v=1.0"></script>
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json" id="schema-json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Cyprus Road Signs Complete List",
+        "description": "Complete list of 228 Cyprus road signs",
+        "numberOfItems": 228
+    }
+    </script>
+</head>
+
+<body>
+    <main id="app" role="main">
+        <!-- Loading Spinner -->
+        <div id="loading-spinner">
+            <div class="spinner"></div>
+            <p id="loading-text">Loading signs...</p>
+        </div>
+
+        <!-- Reference Screen (hidden until loaded) -->
+        <div id="reference-screen" class="hidden">
+
+            <!-- SEO Content (STATIC, accordion style) -->
+            <article id="seo-intro" class="seo-content">
+                <div class="seo-header" id="seo-toggle">
+                    <h1 id="seo-title">All Cyprus Road Signs — Complete Reference Guide</h1>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="seo-description-container" id="seo-description-wrapper">
+                    <p id="seo-description">
+                        Browse all 228 official Cyprus road signs with detailed explanations, meanings, and rules.
+                        Use the search box to find specific signs by name, description, or explanation.
+                        Perfect for driving test preparation.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Search (single universal search) -->
+            <div style="position: relative; width: 100%; margin-bottom: 15px;">
+                <input type="text"
+                       id="reference-search"
+                       placeholder="🔍 Search signs by name, hint, or explanation..."
+                       aria-label="Search road signs"
+                       style="width: 100%; padding: 12px 45px 12px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px;">
+                <button type="button"
+                        id="clear-search-btn"
+                        aria-label="Clear search"
+                        style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; color: #999; padding: 5px; display: none;"
+                        title="Clear search">✕</button>
+            </div>
+
+            <!-- Signs Count -->
+            <p id="signs-count" style="color: #666; margin-bottom: 15px;">
+                Showing <strong id="count-current">228</strong> of <strong id="count-total">228</strong> signs
+            </p>
+
+            <!-- Signs List (dynamically generated) -->
+            <div id="reference-list" style="max-height: 60vh; overflow-y: auto; padding: 10px 0; margin-bottom: 15px;">
+                <!-- Signs rendered by JS -->
+            </div>
+
+            <!-- Back to Menu -->
+            <a href="index.html" class="main-btn" id="back-btn">Back to Menu</a>
+
+            <!-- SEO Footer (inside #app) -->
+            <footer id="seo-footer">
+                <p style="margin: 5px 0;">
+                    Cyprus Road Signs | Дорожні знаки Кіпру | Οδικές Πινακίδες | Дорожные знаки Кипра
+                </p>
+            </footer>
+        </div>
+    </main>
+</body>
+
+</html>

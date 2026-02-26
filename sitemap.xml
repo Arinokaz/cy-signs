@@ -46,33 +46,41 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- Language Versions of Feedback Page -->
+  <!-- Reference Page (All Signs) -->
   <url>
-    <loc>https://cy-signs.com/feedback.html?lang=en</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://cy-signs.com/reference.html</loc>
+    <lastmod>2026-02-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Language Versions of Reference Page -->
+  <url>
+    <loc>https://cy-signs.com/reference.html?lang=en</loc>
+    <lastmod>2026-02-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://cy-signs.com/feedback.html?lang=uk</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://cy-signs.com/reference.html?lang=uk</loc>
+    <lastmod>2026-02-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://cy-signs.com/feedback.html?lang=el</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://cy-signs.com/reference.html?lang=el</loc>
+    <lastmod>2026-02-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://cy-signs.com/feedback.html?lang=ru</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://cy-signs.com/reference.html?lang=ru</loc>
+    <lastmod>2026-02-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
 </urlset>

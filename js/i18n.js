@@ -36,46 +36,85 @@ export function getCurrentQuizLang() {
 }
 
 /**
- * Detect and set language from URL parameter or browser
- * This is the main entry point for language initialization
+ * Detect language from URL, localStorage, or browser
+ * 
+ * @param {boolean} writeToLocalStorage - If true, save detected language to localStorage
+ *                                        If false, only read (for non-index pages)
+ * @returns {string} Detected language code
+ * 
+ * Priority:
+ * 1. URL parameter ?lang= (PRIORITY) → use, save if writeToLocalStorage=true
+ * 2. localStorage 'cy_interface_lang' → use if exists (don't overwrite)
+ * 3. Browser language → use if no URL/localStorage, save if writeToLocalStorage=true
+ * 4. Default English → fallback, save if writeToLocalStorage=true
+ * 
+ * Usage:
+ * - index.html (app.js): detectLanguage(true)  → writes to localStorage
+ * - reference.html: detectLanguage(false) → read-only
+ * - other pages: detectLanguage(false) → read-only
  */
-export function detectAndSetLanguage() {
+export function detectLanguage(writeToLocalStorage = false) {
     const supportedLangs = ['en', 'uk', 'el', 'ru'];
     let lang = 'en';
-
-    // 1. Check URL parameter ?lang=en (for multi-page support)
+    
+    // 1. URL parameter (PRIORITY)
     const urlParams = new URLSearchParams(window.location.search);
-    const queryLang = urlParams.get('lang');
-    if (queryLang && supportedLangs.includes(queryLang)) {
-        lang = queryLang;
-        // Save to localStorage for persistence across pages
+    const urlLang = urlParams.get('lang');
+    
+    if (urlLang && supportedLangs.includes(urlLang)) {
+        lang = urlLang;
+        if (writeToLocalStorage) {
+            localStorage.setItem('cy_interface_lang', lang);
+        }
+        return lang;
+    }
+    
+    // 2. localStorage (from previous visits)
+    const storedLang = localStorage.getItem('cy_interface_lang');
+    if (storedLang && supportedLangs.includes(storedLang)) {
+        lang = storedLang;
+        // Don't overwrite (already in localStorage)
+        return lang;
+    }
+    
+    // 3. Browser language
+    const browserLang = navigator.language.slice(0, 2);
+    if (supportedLangs.includes(browserLang)) {
+        lang = browserLang;
+        if (writeToLocalStorage) {
+            localStorage.setItem('cy_interface_lang', lang);
+        }
+        return lang;
+    }
+    
+    // 4. Default English
+    lang = 'en';
+    if (writeToLocalStorage) {
         localStorage.setItem('cy_interface_lang', lang);
-    } else {
-        // 2. Check localStorage (from previous page visits)
-        const storedLang = localStorage.getItem('cy_interface_lang');
+    }
+    return lang;
+}
 
-        if (storedLang && supportedLangs.includes(storedLang)) {
-            lang = storedLang;
-        } else {
-            // 3. Fall back to browser language
-            const browserLang = navigator.language || navigator.userLanguage;
-            const primaryLang = browserLang.split('-')[0].toLowerCase();
-            if (supportedLangs.includes(primaryLang)) {
-                lang = primaryLang;
-            }
+/**
+ * Detect and set language from URL parameter or browser
+ * This is the main entry point for language initialization
+ * @deprecated - use detectLanguage(true) instead
+ */
+export function detectAndSetLanguage() {
+    console.warn('detectAndSetLanguage() deprecated - use detectLanguage(true)');
+    const lang = detectLanguage(true);
+    
+    // For backward compatibility with AppState
+    if (typeof AppState !== 'undefined') {
+        AppState.settings.interfaceLang = lang;
+        
+        const interfaceLangSelect = document.getElementById('interface-lang');
+        if (interfaceLangSelect) {
+            interfaceLangSelect.value = lang;
         }
     }
-
-    AppState.settings.interfaceLang = lang;
-
-    // Update language selector if it exists
-    const interfaceLangSelect = document.getElementById('interface-lang');
-    if (interfaceLangSelect) {
-        interfaceLangSelect.value = lang;
-    }
-
+    
     document.documentElement.lang = lang;
-
     return lang;
 }
 

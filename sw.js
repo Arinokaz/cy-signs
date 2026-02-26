@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cyprus-signs-dynamic-v5.0';
+const CACHE_NAME = 'cyprus-signs-dynamic-v5.1';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -7,6 +7,7 @@ self.addEventListener('install', (event) => {
       './',
       'index.html',
       'feedback.html',
+      'reference.html',
       'styles.css',
       'translations.js',
       'signs-data.js',
@@ -16,7 +17,7 @@ self.addEventListener('install', (event) => {
       'js/ui.js',
       'js/quiz.js',
       'js/flashcard.js',
-      'js/reference.js',
+      'js/reference-page.js',
       'js/feedback.js',
       'js/feedback-page.js',
       'js/utils.js',
