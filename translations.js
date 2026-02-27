@@ -28,6 +28,13 @@ const UI_TRANSLATIONS = {
         retryBtn: "🔄 Повторити тест",
         referenceBtn: "📖 Всі знаки",
         referenceTitle: "Довідник знаків",
+        referenceSearchPlaceholder: "🔍 Пошук знаків за назвою...",
+        referenceShowing: "Показано {current} з {total} знаків",
+        referenceNoResults: "🔍 Знаків не знайдено",
+        referenceTryDifferent: "Спробуйте інший пошуковий запит",
+        referenceH1: "📚 Довідник дорожніх знаків Кіпру ({count} знаків)",
+        referenceMetaDescription: "Повний довідник усіх {count} дорожніх знаків Кіпру з поясненнями та значеннями.",
+        referenceSEODescription: "Повний довідник з поясненнями та правилами. Пошук за назвою.",
         flashcardBtn: "🗣 Режим флеш-картки",
         quizModeBtn: "📝 Режим вікторини",
         showAnswer: "👁 Показати відповідь",
@@ -56,8 +63,8 @@ const UI_TRANSLATIONS = {
         feedbackRating: "⭐ Оцінка",
         feedbackMessage: "💬 Повідомлення",
         feedbackPlaceholder: "Знайшли баг? Маєте пропозицію? Напишіть нам!",
-        feedbackSend: "📤 Надіслати",
-        feedbackBack: "← До головного меню"
+        feedbackSend: "Надіслати",
+        feedbackBack: "Назад"
     },
     en: {
         title: "Cyprus Road Signs",
@@ -87,6 +94,13 @@ const UI_TRANSLATIONS = {
         retryBtn: "🔄 Retry Test",
         referenceBtn: "📖 All Signs",
         referenceTitle: "Road Signs Reference",
+        referenceSearchPlaceholder: "🔍 Search signs by name...",
+        referenceShowing: "Showing {current} of {total} signs",
+        referenceNoResults: "🔍 No signs found",
+        referenceTryDifferent: "Try a different search term",
+        referenceH1: "📚 Cyprus Road Signs Reference ({count} Signs)",
+        referenceMetaDescription: "Complete reference of all {count} Cyprus road signs with explanations, meanings, and rules.",
+        referenceSEODescription: "Complete reference with explanations and rules. Search by name.",
         flashcardBtn: "🗣 Flashcard Mode",
         quizModeBtn: "📝 Quiz Mode",
         showAnswer: "👁 Show Answer",
@@ -115,8 +129,8 @@ const UI_TRANSLATIONS = {
         feedbackRating: "⭐ Rating",
         feedbackMessage: "💬 Message",
         feedbackPlaceholder: "Found a bug? Have a suggestion? Let us know!",
-        feedbackSend: "📤 Send",
-        feedbackBack: "← Back to Menu"
+        feedbackSend: "Send",
+        feedbackBack: "Back"
     },
     el: {
         title: "Οδικές Πινακίδες Κύπρου",
@@ -146,6 +160,13 @@ const UI_TRANSLATIONS = {
         retryBtn: "🔄 Επανάληψη Τεστ",
         referenceBtn: "📖 Όλες οι Πινακίδες",
         referenceTitle: "Αναφορά Πινακίδων",
+        referenceSearchPlaceholder: "🔍 Αναζήτηση σημάτων κατά όνομα...",
+        referenceShowing: "Εμφανίζονται {current} από {total} σήματα",
+        referenceNoResults: "🔍 Δεν βρέθηκαν σήματα",
+        referenceTryDifferent: "Δοκιμάστε διαφορετικό όρο αναζήτησης",
+        referenceH1: "📚 Οδηγός Οδικών Σημάτων Κύπρου ({count} Σήματα)",
+        referenceMetaDescription: "Πλήρης οδηγός όλων των {count} οδικών σημάτων της Κύπρου με εξηγήσεις.",
+        referenceSEODescription: "Πλήρης οδηγός με εξηγήσεις και κανόνες. Αναζήτηση κατά όνομα.",
         flashcardBtn: "🗣 Λειτουργία κάρτας flash",
         quizModeBtn: "📝 Λειτουργία Κουίζ",
         showAnswer: "👁 Προβολή Απάντησης",
@@ -174,8 +195,8 @@ const UI_TRANSLATIONS = {
         feedbackRating: "⭐ Βαθμολογία",
         feedbackMessage: "💬 Μήνυμα",
         feedbackPlaceholder: "Βρήκατε κάποιο σφάλμα; Έχετε κάποια πρόταση; Ενημερώστε μας!",
-        feedbackSend: "📤 Αποστολή",
-        feedbackBack: "← Πίσω στο Μενού"
+        feedbackSend: "Αποστολή",
+        feedbackBack: "Πίσω"
     },
     ru: {
         title: "Дорожные знаки Кипра",
@@ -205,6 +226,13 @@ const UI_TRANSLATIONS = {
         retryBtn: "🔄 Повторить тест",
         referenceBtn: "📖 Все знаки",
         referenceTitle: "Справочник знаков",
+        referenceSearchPlaceholder: "🔍 Поиск знаков по названию...",
+        referenceShowing: "Показано {current} из {total} знаков",
+        referenceNoResults: "🔍 Знаки не найдены",
+        referenceTryDifferent: "Попробуйте другой поисковый запрос",
+        referenceH1: "📚 Справочник дорожных знаков Кипра ({count} знаков)",
+        referenceMetaDescription: "Полный справочник всех {count} дорожных знаков Кипра с объяснениями.",
+        referenceSEODescription: "Полный справочник с объяснениями и правилами. Поиск по названию.",
         flashcardBtn: "🗣 Режим флеш-карты",
         quizModeBtn: "📝 Режим викторины",
         showAnswer: "👁 Показать ответ",
@@ -233,8 +261,8 @@ const UI_TRANSLATIONS = {
         feedbackRating: "⭐ Оценка",
         feedbackMessage: "💬 Сообщение",
         feedbackPlaceholder: "Нашли баг? Есть предложение? Напишите нам!",
-        feedbackSend: "📤 Отправить",
-        feedbackBack: "← В главное меню"
+        feedbackSend: "Отправить",
+        feedbackBack: "Назад"
     }
 };
 

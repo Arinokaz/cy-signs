@@ -12,6 +12,9 @@
         gtag('config', 'G-REEQ28Q912');
     </script>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     
     <link rel="canonical" href="https://cy-signs.com/">
     <link rel="manifest" href="manifest.json?v=3.12">
@@ -58,9 +61,9 @@
     <title>Cyprus Road Signs Quiz — Free Driving Test Practice (228 Signs)</title>
     <link rel="preload" href="styles.css?v=3.37" as="style">
     <link rel="stylesheet" href="styles.css?v=3.37">
-    <script src="translations.js?v=3.37"></script>
-    <script src="signs-data.js?v=3.37"></script>
-    <script src="app.js?v=3.37"></script>
+    <script src="translations.js?v=3.38"></script>
+    <script src="signs-data.js?v=3.38"></script>
+    <script type="module" src="js/app.js?v=3.1"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -223,10 +226,10 @@
         <div id="start-screen" class="hidden">
             <!-- Header bar for action icons -->
             <div class="start-actions">
-                <button class="feedback-btn" onclick="sendFeedback()" aria-label="Send feedback" title="Feedback">
+                <a href="feedback.html" class="feedback-btn" aria-label="Send feedback" title="Feedback">
                     <img src="img/feedback.png" alt="Feedback" width="24" height="24">
-                </button>
-                <button class="share-btn" onclick="shareApp()" aria-label="Share this app" title="Share">
+                </a>
+                <button class="share-btn" aria-label="Share this app" title="Share">
                     <img src="img/share.svg" alt="Share" width="24" height="24">
                 </button>
             </div>
@@ -243,7 +246,7 @@
             <div class="lang-settings">
                 <div class="lang-row">
                     <label>🌐 <span id="ui-interface-lang">Interface Language</span>:</label>
-                    <select id="interface-lang" onchange="updateUILanguage()">
+                    <select id="interface-lang">
                         <option value="en" selected>🇬🇧 English</option>
                         <option value="uk">🇺🇦 Українська</option>
                         <option value="el">🇬🇷 Ελληνικά</option>
@@ -252,7 +255,7 @@
                 </div>
                 <div class="lang-row">
                     <label>📝 <span id="ui-quiz-lang">Quiz Language</span>:</label>
-                    <select id="quiz-lang" onchange="saveQuizLang()">
+                    <select id="quiz-lang">
                         <option value="en" selected>🇬🇧 English</option>
                         <option value="uk">🇺🇦 Українська</option>
                         <option value="el">🇬🇷 Ελληνικά</option>
@@ -261,7 +264,7 @@
                 </div>
                 <div class="lang-row">
                     <label>💡 <span id="ui-helper-lang">Helper Language</span>:</label>
-                    <select id="helper-lang" onchange="saveHelperLang()">
+                    <select id="helper-lang">
                         <option value="en" selected>🇬🇧 English</option>
                         <option value="uk">🇺🇦 Українська</option>
                         <option value="el">🇬🇷 Ελληνικά</option>
@@ -271,14 +274,16 @@
             </div>
             <p id="ui-category">Category:</p>
             <div id="category-selector">
-                <button class="category-btn active" onclick="setCat('all', this)" data-key="all">All Signs</button>
-                <button class="category-btn" onclick="setCat('warning', this)" data-key="warning">⚠ Warning</button>
-                <button class="category-btn" onclick="setCat('regulatory', this)" data-key="regulatory">🚫
+                <button class="category-btn active" data-key="all">All Signs</button>
+                <button class="category-btn" data-key="warning">⚠ Warning</button>
+                <button class="category-btn" data-key="regulatory">🚫
                     Regulatory</button>
-                <button class="category-btn" onclick="setCat('mandatory', this)" data-key="mandatory">🔵
+                <button class="category-btn" data-key="mandatory">🔵
                     Mandatory</button>
-                <button class="category-btn" onclick="setCat('police', this)" data-key="police">👮 Police</button>
-                <button class="category-btn" onclick="setCat('markings', this)" data-key="markings">🛣 Markings</button>
+                <button class="category-btn" data-key="information">ℹ
+                    Information</button>
+                <button class="category-btn" data-key="police">👮 Police</button>
+                <button class="category-btn" data-key="markings">🛣 Markings</button>
             </div>
             <p id="ui-questions">Questions:</p>
             <select id="question-count" style="padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 20px;">
@@ -288,14 +293,11 @@
                 <option value="50">50 questions</option>
                 <option value="all">All signs</option>
             </select>
-            <button class="main-btn" id="ui-quiz-mode-btn" onclick="start()"
-                style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">📝 Quiz Mode</button>
-            <button class="main-btn" id="ui-flashcard-btn" onclick="startFlashcard()"
-                style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); margin-top: 10px;">🗣 Flashcard
+            <button class="main-btn" id="ui-quiz-mode-btn">📝 Quiz Mode</button>
+            <button class="main-btn" id="ui-flashcard-btn">🗣 Flashcard
                 Mode</button>
-            <button class="main-btn" id="ui-reference-btn" onclick="showReference()"
-                style="background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); margin-top: 10px;">📖 All
-                Signs</button>
+            <a href="reference.html" class="main-btn" id="ui-reference-btn" style="text-decoration: none; display: inline-block; text-align: center;">📖 All
+                Signs</a>
         </div>
         <div id="quiz-screen" class="hidden">
             <div class="progress-container">
@@ -303,26 +305,26 @@
             </div>
             <div class="progress" id="progress"></div>
             <div class="sign-box">
-                <img id="q-img" src="" class="sign-img" loading="lazy" onerror="handleImageError(this)">
+                <img id="q-img" src="" class="sign-img" loading="lazy">
             </div>
             <div id="options" class="options"></div>
-            <button id="translate-toggle" class="translate-btn" onclick="toggleTranslate()">🔄 Show Translation</button>
+            <button id="translate-toggle" class="translate-btn">🔄 Show Translation</button>
             <div id="quiz-buttons"></div>
         </div>
         <div id="result-screen" class="hidden">
             <h2 id="result-title"><span id="ui-score">Your Score</span>: <span id="score"></span> / <span
                     id="total-q"></span></h2>
             <div id="log" style="max-height: 450px; overflow-y: auto;"></div>
-            <button class="main-btn" id="ui-retry-btn" onclick="retry()" style="display: none;">🔄 Retry Test</button>
-            <button class="main-btn" id="ui-back-btn" onclick="backToMenu()">Back to Menu</button>
+            <button class="main-btn" id="ui-retry-btn" style="display: none;">🔄 Retry Test</button>
+            <button class="main-btn" id="ui-back-btn">Back to Menu</button>
         </div>
         <div id="reference-screen" class="hidden">
             <h2>📖 Road Signs Reference</h2>
-            <input type="text" id="reference-search" placeholder="🔍 Search signs..." oninput="filterReference()"
+            <input type="text" id="reference-search" placeholder="🔍 Search signs..."
                 style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 15px;">
             <div id="reference-list" style="max-height: 60vh; overflow-y: auto; padding: 10px 0; margin-bottom: 15px;">
             </div>
-            <button class="main-btn" onclick="backToMenu()">← <span id="ui-reference-back-btn">Back to Menu</span></button>
+            <button class="main-btn" id="ui-reference-back-btn">← Back to Menu</button>
         </div>
         <div id="flashcard-screen" class="hidden">
             <div class="progress-container">
@@ -330,9 +332,9 @@
             </div>
             <div class="progress" id="flashcard-progress"></div>
             <div class="sign-box">
-                <img id="flashcard-q-img" src="" class="sign-img" loading="lazy" onerror="handleImageError(this)">
+                <img id="flashcard-q-img" src="" class="sign-img" loading="lazy">
             </div>
-            <button id="flashcard-show-answer" class="main-btn" onclick="showFlashcardAnswer()"
+            <button id="flashcard-show-answer" class="main-btn"
                 style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); min-height: 50px;">👁 Show
                 Answer</button>
             <div id="flashcard-answer" class="flashcard-answer hidden">
@@ -340,66 +342,9 @@
                 <div class="flashcard-hint" id="flashcard-hint"></div>
             </div>
             <div class="flashcard-buttons">
-                <button id="flashcard-correct" class="flashcard-btn flashcard-correct"
-                    onclick="handleFlashcardAnswer(true)" disabled>✅ Correct</button>
-                <button id="flashcard-wrong" class="flashcard-btn flashcard-wrong"
-                    onclick="handleFlashcardAnswer(false)" disabled>❌ Wrong</button>
+                <button id="flashcard-correct" class="flashcard-btn flashcard-correct" disabled>✅ Correct</button>
+                <button id="flashcard-wrong" class="flashcard-btn flashcard-wrong" disabled>❌ Wrong</button>
             </div>
-        </div>
-
-        <!-- Feedback Screen -->
-        <div id="feedback-screen" class="hidden">
-            <h2 id="ui-feedback-title">💡 Feedback</h2>
-
-            <form id="feedback-form" onsubmit="submitFeedback(event)" style="text-align: left;">
-                <div style="margin-bottom: 15px;">
-                    <label for="feedback-name"
-                        style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text);">👤 Name
-                        (optional)</label>
-                    <input type="text" id="feedback-name" placeholder="Your name"
-                        style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px;">
-                </div>
-
-                <div style="margin-bottom: 15px;">
-                    <label for="feedback-email"
-                        style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text);">📧 Email
-                        (optional)</label>
-                    <input type="email" id="feedback-email" placeholder="your@email.com"
-                        style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px;">
-                </div>
-
-                <div style="margin-bottom: 15px;">
-                    <label for="feedback-rating"
-                        style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text);">⭐
-                        Rating</label>
-                    <div id="feedback-rating" style="display: flex; gap: 5px; font-size: 28px; cursor: pointer;">
-                        <span data-rating="1" onclick="setRating(1)">☆</span>
-                        <span data-rating="2" onclick="setRating(2)">☆</span>
-                        <span data-rating="3" onclick="setRating(3)">☆</span>
-                        <span data-rating="4" onclick="setRating(4)">☆</span>
-                        <span data-rating="5" onclick="setRating(5)">☆</span>
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <label for="feedback-message"
-                        style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text);">💬
-                        Message</label>
-                    <textarea id="feedback-message" rows="5" placeholder="Found a bug? Have a suggestion? Let us know!"
-                        required
-                        style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; resize: vertical; font-family: inherit;"></textarea>
-                </div>
-
-                <button type="submit" class="main-btn" id="feedback-submit-btn"
-                    style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%);">
-                    📤 Send Feedback
-                </button>
-            </form>
-
-            <button class="main-btn" onclick="backToMenu()"
-                style="background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%); margin-top: 10px;">
-                ← <span id="ui-feedback-back-btn">Back to Menu</span>
-            </button>
         </div>
 
         <!-- SEO Footer (minimal, visible) -->

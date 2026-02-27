@@ -4,16 +4,18 @@
 User-agent: *
 Allow: /
 
-# Allow all search engines to crawl the site
+# Main pages
 Allow: /index.html
+Allow: /feedback.html
+Allow: /reference.html
+
+# CSS and JS
 Allow: /styles.css
-Allow: /app.js
-Allow: /translations.js
-Allow: /signs-data.js
 Allow: /manifest.json
 Allow: /sw.js
+Allow: /js/
 
-# Allow image crawling
+# Images
 Allow: /img/
 
 # Sitemap location

@@ -51,6 +51,44 @@ body {
     text-align: center;
 }
 
+/* Feedback page - full height layout */
+body.feedback-page {
+    display: block;
+    padding: 20px;
+    min-height: auto;
+}
+
+body.feedback-page #app {
+    margin: 0 auto;
+    min-height: auto;
+}
+
+/* Feedback footer */
+.feedback-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #999;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feedback-footer p {
+    margin: 5px 0;
+}
+
+.feedback-footer a {
+    color: #999;
+    text-decoration: none;
+}
+
+.feedback-footer a:hover {
+    text-decoration: underline;
+}
+
 /* ==================== SCREENS ==================== */
 .hidden {
     display: none !important;
@@ -68,6 +106,11 @@ body {
 /* Start screen */
 #start-screen {
     position: relative;
+}
+
+/* Reference screen */
+#reference-screen {
+    width: 100%;
 }
 
 /* Action bar for icons (top right) */
@@ -126,6 +169,7 @@ body {
     visibility: visible !important;
     opacity: 1 !important;
     margin-right: 8px;
+    text-decoration: none !important;
 }
 
 .feedback-btn:hover {
@@ -332,11 +376,17 @@ button.wrong {
     border-radius: 12px;
     margin-top: 12px;
     box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    text-decoration: none !important;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
 }
 
 .main-btn:hover:not(:disabled) {
     background: #2980b9;
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+    color: white !important;
+    text-decoration: none !important;
 }
 
 /* Translate button */
@@ -1039,8 +1089,16 @@ input:checked + .slider:before {
 
 /* ==================== FEEDBACK SCREEN ==================== */
 #feedback-screen h2 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 1.4rem;
+}
+
+.feedback-description {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 #feedback-form {
@@ -1068,8 +1126,230 @@ input:checked + .slider:before {
     #feedback-screen h2 {
         font-size: 1.25rem;
     }
-    
+
+    .feedback-description {
+        font-size: 0.9rem;
+    }
+
     #feedback-rating {
         font-size: 32px;
+    }
+}
+
+/* ==================== REFERENCE PAGE ==================== */
+.seo-content {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.seo-content:hover {
+    background: #f0f1f3;
+}
+
+.seo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.seo-header h1 {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin: 0;
+    flex: 1;
+    line-height: 1.3;
+}
+
+.accordion-icon {
+    font-size: 12px;
+    color: var(--accent);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.accordion-icon.rotated {
+    transform: rotate(180deg);
+}
+
+.seo-description-container {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.seo-description-container.open {
+    max-height: 200px;
+    margin-top: 10px;
+}
+
+.seo-content p {
+    color: #555;
+    line-height: 1.5;
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+/* Reference item */
+.reference-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    background: #fafafa;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reference-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.reference-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    flex-shrink: 0;
+    background: white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.reference-item img[src*="data:image/svg"] {
+    /* Fallback image styling */
+    opacity: 0.8;
+}
+
+.reference-content {
+    flex: 1;
+    text-align: left;
+}
+
+/* SEO Footer inside #app */
+#seo-footer {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #999;
+    width: 100%;
+}
+
+#seo-footer p {
+    margin: 5px 0;
+}
+
+.reference-category {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.reference-category.warning { background: #ffeaa7; color: #d35400; }
+.reference-category.regulatory { background: #ffcccc; color: #c0392b; }
+.reference-category.mandatory { background: #d6eaf8; color: #2980b9; }
+.reference-category.information { background: #d5f5e3; color: #27ae60; }
+.reference-category.police { background: #e8daef; color: #8e44ad; }
+.reference-category.markings { background: #f9e79f; color: #b7950b; }
+
+.reference-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.reference-hint {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.reference-explanation {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.5;
+    font-style: italic;
+    border-left: 3px solid var(--accent);
+    padding-left: 10px;
+    background: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+/* No results message */
+.reference-no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.reference-no-results p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.reference-no-results p:last-child {
+    font-size: 14px;
+    color: #888;
+}
+
+/* Mobile reference styles */
+@media (max-width: 480px) {
+    .seo-content {
+        padding: 12px 14px;
+    }
+
+    .seo-header h1 {
+        font-size: 1rem;
+    }
+
+    .accordion-icon {
+        font-size: 11px;
+    }
+
+    .reference-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .reference-content {
+        text-align: center;
+        width: 100%;
+    }
+
+    .reference-item img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .reference-explanation {
+        text-align: left;
+        width: 100%;
+    }
+
+    .reference-no-results {
+        padding: 40px 15px;
+    }
+
+    #seo-footer {
+        margin-top: 20px;
+        padding-top: 12px;
     }
 }
