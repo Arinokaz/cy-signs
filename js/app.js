@@ -10,7 +10,6 @@ import { detectLanguage, loadSavedLanguagePrefs, updateUI } from './i18n.js';
 import { setupServiceWorker, showScreen } from './ui.js';
 import { setCat, start, backToMenu, retry, toggleTranslate, toggleHints } from './quiz.js';
 import { startFlashcard, showFlashcardAnswer, handleFlashcardAnswer } from './flashcard.js';
-import { showReference, filterReference } from './reference.js';
 import { shareApp } from './feedback.js';
 
 // ==================== INITIALIZATION ====================
@@ -20,8 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Detect and set language (from URL, localStorage, or browser)
     // writeToLocalStorage=true → saves to localStorage for other pages
-    detectLanguage(true);
+    const detectedLang = detectLanguage(true);
     
+    // IMPORTANT: Update AppState with detected language
+    AppState.settings.interfaceLang = detectedLang;
+
     // Load saved language preferences
     loadSavedLanguagePrefs();
 
@@ -61,12 +63,11 @@ function setupEventListeners() {
             const value = interfaceLangSelect.value;
             // Validate
             if (!SUPPORTED_LANGS.includes(value)) {
-                console.warn(`Invalid interface language: ${value}`);
                 return;
             }
             AppState.settings.interfaceLang = value;
             document.documentElement.lang = value;
-            localStorage.setItem('cy_interface_lang', value);  // ✅ Consistent naming
+            localStorage.setItem('cy_interface_lang', value);
             updateUI();
         });
     }
@@ -76,7 +77,6 @@ function setupEventListeners() {
             const value = quizLangSelect.value;
             // Validate
             if (!SUPPORTED_LANGS.includes(value)) {
-                console.warn(`Invalid quiz language: ${value}`);
                 return;
             }
             AppState.settings.quizLang = value;
@@ -89,7 +89,6 @@ function setupEventListeners() {
             const value = helperLangSelect.value;
             // Validate
             if (!SUPPORTED_LANGS.includes(value)) {
-                console.warn(`Invalid helper language: ${value}`);
                 return;
             }
             AppState.settings.helperLang = value;
@@ -108,11 +107,11 @@ function setupEventListeners() {
     // Main action buttons
     const startBtn = document.getElementById('ui-quiz-mode-btn');
     const flashcardBtn = document.getElementById('ui-flashcard-btn');
-    const referenceBtn = document.getElementById('ui-reference-btn');
+    // referenceBtn is now <a href="reference.html"> - no event listener needed
 
     if (startBtn) startBtn.addEventListener('click', start);
     if (flashcardBtn) flashcardBtn.addEventListener('click', startFlashcard);
-    if (referenceBtn) referenceBtn.addEventListener('click', showReference);
+    // referenceBtn click is handled by browser (link to reference.html)
 
     // Share button
     const shareBtn = document.querySelector('.share-btn');
@@ -140,17 +139,7 @@ function setupEventListeners() {
     if (correctBtn) correctBtn.addEventListener('click', () => handleFlashcardAnswer(true));
     if (wrongBtn) wrongBtn.addEventListener('click', () => handleFlashcardAnswer(false));
 
-    // Reference search
-    const referenceSearch = document.getElementById('reference-search');
-    if (referenceSearch) {
-        referenceSearch.addEventListener('input', filterReference);
-    }
-
-    // Reference back button
-    const referenceBackBtn = document.getElementById('ui-reference-back-btn');
-    if (referenceBackBtn) {
-        referenceBackBtn.addEventListener('click', backToMenu);
-    }
+    // Reference search and back button are on reference.html - no event listeners needed here
 }
 
 /**
@@ -177,12 +166,3 @@ function showLoadingError() {
         loadingText.appendChild(refreshBtn);
     }
 }
-
-// Export functions for global access (debugging)
-window.CySigns = {
-    AppState,
-    start,
-    startFlashcard,
-    showReference,
-    shareApp
-};

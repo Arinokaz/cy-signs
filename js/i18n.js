@@ -37,17 +37,17 @@ export function getCurrentQuizLang() {
 
 /**
  * Detect language from URL, localStorage, or browser
- * 
+ *
  * @param {boolean} writeToLocalStorage - If true, save detected language to localStorage
  *                                        If false, only read (for non-index pages)
  * @returns {string} Detected language code
- * 
+ *
  * Priority:
  * 1. URL parameter ?lang= (PRIORITY) → use, save if writeToLocalStorage=true
  * 2. localStorage 'cy_interface_lang' → use if exists (don't overwrite)
  * 3. Browser language → use if no URL/localStorage, save if writeToLocalStorage=true
  * 4. Default English → fallback, save if writeToLocalStorage=true
- * 
+ *
  * Usage:
  * - index.html (app.js): detectLanguage(true)  → writes to localStorage
  * - reference.html: detectLanguage(false) → read-only
@@ -56,11 +56,11 @@ export function getCurrentQuizLang() {
 export function detectLanguage(writeToLocalStorage = false) {
     const supportedLangs = ['en', 'uk', 'el', 'ru'];
     let lang = 'en';
-    
+
     // 1. URL parameter (PRIORITY)
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
-    
+
     if (urlLang && supportedLangs.includes(urlLang)) {
         lang = urlLang;
         if (writeToLocalStorage) {
@@ -68,7 +68,7 @@ export function detectLanguage(writeToLocalStorage = false) {
         }
         return lang;
     }
-    
+
     // 2. localStorage (from previous visits)
     const storedLang = localStorage.getItem('cy_interface_lang');
     if (storedLang && supportedLangs.includes(storedLang)) {
@@ -76,8 +76,8 @@ export function detectLanguage(writeToLocalStorage = false) {
         // Don't overwrite (already in localStorage)
         return lang;
     }
-    
-    // 3. Browser language
+
+    // 3. Browser language (only save if not already in localStorage)
     const browserLang = navigator.language.slice(0, 2);
     if (supportedLangs.includes(browserLang)) {
         lang = browserLang;
@@ -86,8 +86,8 @@ export function detectLanguage(writeToLocalStorage = false) {
         }
         return lang;
     }
-    
-    // 4. Default English
+
+    // 4. Default English (only save if not already in localStorage)
     lang = 'en';
     if (writeToLocalStorage) {
         localStorage.setItem('cy_interface_lang', lang);
@@ -101,19 +101,18 @@ export function detectLanguage(writeToLocalStorage = false) {
  * @deprecated - use detectLanguage(true) instead
  */
 export function detectAndSetLanguage() {
-    console.warn('detectAndSetLanguage() deprecated - use detectLanguage(true)');
     const lang = detectLanguage(true);
-    
+
     // For backward compatibility with AppState
     if (typeof AppState !== 'undefined') {
         AppState.settings.interfaceLang = lang;
-        
+
         const interfaceLangSelect = document.getElementById('interface-lang');
         if (interfaceLangSelect) {
             interfaceLangSelect.value = lang;
         }
     }
-    
+
     document.documentElement.lang = lang;
     return lang;
 }
@@ -123,7 +122,7 @@ export function detectAndSetLanguage() {
  * @deprecated - logic moved to app.js event listeners
  */
 export function saveQuizLang() {
-    console.warn('saveQuizLang() is deprecated - use event listener in app.js');
+    // Deprecated
 }
 
 /**
@@ -131,16 +130,24 @@ export function saveQuizLang() {
  * @deprecated - logic moved to app.js event listeners
  */
 export function saveHelperLang() {
-    console.warn('saveHelperLang() is deprecated - use event listener in app.js');
+    // Deprecated
 }
 
 /**
  * Load saved language preferences from localStorage
  */
 export function loadSavedLanguagePrefs() {
+    const interfaceLang = localStorage.getItem('cy_interface_lang');
     const quizLang = localStorage.getItem('cy_quiz_lang');
     const helperLang = localStorage.getItem('cy_helper_lang');
     const supportedLangs = ['en', 'uk', 'el', 'ru'];
+
+    // Load interface language
+    if (interfaceLang && supportedLangs.includes(interfaceLang)) {
+        AppState.settings.interfaceLang = interfaceLang;
+        const interfaceLangSelect = document.getElementById('interface-lang');
+        if (interfaceLangSelect) interfaceLangSelect.value = interfaceLang;
+    }
 
     // Load quiz language
     if (quizLang && supportedLangs.includes(quizLang)) {
