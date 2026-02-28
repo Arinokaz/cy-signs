@@ -1,5 +1,5 @@
 /* ==================== I18N - INTERNATIONALIZATION ====================
-   Version: 3.0
+   Version: 5.3
    Last Updated: 2026-02-24
    Prepared for multi-page support
 ====================================================================== */
@@ -184,18 +184,18 @@ export function updateUILanguage() {
 
         // Update page title and meta description (SPA only)
         const titles = {
-            en: 'Cyprus Road Signs Quiz — Free Driving Test Practice (228 Signs)',
-            uk: 'Дорожні знаки Кіпру — Безкоштовний онлайн тест (228 знаків)',
-            el: 'Οδικές Πινακίδες Κύπρου — Δωρεάν Θεωρητικό Τεστ (228 Σήματα)',
-            ru: 'Дорожные знаки Кипра — Бесплатный онлайн тест (228 знаков)'
+            en: 'Cyprus Road Signs Quiz — Free Driving Test Practice (227 Signs)',
+            uk: 'Дорожні знаки Кіпру — Безкоштовний онлайн тест (227 знаків)',
+            el: 'Οδικές Πινακίδες Κύπρου — Δωρεάν Θεωρητικό Τεστ (227 Σήματα)',
+            ru: 'Дорожные знаки Кипра — Бесплатный онлайн тест (227 знаков)'
         };
         document.title = titles[lang] || titles.en;
 
         const descriptions = {
-            en: 'Interactive quiz app for learning Cyprus road signs. 228 signs, 4 languages, offline PWA support. Free driving test preparation.',
-            uk: 'Інтерактивний додаток для вивчення дорожніх знаків Кіпру. 228 знаків, 4 мови, офлайн режим. Безкоштовна підготовка до екзамену.',
-            el: 'Διαδραστική εφαρμογή για την εκμάθηση οδικών πινακίδων Κύπρου. 228 σήματα, 4 γλώσσες, υποστήριξη εκτός σύνδεσης.',
-            ru: 'Интерактивное приложение для изучения дорожных знаков Кипра. 228 знаков, 4 языка, офлайн режим. Бесплатная подготовка к экзамену.'
+            en: 'Interactive quiz app for learning Cyprus road signs. 227 signs, 4 languages, offline PWA support. Free driving test preparation.',
+            uk: 'Інтерактивний додаток для вивчення дорожніх знаків Кіпру. 227 знаків, 4 мови, офлайн режим. Безкоштовна підготовка до екзамену.',
+            el: 'Διαδραστική εφαρμογή για την εκμάθηση οδικών πινακίδων Κύπρου. 227 σήματα, 4 γλώσσες, υποστήριξη εκτός σύνδεσης.',
+            ru: 'Интерактивное приложение для изучения дорожных знаков Кипра. 227 знаков, 4 языка, офлайн режим. Бесплатная подготовка к экзамену.'
         };
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) {

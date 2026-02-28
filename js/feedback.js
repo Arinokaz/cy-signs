@@ -1,5 +1,5 @@
 /* ==================== SHARE FUNCTIONALITY ====================
-   Version: 3.0
+   Version: 5.3
    Last Updated: 2026-02-24
    Share app functionality
 ====================================================================== */
@@ -12,7 +12,7 @@ import { showToast } from './utils.js';
 export async function shareApp() {
     const shareData = {
         title: 'Cyprus Road Signs Quiz — Free Driving Test Practice',
-        text: '🚗 Learn 228 Cyprus road signs for free!\n\n' +
+        text: '🚗 Learn 227 Cyprus road signs for free!\n\n' +
               '✅ Quiz Mode\n' +
               '✅ Flashcard Mode\n' +
               '✅ 4 languages (EN/UK/EL/RU)\n' +

@@ -1,5 +1,5 @@
 /* ==================== REFERENCE PAGE ====================
-   Version: 2.1
+   Version: 5.3
    Last Updated: 2026-02-26
    
    Uses translations from translations.js

@@ -1,5 +1,5 @@
 /* ==================== RESULTS RENDERING ====================
-   Version: 3.0
+   Version: 5.3
    Last Updated: 2026-02-24
    Common logic for rendering quiz/flashcard results
 ====================================================================== */
