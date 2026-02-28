@@ -20,7 +20,8 @@ const allSigns = [
         },
         "file": "built_up_area.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "built-up-area"
     },
     {
         "name": {
@@ -43,7 +44,8 @@ const allSigns = [
         },
         "file": "stop_and_give_way.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "stop-and-give-way"
     },
     {
         "name": {
@@ -66,7 +68,8 @@ const allSigns = [
         },
         "file": "emergency_telephone.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "emergency-telephone"
     },
     {
         "name": {
@@ -89,7 +92,8 @@ const allSigns = [
         },
         "file": "bus_stop.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "bus-stop"
     },
     {
         "name": {
@@ -112,7 +116,8 @@ const allSigns = [
         },
         "file": "route_confirmation_sign.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "route-confirmation-sign"
     },
     {
         "name": {
@@ -135,7 +140,8 @@ const allSigns = [
         },
         "file": "box_junction_ahead.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "box-junction-ahead"
     },
     {
         "name": {
@@ -158,7 +164,8 @@ const allSigns = [
         },
         "file": "no_through_road.svg",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "no-through-road"
     },
     {
         "name": {
@@ -181,7 +188,8 @@ const allSigns = [
         },
         "file": "no_through_road_on_the_left.svg",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "no-through-road-on-the-left"
     },
     {
         "name": {
@@ -204,7 +212,8 @@ const allSigns = [
         },
         "file": "no_through_road_on_the_right.svg",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "no-through-road-on-the-right"
     },
     {
         "name": {
@@ -227,7 +236,8 @@ const allSigns = [
         },
         "file": "stop_customs.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "stop-customs"
     },
     {
         "name": {
@@ -250,7 +260,8 @@ const allSigns = [
         },
         "file": "direction_to_motorway.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "direction-to-motorway"
     },
     {
         "name": {
@@ -273,7 +284,8 @@ const allSigns = [
         },
         "file": "advance_direction_sign.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "advance-direction-sign"
     },
     {
         "name": {
@@ -296,7 +308,8 @@ const allSigns = [
         },
         "file": "direction_to_primarylocal_routes.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "direction-to-primarylocal-routes"
     },
     {
         "name": {
@@ -319,7 +332,8 @@ const allSigns = [
         },
         "file": "informatory_sign_for_special_messages.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "informatory-sign-for-special-messages"
     },
     {
         "name": {
@@ -342,7 +356,8 @@ const allSigns = [
         },
         "file": "end_of_maximum_speed_limit.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "end-of-maximum-speed-limit"
     },
     {
         "name": {
@@ -365,7 +380,8 @@ const allSigns = [
         },
         "file": "end_of_the_no_overtaking_restriction.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "end-of-the-no-overtaking-restriction"
     },
     {
         "name": {
@@ -388,7 +404,8 @@ const allSigns = [
         },
         "file": "end_of_no_parking_zone.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "end-of-no-parking-zone"
     },
     {
         "name": {
@@ -411,7 +428,8 @@ const allSigns = [
         },
         "file": "end_of_speed_road.svg",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "end-of-speed-road"
     },
     {
         "name": {
@@ -434,7 +452,8 @@ const allSigns = [
         },
         "file": "general_speed_limits.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "general-speed-limits"
     },
     {
         "name": {
@@ -457,7 +476,8 @@ const allSigns = [
         },
         "file": "give_way_to_traffic_on_major_road.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "give-way-to-traffic-on-major-road"
     },
     {
         "name": {
@@ -480,7 +500,8 @@ const allSigns = [
         },
         "file": "route_to_be_used_by_horse_riders_only.svg",
         "cat": "mandatory",
-        "fav": false
+        "fav": false,
+        "id": "route-to-be-used-by-horse-riders-only"
     },
     {
         "name": {
@@ -503,7 +524,8 @@ const allSigns = [
         },
         "file": "warning_sign_with_supplementary_plate_speed_hump_at_pedestrian_crossing.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "warning-sign-with-supplementary-plate-speed-hump-at-pedestrian-crossing"
     },
     {
         "name": {
@@ -526,7 +548,8 @@ const allSigns = [
         },
         "file": "warning_sign_with_supplementary_plate_pelican_crossing_on_speed_hump.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "warning-sign-with-supplementary-plate-pelican-crossing-on-speed-hump"
     },
     {
         "name": {
@@ -549,7 +572,8 @@ const allSigns = [
         },
         "file": "compulsory_use_of_wheel_chains.svg",
         "cat": "mandatory",
-        "fav": false
+        "fav": false,
+        "id": "compulsory-use-of-wheel-chains"
     },
     {
         "name": {
@@ -572,7 +596,8 @@ const allSigns = [
         },
         "file": "ahead_or_left_only.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "ahead-or-left-only"
     },
     {
         "name": {
@@ -595,7 +620,8 @@ const allSigns = [
         },
         "file": "ahead_or_right_only.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "ahead-or-right-only"
     },
     {
         "name": {
@@ -618,7 +644,8 @@ const allSigns = [
         },
         "file": "ahead_only.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "ahead-only"
     },
     {
         "name": {
@@ -641,7 +668,8 @@ const allSigns = [
         },
         "file": "turn_left_or_right_only.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "turn-left-or-right-only"
     },
     {
         "name": {
@@ -664,7 +692,8 @@ const allSigns = [
         },
         "file": "pedestrian_route.svg",
         "cat": "mandatory",
-        "fav": false
+        "fav": false,
+        "id": "pedestrian-route"
     },
     {
         "name": {
@@ -687,7 +716,8 @@ const allSigns = [
         },
         "file": "no_vehicles_over_weight_shown.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-vehicles-over-weight-shown"
     },
     {
         "name": {
@@ -710,7 +740,8 @@ const allSigns = [
         },
         "file": "no_vehicles_over_height_shown.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-vehicles-over-height-shown"
     },
     {
         "name": {
@@ -733,7 +764,8 @@ const allSigns = [
         },
         "file": "no_vehicles_over_width_shown.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-vehicles-over-width-shown"
     },
     {
         "name": {
@@ -756,7 +788,8 @@ const allSigns = [
         },
         "file": "no_vehicles_or_combination_of_vehicles_over_length_shown.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-vehicles-or-combination-of-vehicles-over-length-shown"
     },
     {
         "name": {
@@ -779,7 +812,8 @@ const allSigns = [
         },
         "file": "no_vehicles_over_maximum_axle_weight_shown.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-vehicles-over-maximum-axle-weight-shown"
     },
     {
         "name": {
@@ -802,7 +836,8 @@ const allSigns = [
         },
         "file": "maximum_speed_limit.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "maximum-speed-limit"
     },
     {
         "name": {
@@ -825,7 +860,8 @@ const allSigns = [
         },
         "file": "minimum_distance_to_be_kept_with_the_vehicle_in_front.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "minimum-distance-to-be-kept-with-the-vehicle-in-front"
     },
     {
         "name": {
@@ -848,7 +884,8 @@ const allSigns = [
         },
         "file": "directional_sign.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "directional-sign"
     },
     {
         "name": {
@@ -871,7 +908,8 @@ const allSigns = [
         },
         "file": "no_agricultural_vehicles.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "no-agricultural-vehicles"
     },
     {
         "name": {
@@ -894,7 +932,8 @@ const allSigns = [
         },
         "file": "no_animal_drawn_vehicles.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "no-animal-drawn-vehicles"
     },
     {
         "name": {
@@ -917,7 +956,8 @@ const allSigns = [
         },
         "file": "no_wheelbarrows.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "no-wheelbarrows"
     },
     {
         "name": {
@@ -940,7 +980,8 @@ const allSigns = [
         },
         "file": "no_goods_vehicles.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-goods-vehicles"
     },
     {
         "name": {
@@ -963,7 +1004,8 @@ const allSigns = [
         },
         "file": "no_use_of_horn.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-use-of-horn"
     },
     {
         "name": {
@@ -986,7 +1028,8 @@ const allSigns = [
         },
         "file": "green_light.png",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "green-light"
     },
     {
         "name": {
@@ -1009,7 +1052,8 @@ const allSigns = [
         },
         "file": "flashing_amber_light.png",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "flashing-amber-light"
     },
     {
         "name": {
@@ -1032,7 +1076,8 @@ const allSigns = [
         },
         "file": "red_light.png",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "red-light"
     },
     {
         "name": {
@@ -1055,7 +1100,8 @@ const allSigns = [
         },
         "file": "red_and_amber_lights.png",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "red-and-amber-lights"
     },
     {
         "name": {
@@ -1078,7 +1124,8 @@ const allSigns = [
         },
         "file": "green_arrow.png",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "green-arrow"
     },
     {
         "name": {
@@ -1101,7 +1148,8 @@ const allSigns = [
         },
         "file": "amber_light.png",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "amber-light"
     },
     {
         "name": {
@@ -1124,7 +1172,8 @@ const allSigns = [
         },
         "file": "no_mopeds.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-mopeds"
     },
     {
         "name": {
@@ -1147,7 +1196,8 @@ const allSigns = [
         },
         "file": "no_motor_vehicles_except_two_wheeled_vehicles.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-motor-vehicles-except-two-wheeled-vehicles"
     },
     {
         "name": {
@@ -1170,7 +1220,8 @@ const allSigns = [
         },
         "file": "no_motorbikes.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-motorbikes"
     },
     {
         "name": {
@@ -1193,7 +1244,8 @@ const allSigns = [
         },
         "file": "no_overtaking_by_goods_vehicles.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-overtaking-by-goods-vehicles"
     },
     {
         "name": {
@@ -1216,7 +1268,8 @@ const allSigns = [
         },
         "file": "no_parking_on_odd_days_of_the_month.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-parking-on-odd-days-of-the-month"
     },
     {
         "name": {
@@ -1239,7 +1292,8 @@ const allSigns = [
         },
         "file": "no_parking_on_even_days_of_the_month.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-parking-on-even-days-of-the-month"
     },
     {
         "name": {
@@ -1262,7 +1316,8 @@ const allSigns = [
         },
         "file": "no_parking_zone.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-parking-zone"
     },
     {
         "name": {
@@ -1285,7 +1340,8 @@ const allSigns = [
         },
         "file": "no_carrying_materials_that_can_pollute_water.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-carrying-materials-that-can-pollute-water"
     },
     {
         "name": {
@@ -1308,7 +1364,8 @@ const allSigns = [
         },
         "file": "passageway_sign_from_left_or_right.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "passageway-sign-from-left-or-right"
     },
     {
         "name": {
@@ -1331,7 +1388,8 @@ const allSigns = [
         },
         "file": "one_way_traffic_intersecting_road.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "one-way-traffic-intersecting-road"
     },
     {
         "name": {
@@ -1354,7 +1412,8 @@ const allSigns = [
         },
         "file": "one_way_traffic.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "one-way-traffic"
     },
     {
         "name": {
@@ -1377,7 +1436,8 @@ const allSigns = [
         },
         "file": "parking_place.svg",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "parking-place"
     },
     {
         "name": {
@@ -1400,7 +1460,8 @@ const allSigns = [
         },
         "file": "residential_area.png",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "residential-area"
     },
     {
         "name": {
@@ -1423,7 +1484,8 @@ const allSigns = [
         },
         "file": "end_of_residential_area.png",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "end-of-residential-area"
     },
     {
         "name": {
@@ -1446,7 +1508,8 @@ const allSigns = [
         },
         "file": "pedestrian_crossing.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "pedestrian-crossing"
     },
     {
         "name": {
@@ -1469,7 +1532,8 @@ const allSigns = [
         },
         "file": "stop_police.svg",
         "cat": "police",
-        "fav": true
+        "fav": true,
+        "id": "stop-police"
     },
     {
         "name": {
@@ -1492,7 +1556,8 @@ const allSigns = [
         },
         "file": "priority_road.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "priority-road"
     },
     {
         "name": {
@@ -1515,7 +1580,8 @@ const allSigns = [
         },
         "file": "warning_sign_with_supplementary_plate_road_humps_ahead_in_30m.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "warning-sign-with-supplementary-plate-road-humps-ahead-in-30m"
     },
     {
         "name": {
@@ -1538,7 +1604,8 @@ const allSigns = [
         },
         "file": "speed_road.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "speed-road"
     },
     {
         "name": {
@@ -1561,7 +1628,8 @@ const allSigns = [
         },
         "file": "warning_sign_with_supplementary_plate_road_humps.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "warning-sign-with-supplementary-plate-road-humps"
     },
     {
         "name": {
@@ -1584,7 +1652,8 @@ const allSigns = [
         },
         "file": "warning_sign_with_supplementary_plate_road_hump_on_the_left.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "warning-sign-with-supplementary-plate-road-hump-on-the-left"
     },
     {
         "name": {
@@ -1607,7 +1676,8 @@ const allSigns = [
         },
         "file": "warning_sign_with_supplementary_plate_road_hump_on_the_right.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "warning-sign-with-supplementary-plate-road-hump-on-the-right"
     },
     {
         "name": {
@@ -1630,7 +1700,8 @@ const allSigns = [
         },
         "file": "direction_to_destinations_at_a_roundabout.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "direction-to-destinations-at-a-roundabout"
     },
     {
         "name": {
@@ -1653,7 +1724,8 @@ const allSigns = [
         },
         "file": "warning_sign_with_supplementary_plate_school_ahead.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "warning-sign-with-supplementary-plate-school-ahead"
     },
     {
         "name": {
@@ -1676,7 +1748,8 @@ const allSigns = [
         },
         "file": "toll_post.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "toll-post"
     },
     {
         "name": {
@@ -1699,7 +1772,8 @@ const allSigns = [
         },
         "file": "informatory_sign_for_special_messages_section_of_road_open_or_closed.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "informatory-sign-for-special-messages-section-of-road-open-or-closed"
     },
     {
         "name": {
@@ -1722,7 +1796,8 @@ const allSigns = [
         },
         "file": "warning_sign_with_supplementary_plate_exit_for_emergencyspecial_vehicles.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "warning-sign-with-supplementary-plate-exit-for-emergencyspecial-vehicles"
     },
     {
         "name": {
@@ -1745,7 +1820,8 @@ const allSigns = [
         },
         "file": "children_ahead.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "children-ahead"
     },
     {
         "name": {
@@ -1768,7 +1844,8 @@ const allSigns = [
         },
         "file": "crossroad_with_priority_over_vehicles_from_the_right.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "crossroad-with-priority-over-vehicles-from-the-right"
     },
     {
         "name": {
@@ -1791,7 +1868,8 @@ const allSigns = [
         },
         "file": "distance_to_level_crossing.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "distance-to-level-crossing"
     },
     {
         "name": {
@@ -1814,7 +1892,8 @@ const allSigns = [
         },
         "file": "soft_verge_on_right.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "soft-verge-on-right"
     },
     {
         "name": {
@@ -1837,7 +1916,8 @@ const allSigns = [
         },
         "file": "give_way_ahead_with_distance.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "give-way-ahead-with-distance"
     },
     {
         "name": {
@@ -1860,7 +1940,8 @@ const allSigns = [
         },
         "file": "passageway_sign_from_left.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "passageway-sign-from-left"
     },
     {
         "name": {
@@ -1883,7 +1964,8 @@ const allSigns = [
         },
         "file": "passageway_sign_from_right.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "passageway-sign-from-right"
     },
     {
         "name": {
@@ -1906,7 +1988,8 @@ const allSigns = [
         },
         "file": "stop_ahead.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "stop-ahead"
     },
     {
         "name": {
@@ -1929,7 +2012,8 @@ const allSigns = [
         },
         "file": "arrows_depicting_lane_direction_on_a_3_lane_roundabout.jpg",
         "cat": "markings",
-        "fav": false
+        "fav": false,
+        "id": "arrows-depicting-lane-direction-on-a-3-lane-roundabout"
     },
     {
         "name": {
@@ -1952,7 +2036,8 @@ const allSigns = [
         },
         "file": "arrows_depicting_lane_direction_on_a_2_lane_roundabout.jpg",
         "cat": "markings",
-        "fav": false
+        "fav": false,
+        "id": "arrows-depicting-lane-direction-on-a-2-lane-roundabout"
     },
     {
         "name": {
@@ -1975,7 +2060,8 @@ const allSigns = [
         },
         "file": "double_yellow_lines_no_parking_or_stopping.jpg",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "double-yellow-lines-no-parking-or-stopping"
     },
     {
         "name": {
@@ -1998,7 +2084,8 @@ const allSigns = [
         },
         "file": "single_white_line_no_parking.jpg",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "single-white-line-no-parking"
     },
     {
         "name": {
@@ -2021,7 +2108,8 @@ const allSigns = [
         },
         "file": "single_yellow_line_no_parking.png",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "single-yellow-line-no-parking"
     },
     {
         "name": {
@@ -2044,7 +2132,8 @@ const allSigns = [
         },
         "file": "broken_white_lines_exit_or_bus_stop.png",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "broken-white-lines-exit-or-bus-stop"
     },
     {
         "name": {
@@ -2067,7 +2156,8 @@ const allSigns = [
         },
         "file": "arrows_depicting_lane_direction_on_roundabouts.jpg",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "arrows-depicting-lane-direction-on-roundabouts"
     },
     {
         "name": {
@@ -2090,7 +2180,8 @@ const allSigns = [
         },
         "file": "give_way_t_junction_give_way_to_traffic_on_major_road.jpg",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "give-way-t-junction-give-way-to-traffic-on-major-road"
     },
     {
         "name": {
@@ -2113,7 +2204,8 @@ const allSigns = [
         },
         "file": "start_of_motorway.png",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "start-of-motorway"
     },
     {
         "name": {
@@ -2136,7 +2228,8 @@ const allSigns = [
         },
         "file": "end_of_motorway.png",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "end-of-motorway"
     },
     {
         "name": {
@@ -2159,7 +2252,8 @@ const allSigns = [
         },
         "file": "motorway_directional_information.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "motorway-directional-information"
     },
     {
         "name": {
@@ -2182,7 +2276,8 @@ const allSigns = [
         },
         "file": "motorway_exit_sign.png",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "motorway-exit-sign"
     },
     {
         "name": {
@@ -2205,7 +2300,8 @@ const allSigns = [
         },
         "file": "double_white_lines_no_crossing_or_overtaking.jpg",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "double-white-lines-no-crossing-or-overtaking"
     },
     {
         "name": {
@@ -2228,7 +2324,8 @@ const allSigns = [
         },
         "file": "single_white_line_no_crossing_or_overtaking.jpg",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "single-white-line-no-crossing-or-overtaking"
     },
     {
         "name": {
@@ -2251,7 +2348,8 @@ const allSigns = [
         },
         "file": "zigzag_lines_no_parking_waiting_or_overtaking.jpg",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "zigzag-lines-no-parking-waiting-or-overtaking"
     },
     {
         "name": {
@@ -2274,7 +2372,8 @@ const allSigns = [
         },
         "file": "combined_white_lines_overtaking_permitted_from_one_side.jpg",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "combined-white-lines-overtaking-permitted-from-one-side"
     },
     {
         "name": {
@@ -2297,7 +2396,8 @@ const allSigns = [
         },
         "file": "lane_dividers_overtaking_is_allowed.jpg",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "lane-dividers-overtaking-is-allowed"
     },
     {
         "name": {
@@ -2320,7 +2420,8 @@ const allSigns = [
         },
         "file": "police_proceed_for_traffic_from_behind.jpg",
         "cat": "police",
-        "fav": true
+        "fav": true,
+        "id": "police-proceed-for-traffic-from-behind"
     },
     {
         "name": {
@@ -2343,7 +2444,8 @@ const allSigns = [
         },
         "file": "police_proceed_for_traffic_from_the_front.jpg",
         "cat": "police",
-        "fav": true
+        "fav": true,
+        "id": "police-proceed-for-traffic-from-the-front"
     },
     {
         "name": {
@@ -2366,7 +2468,8 @@ const allSigns = [
         },
         "file": "police_proceed_for_traffic_from_the_side.jpg",
         "cat": "police",
-        "fav": true
+        "fav": true,
+        "id": "police-proceed-for-traffic-from-the-side"
     },
     {
         "name": {
@@ -2389,7 +2492,8 @@ const allSigns = [
         },
         "file": "direction_to_a_roundabout.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "direction-to-a-roundabout"
     },
     {
         "name": {
@@ -2412,7 +2516,8 @@ const allSigns = [
         },
         "file": "stop_t_junction_stop_and_give_way.jpg",
         "cat": "markings",
-        "fav": true
+        "fav": true,
+        "id": "stop-t-junction-stop-and-give-way"
     },
     {
         "name": {
@@ -2435,7 +2540,8 @@ const allSigns = [
         },
         "file": "police_stop_for_traffic_from_behind.jpg",
         "cat": "police",
-        "fav": true
+        "fav": true,
+        "id": "police-stop-for-traffic-from-behind"
     },
     {
         "name": {
@@ -2458,7 +2564,8 @@ const allSigns = [
         },
         "file": "police_stop_for_traffic_from_the_front_and_from_behind.jpg",
         "cat": "police",
-        "fav": true
+        "fav": true,
+        "id": "police-stop-for-traffic-from-the-front-and-from-behind"
     },
     {
         "name": {
@@ -2481,7 +2588,8 @@ const allSigns = [
         },
         "file": "police_stop_for_traffic_from_the_front.jpg",
         "cat": "police",
-        "fav": true
+        "fav": true,
+        "id": "police-stop-for-traffic-from-the-front"
     },
     {
         "name": {
@@ -2504,7 +2612,8 @@ const allSigns = [
         },
         "file": "first_aid_station.svg",
         "cat": "informational",
-        "fav": false
+        "fav": false,
+        "id": "first-aid-station"
     },
     {
         "name": {
@@ -2527,7 +2636,8 @@ const allSigns = [
         },
         "file": "workshops.svg",
         "cat": "informational",
-        "fav": false
+        "fav": false,
+        "id": "workshops"
     },
     {
         "name": {
@@ -2550,7 +2660,8 @@ const allSigns = [
         },
         "file": "telephone.svg",
         "cat": "informational",
-        "fav": false
+        "fav": false,
+        "id": "telephone"
     },
     {
         "name": {
@@ -2573,7 +2684,8 @@ const allSigns = [
         },
         "file": "petrol_pump.svg",
         "cat": "informational",
-        "fav": false
+        "fav": false,
+        "id": "petrol-pump"
     },
     {
         "name": {
@@ -2596,7 +2708,8 @@ const allSigns = [
         },
         "file": "hotel_or_motel.svg",
         "cat": "informational",
-        "fav": false
+        "fav": false,
+        "id": "hotel-or-motel"
     },
     {
         "name": {
@@ -2619,7 +2732,8 @@ const allSigns = [
         },
         "file": "restaurant.svg",
         "cat": "informational",
-        "fav": false
+        "fav": false,
+        "id": "restaurant"
     },
     {
         "name": {
@@ -2642,7 +2756,8 @@ const allSigns = [
         },
         "file": "cafeteria.svg",
         "cat": "informational",
-        "fav": false
+        "fav": false,
+        "id": "cafeteria"
     },
     {
         "name": {
@@ -2665,7 +2780,8 @@ const allSigns = [
         },
         "file": "picnic_area.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "picnic-area"
     },
     {
         "name": {
@@ -2688,7 +2804,8 @@ const allSigns = [
         },
         "file": "hiking_starting_point.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "hiking-starting-point"
     },
     {
         "name": {
@@ -2711,7 +2828,8 @@ const allSigns = [
         },
         "file": "camping_site.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "camping-site"
     },
     {
         "name": {
@@ -2734,7 +2852,8 @@ const allSigns = [
         },
         "file": "caravan_site.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "caravan-site"
     },
     {
         "name": {
@@ -2757,7 +2876,8 @@ const allSigns = [
         },
         "file": "camping_and_caravan_site.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "camping-and-caravan-site"
     },
     {
         "name": {
@@ -2780,7 +2900,8 @@ const allSigns = [
         },
         "file": "youth_hostel.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "youth-hostel"
     },
     {
         "name": {
@@ -2803,7 +2924,8 @@ const allSigns = [
         },
         "file": "tourist_information.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "tourist-information"
     },
     {
         "name": {
@@ -2826,7 +2948,8 @@ const allSigns = [
         },
         "file": "public_toilets.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "public-toilets"
     },
     {
         "name": {
@@ -2849,7 +2972,8 @@ const allSigns = [
         },
         "file": "airport.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "airport"
     },
     {
         "name": {
@@ -2872,7 +2996,8 @@ const allSigns = [
         },
         "file": "helipad.svg",
         "cat": "information",
-        "fav": false
+        "fav": false,
+        "id": "helipad"
     },
     {
         "name": {
@@ -2895,7 +3020,8 @@ const allSigns = [
         },
         "file": "subway_exit.svg",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "subway-exit"
     },
     {
         "name": {
@@ -2918,7 +3044,8 @@ const allSigns = [
         },
         "file": "subway_entrance.svg",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "subway-entrance"
     },
     {
         "name": {
@@ -2941,7 +3068,8 @@ const allSigns = [
         },
         "file": "ramp_for_pedestrians.svg",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "ramp-for-pedestrians"
     },
     {
         "name": {
@@ -2964,7 +3092,8 @@ const allSigns = [
         },
         "file": "t_junction.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "t-junction"
     },
     {
         "name": {
@@ -2987,7 +3116,8 @@ const allSigns = [
         },
         "file": "side_road_junction.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "side-road-junction"
     },
     {
         "name": {
@@ -3010,7 +3140,8 @@ const allSigns = [
         },
         "file": "staggered_junction.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "staggered-junction"
     },
     {
         "name": {
@@ -3033,7 +3164,8 @@ const allSigns = [
         },
         "file": "traffic_merges_from_left.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "traffic-merges-from-left"
     },
     {
         "name": {
@@ -3056,7 +3188,8 @@ const allSigns = [
         },
         "file": "traffic_merges_onto_the_main_carriageway.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "traffic-merges-onto-the-main-carriageway"
     },
     {
         "name": {
@@ -3079,7 +3212,8 @@ const allSigns = [
         },
         "file": "warning_roundabout.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "roundabout"
     },
     {
         "name": {
@@ -3102,7 +3236,8 @@ const allSigns = [
         },
         "file": "junction_on_a_bend_left.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "junction-on-a-bend-left"
     },
     {
         "name": {
@@ -3125,7 +3260,8 @@ const allSigns = [
         },
         "file": "junction_on_a_bend_right.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "junction-on-a-bend-right"
     },
     {
         "name": {
@@ -3148,7 +3284,8 @@ const allSigns = [
         },
         "file": "bend_to_the_right.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "bend-to-the-right"
     },
     {
         "name": {
@@ -3171,7 +3308,8 @@ const allSigns = [
         },
         "file": "double_bend_first_to_the_left.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "double-bend-first-to-the-left"
     },
     {
         "name": {
@@ -3194,7 +3332,8 @@ const allSigns = [
         },
         "file": "road_narrows_on_both_sides.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "road-narrows-on-both-sides"
     },
     {
         "name": {
@@ -3217,7 +3356,8 @@ const allSigns = [
         },
         "file": "road_narrows_on_the_right.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "road-narrows-on-the-right"
     },
     {
         "name": {
@@ -3240,7 +3380,8 @@ const allSigns = [
         },
         "file": "dual_carriageway_ends.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "dual-carriageway-ends"
     },
     {
         "name": {
@@ -3263,7 +3404,8 @@ const allSigns = [
         },
         "file": "two_way_traffic_straight_ahead.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "two-way-traffic-straight-ahead"
     },
     {
         "name": {
@@ -3286,7 +3428,8 @@ const allSigns = [
         },
         "file": "two_way_traffic_crosses_a_one_way_road.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "two-way-traffic-crosses-a-one-way-road"
     },
     {
         "name": {
@@ -3309,7 +3452,8 @@ const allSigns = [
         },
         "file": "steep_descent.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "steep-descent"
     },
     {
         "name": {
@@ -3332,7 +3476,8 @@ const allSigns = [
         },
         "file": "steep_ascent.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "steep-ascent"
     },
     {
         "name": {
@@ -3355,7 +3500,8 @@ const allSigns = [
         },
         "file": "hump_bridge.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "hump-bridge"
     },
     {
         "name": {
@@ -3378,7 +3524,8 @@ const allSigns = [
         },
         "file": "tunnel_ahead.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "tunnel-ahead"
     },
     {
         "name": {
@@ -3401,7 +3548,8 @@ const allSigns = [
         },
         "file": "opening_or_swing_bridge.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "opening-or-swing-bridge"
     },
     {
         "name": {
@@ -3424,7 +3572,8 @@ const allSigns = [
         },
         "file": "traffic_signals.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "traffic-signals"
     },
     {
         "name": {
@@ -3447,7 +3596,8 @@ const allSigns = [
         },
         "file": "pedestrians_in_road_ahead.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "pedestrians-in-road-ahead"
     },
     {
         "name": {
@@ -3470,7 +3620,8 @@ const allSigns = [
         },
         "file": "frail_pedestrians_likely_to_cross.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "frail-pedestrians-likely-to-cross"
     },
     {
         "name": {
@@ -3493,7 +3644,8 @@ const allSigns = [
         },
         "file": "zebra_crossing.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "zebra-crossing"
     },
     {
         "name": {
@@ -3516,7 +3668,8 @@ const allSigns = [
         },
         "file": "cattle.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "cattle"
     },
     {
         "name": {
@@ -3539,7 +3692,8 @@ const allSigns = [
         },
         "file": "accompanied_horses_or_ponies.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "accompanied-horses-or-ponies"
     },
     {
         "name": {
@@ -3562,7 +3716,8 @@ const allSigns = [
         },
         "file": "horse_drawn_vehicles_ahead.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "horse-drawn-vehicles-ahead"
     },
     {
         "name": {
@@ -3585,7 +3740,8 @@ const allSigns = [
         },
         "file": "wild_horses_or_ponies.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "wild-horses-or-ponies"
     },
     {
         "name": {
@@ -3608,7 +3764,8 @@ const allSigns = [
         },
         "file": "wild_animals.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "wild-animals"
     },
     {
         "name": {
@@ -3631,7 +3788,8 @@ const allSigns = [
         },
         "file": "agricultural_vehicles.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "agricultural-vehicles"
     },
     {
         "name": {
@@ -3654,7 +3812,8 @@ const allSigns = [
         },
         "file": "ice_or_snow.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "ice-or-snow"
     },
     {
         "name": {
@@ -3677,7 +3836,8 @@ const allSigns = [
         },
         "file": "quayside_or_river_bank.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "quayside-or-river-bank"
     },
     {
         "name": {
@@ -3700,7 +3860,8 @@ const allSigns = [
         },
         "file": "water_course_alongside_road.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "water-course-alongside-road"
     },
     {
         "name": {
@@ -3723,7 +3884,8 @@ const allSigns = [
         },
         "file": "ditch.png",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "ditch"
     },
     {
         "name": {
@@ -3746,7 +3908,8 @@ const allSigns = [
         },
         "file": "uneven_road.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "uneven-road"
     },
     {
         "name": {
@@ -3769,7 +3932,8 @@ const allSigns = [
         },
         "file": "soft_verge_on_left.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "soft-verge-on-left"
     },
     {
         "name": {
@@ -3792,7 +3956,8 @@ const allSigns = [
         },
         "file": "slippery_road.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "slippery-road"
     },
     {
         "name": {
@@ -3815,7 +3980,8 @@ const allSigns = [
         },
         "file": "low_flying_aircraft_or_sudden_aircraft_noise.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "low-flying-aircraft-or-sudden-aircraft-noise"
     },
     {
         "name": {
@@ -3838,7 +4004,8 @@ const allSigns = [
         },
         "file": "low_flying_helicopters_or_sudden_helicopter_noise.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "low-flying-helicopters-or-sudden-helicopter-noise"
     },
     {
         "name": {
@@ -3861,7 +4028,8 @@ const allSigns = [
         },
         "file": "falling_or_fallen_rocks.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "falling-or-fallen-rocks"
     },
     {
         "name": {
@@ -3884,7 +4052,8 @@ const allSigns = [
         },
         "file": "other_danger.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "other-danger"
     },
     {
         "name": {
@@ -3907,7 +4076,8 @@ const allSigns = [
         },
         "file": "side_winds.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "side-winds"
     },
     {
         "name": {
@@ -3930,7 +4100,8 @@ const allSigns = [
         },
         "file": "slow_moving_military_vehicles.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "slow-moving-military-vehicles"
     },
     {
         "name": {
@@ -3953,7 +4124,8 @@ const allSigns = [
         },
         "file": "slow_moving_vehicles_on_hill.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "slow-moving-vehicles-on-hill"
     },
     {
         "name": {
@@ -3976,7 +4148,8 @@ const allSigns = [
         },
         "file": "traffic_queues_likely_ahead.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "traffic-queues-likely-ahead"
     },
     {
         "name": {
@@ -3999,7 +4172,8 @@ const allSigns = [
         },
         "file": "stop_crossroads_by_children.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "stop-crossroads-by-children"
     },
     {
         "name": {
@@ -4022,7 +4196,8 @@ const allSigns = [
         },
         "file": "turn_left.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "turn-left"
     },
     {
         "name": {
@@ -4045,7 +4220,8 @@ const allSigns = [
         },
         "file": "turn_right.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "turn-right"
     },
     {
         "name": {
@@ -4068,7 +4244,8 @@ const allSigns = [
         },
         "file": "turn_left_ahead.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "turn-left-ahead"
     },
     {
         "name": {
@@ -4091,7 +4268,8 @@ const allSigns = [
         },
         "file": "turn_right_ahead.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "turn-right-ahead"
     },
     {
         "name": {
@@ -4114,7 +4292,8 @@ const allSigns = [
         },
         "file": "keep_left.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "keep-left"
     },
     {
         "name": {
@@ -4137,7 +4316,8 @@ const allSigns = [
         },
         "file": "keep_right.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "keep-right"
     },
     {
         "name": {
@@ -4160,7 +4340,8 @@ const allSigns = [
         },
         "file": "vehicles_may_pass_on_either_side.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "vehicles-may-pass-on-either-side"
     },
     {
         "name": {
@@ -4183,7 +4364,8 @@ const allSigns = [
         },
         "file": "mandatory_roundabout.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "roundabout-2"
     },
     {
         "name": {
@@ -4206,7 +4388,8 @@ const allSigns = [
         },
         "file": "no_left_turn.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-left-turn"
     },
     {
         "name": {
@@ -4229,7 +4412,8 @@ const allSigns = [
         },
         "file": "no_right_turn.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-right-turn"
     },
     {
         "name": {
@@ -4252,7 +4436,8 @@ const allSigns = [
         },
         "file": "no_u_turns.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-u-turns"
     },
     {
         "name": {
@@ -4275,7 +4460,8 @@ const allSigns = [
         },
         "file": "give_priority_to_vehicles_from_opposite_direction.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "give-priority-to-vehicles-from-opposite-direction"
     },
     {
         "name": {
@@ -4298,7 +4484,8 @@ const allSigns = [
         },
         "file": "no_entry_for_vehicular_traffic.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-entry-for-vehicular-traffic"
     },
     {
         "name": {
@@ -4321,7 +4508,8 @@ const allSigns = [
         },
         "file": "road_closed_to_all_vehicles_in_both_directions.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "road-closed-to-all-vehicles-in-both-directions"
     },
     {
         "name": {
@@ -4344,7 +4532,8 @@ const allSigns = [
         },
         "file": "no_motor_vehicles.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-motor-vehicles"
     },
     {
         "name": {
@@ -4367,7 +4556,8 @@ const allSigns = [
         },
         "file": "no_goods_vehicles_over_maximum_gross_weight_shown.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-goods-vehicles-over-maximum-gross-weight-shown"
     },
     {
         "name": {
@@ -4390,7 +4580,8 @@ const allSigns = [
         },
         "file": "no_towed_caravans.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-towed-caravans"
     },
     {
         "name": {
@@ -4413,7 +4604,8 @@ const allSigns = [
         },
         "file": "no_vehicles_carrying_explosives.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-vehicles-carrying-explosives"
     },
     {
         "name": {
@@ -4436,7 +4628,8 @@ const allSigns = [
         },
         "file": "no_overtaking.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-overtaking"
     },
     {
         "name": {
@@ -4459,7 +4652,8 @@ const allSigns = [
         },
         "file": "no_parking.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-parking"
     },
     {
         "name": {
@@ -4482,7 +4676,8 @@ const allSigns = [
         },
         "file": "no_stopping_or_parking_clearway.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "no-stopping-or-parking-clearway"
     },
     {
         "name": {
@@ -4505,7 +4700,8 @@ const allSigns = [
         },
         "file": "end_of_all_local_restrictions.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "end-of-all-local-restrictions"
     },
     {
         "name": {
@@ -4528,7 +4724,8 @@ const allSigns = [
         },
         "file": "minimum_speed_limit.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "minimum-speed-limit"
     },
     {
         "name": {
@@ -4551,7 +4748,8 @@ const allSigns = [
         },
         "file": "end_of_minimum_speed_limit.svg",
         "cat": "mandatory",
-        "fav": true
+        "fav": true,
+        "id": "end-of-minimum-speed-limit"
     },
     {
         "name": {
@@ -4574,7 +4772,8 @@ const allSigns = [
         },
         "file": "recommended_speed.png",
         "cat": "information",
-        "fav": true
+        "fav": true,
+        "id": "recommended-speed"
     },
     {
         "name": {
@@ -4597,7 +4796,8 @@ const allSigns = [
         },
         "file": "road_works_ahead.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "road-works-ahead"
     },
     {
         "name": {
@@ -4620,7 +4820,8 @@ const allSigns = [
         },
         "file": "loose_chippings.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "loose-chippings"
     },
     {
         "name": {
@@ -4643,7 +4844,8 @@ const allSigns = [
         },
         "file": "manually_operated_temporary_go_sign.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "manually-operated-temporary-go-sign"
     },
     {
         "name": {
@@ -4666,7 +4868,8 @@ const allSigns = [
         },
         "file": "level_crossing_with_gate_or_barrier_ahead.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "level-crossing-with-gate-or-barrier-ahead"
     },
     {
         "name": {
@@ -4689,7 +4892,8 @@ const allSigns = [
         },
         "file": "level_crossing_without_gate_or_barrier_ahead.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "level-crossing-without-gate-or-barrier-ahead"
     },
     {
         "name": {
@@ -4712,7 +4916,8 @@ const allSigns = [
         },
         "file": "tramway.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "tramway"
     },
     {
         "name": {
@@ -4735,7 +4940,8 @@ const allSigns = [
         },
         "file": "level_crossing_without_gate_or_barrier.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "level-crossing-without-gate-or-barrier"
     },
     {
         "name": {
@@ -4758,7 +4964,8 @@ const allSigns = [
         },
         "file": "overhead_electric_cable.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "overhead-electric-cable"
     },
     {
         "name": {
@@ -4781,7 +4988,8 @@ const allSigns = [
         },
         "file": "risk_of_grounding.svg",
         "cat": "warning",
-        "fav": true
+        "fav": true,
+        "id": "risk-of-grounding"
     },
     {
         "name": {
@@ -4804,7 +5012,8 @@ const allSigns = [
         },
         "file": "traffic_from_the_opposite_direction_must_give_way.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "traffic-from-the-opposite-direction-must-give-way"
     },
     {
         "name": {
@@ -4827,7 +5036,8 @@ const allSigns = [
         },
         "file": "speed_camera.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "speed-camera"
     },
     {
         "name": {
@@ -4850,7 +5060,8 @@ const allSigns = [
         },
         "file": "cycles.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "cycles"
     },
     {
         "name": {
@@ -4873,7 +5084,8 @@ const allSigns = [
         },
         "file": "no_cycles.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "no-cycles"
     },
     {
         "name": {
@@ -4896,7 +5108,8 @@ const allSigns = [
         },
         "file": "buses_and_cycles_only.svg",
         "cat": "mandatory",
-        "fav": false
+        "fav": false,
+        "id": "buses-and-cycles-only"
     },
     {
         "name": {
@@ -4919,7 +5132,8 @@ const allSigns = [
         },
         "file": "route_for_use_by_cycles_only.svg",
         "cat": "mandatory",
-        "fav": false
+        "fav": false,
+        "id": "route-for-use-by-cycles-only"
     },
     {
         "name": {
@@ -4942,7 +5156,8 @@ const allSigns = [
         },
         "file": "shared_route_for_pedestrians_and_cyclists.svg",
         "cat": "mandatory",
-        "fav": false
+        "fav": false,
+        "id": "shared-route-for-pedestrians-and-cyclists"
     },
     {
         "name": {
@@ -4965,7 +5180,8 @@ const allSigns = [
         },
         "file": "divided_route_for_pedestrians_and_cyclists.svg",
         "cat": "mandatory",
-        "fav": false
+        "fav": false,
+        "id": "divided-route-for-pedestrians-and-cyclists"
     },
     {
         "name": {
@@ -4988,7 +5204,8 @@ const allSigns = [
         },
         "file": "distance_to_hazard_or_regulation.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "distance-to-hazard-or-regulation"
     },
     {
         "name": {
@@ -5011,7 +5228,8 @@ const allSigns = [
         },
         "file": "length_of_hazard_or_regulation.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "length-of-hazard-or-regulation"
     },
     {
         "name": {
@@ -5034,7 +5252,8 @@ const allSigns = [
         },
         "file": "validity_of_no_stopping_and_parking_sign.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "validity-of-no-stopping-and-parking-sign"
     },
     {
         "name": {
@@ -5057,7 +5276,8 @@ const allSigns = [
         },
         "file": "distance_to_hazard_in_both_directions.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "distance-to-hazard-in-both-directions"
     },
     {
         "name": {
@@ -5080,7 +5300,8 @@ const allSigns = [
         },
         "file": "direction_of_validity_for_no_stoppingparking.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "direction-of-validity-for-no-stoppingparking"
     },
     {
         "name": {
@@ -5103,7 +5324,8 @@ const allSigns = [
         },
         "file": "repetition_of_no_stoppingparking_prohibition.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "repetition-of-no-stoppingparking-prohibition"
     },
     {
         "name": {
@@ -5126,7 +5348,8 @@ const allSigns = [
         },
         "file": "end_of_validity_of_no_stoppingparking.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "end-of-validity-of-no-stoppingparking"
     },
     {
         "name": {
@@ -5149,7 +5372,8 @@ const allSigns = [
         },
         "file": "disabled_badge_holders_only.svg",
         "cat": "regulatory",
-        "fav": true
+        "fav": true,
+        "id": "disabled-badge-holders-only"
     },
     {
         "name": {
@@ -5172,7 +5396,8 @@ const allSigns = [
         },
         "file": "direction_of_priority_road.svg",
         "cat": "regulatory",
-        "fav": false
+        "fav": false,
+        "id": "direction-of-priority-road"
     },
     {
         "name": {
@@ -5195,7 +5420,8 @@ const allSigns = [
         },
         "file": "icy_road.svg",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "icy-road"
     },
     {
         "name": {
@@ -5218,6 +5444,7 @@ const allSigns = [
         },
         "file": "general_warning.png",
         "cat": "warning",
-        "fav": false
+        "fav": false,
+        "id": "general-warning"
     }
 ];

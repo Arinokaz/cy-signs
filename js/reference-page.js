@@ -1,7 +1,7 @@
 /* ==================== REFERENCE PAGE ====================
    Version: 5.3
    Last Updated: 2026-02-26
-   
+
    Uses translations from translations.js
 ====================================================================== */
 
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show reference screen, hide spinner
     const spinner = document.getElementById('loading-spinner');
     const referenceScreen = document.getElementById('reference-screen');
-    
+
     spinner.style.display = 'none';
     referenceScreen.style.display = 'block';
 
@@ -43,7 +43,33 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePageContent();
     renderReferenceList();
     setupEventListeners();
+    
+    // Scroll to last viewed sign (if returning from sign page)
+    scrollToLastViewedSign();
 });
+
+/**
+ * Scroll to last viewed sign (from localStorage)
+ */
+function scrollToLastViewedSign() {
+    const scrollToSign = localStorage.getItem('scrollToSign');
+    if (scrollToSign) {
+        // Wait for content to render
+        setTimeout(() => {
+            const element = document.querySelector(`[data-file="${scrollToSign}"]`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Highlight the element briefly
+                element.style.transition = 'background-color 0.3s ease';
+                element.style.backgroundColor = '#fff3cd';
+                setTimeout(() => {
+                    element.style.backgroundColor = '';
+                }, 2000);
+            }
+            localStorage.removeItem('scrollToSign');
+        }, 300);
+    }
+}
 
 // ==================== EVENT LISTENERS ====================
 function setupEventListeners() {
@@ -119,11 +145,12 @@ function renderReferenceList() {
     filteredSigns.forEach(sign => {
         const item = document.createElement('div');
         item.className = 'reference-item';
+        item.setAttribute('data-file', sign.file);
 
+        const signId = sign.id;
         const categoryName = t[currentLang].categories?.[sign.cat] || sign.cat;
         const signName = getDisplayName(sign, currentLang);
         const signHint = getDisplayHint(sign, currentLang);
-        const signExplanation = getDisplayExplanation(sign, currentLang);
 
         item.innerHTML = `
             <img src="./img/${sign.file}" alt="${signName}" loading="lazy"
@@ -132,7 +159,9 @@ function renderReferenceList() {
                 <div class="reference-category ${sign.cat}">${categoryName}</div>
                 <div class="reference-name">${signName}</div>
                 <div class="reference-hint">${signHint}</div>
-                <div class="reference-explanation">${signExplanation}</div>
+                <a href="signs/${signId}.html" class="details-btn" onclick="localStorage.setItem('scrollToSign', '${sign.file}')">
+                    ${t[currentLang].detailsBtn || '📖 Details'}
+                </a>
             </div>
         `;
 

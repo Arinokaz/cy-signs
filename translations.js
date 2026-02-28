@@ -64,7 +64,8 @@ const UI_TRANSLATIONS = {
         feedbackMessage: "💬 Повідомлення",
         feedbackPlaceholder: "Знайшли баг? Маєте пропозицію? Напишіть нам!",
         feedbackSend: "Надіслати",
-        feedbackBack: "Назад"
+        feedbackBack: "Назад",
+        detailsBtn: "📖 Детальніше"
     },
     en: {
         title: "Cyprus Road Signs",
@@ -130,7 +131,8 @@ const UI_TRANSLATIONS = {
         feedbackMessage: "💬 Message",
         feedbackPlaceholder: "Found a bug? Have a suggestion? Let us know!",
         feedbackSend: "Send",
-        feedbackBack: "Back"
+        feedbackBack: "Back",
+        detailsBtn: "📖 Details"
     },
     el: {
         title: "Οδικές Πινακίδες Κύπρου",
@@ -196,7 +198,8 @@ const UI_TRANSLATIONS = {
         feedbackMessage: "💬 Μήνυμα",
         feedbackPlaceholder: "Βρήκατε κάποιο σφάλμα; Έχετε κάποια πρόταση; Ενημερώστε μας!",
         feedbackSend: "Αποστολή",
-        feedbackBack: "Πίσω"
+        feedbackBack: "Πίσω",
+        detailsBtn: "📖 Λεπτομέρειες"
     },
     ru: {
         title: "Дорожные знаки Кипра",
@@ -262,7 +265,8 @@ const UI_TRANSLATIONS = {
         feedbackMessage: "💬 Сообщение",
         feedbackPlaceholder: "Нашли баг? Есть предложение? Напишите нам!",
         feedbackSend: "Отправить",
-        feedbackBack: "Назад"
+        feedbackBack: "Назад",
+        detailsBtn: "📖 Подробнее"
     }
 };
 

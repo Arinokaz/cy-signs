@@ -1348,6 +1348,107 @@ input:checked + .slider:before {
         padding: 40px 15px;
     }
 
+}
+
+/* ==================== SIGN PAGE ==================== */
+/* Стили для отдельной страницы знака */
+
+#sign-screen {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.sign-category-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 12px 0 20px 0;
+    background: #f0f4f8;
+    color: var(--text);
+}
+
+.sign-category-badge.warning { background: #ffeaa7; color: #d35400; }
+.sign-category-badge.regulatory { background: #ffcccc; color: #c0392b; }
+.sign-category-badge.mandatory { background: #d6eaf8; color: #2980b9; }
+.sign-category-badge.information { background: #d5f5e3; color: #27ae60; }
+.sign-category-badge.police { background: #e8daef; color: #8e44ad; }
+.sign-category-badge.markings { background: #f9e79f; color: #b7950b; }
+
+.sign-description-section {
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: left;
+    border: 1px solid var(--border);
+}
+
+.sign-description-section h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+}
+
+.sign-description-section p {
+    line-height: 1.7;
+    color: var(--text);
+    font-size: 15px;
+}
+
+/* Mobile sign page */
+@media (max-width: 480px) {
+    .sign-description-section {
+        padding: 16px;
+    }
+    
+    .sign-description-section h2 {
+        font-size: 1.1rem;
+    }
+    
+    .sign-description-section p {
+        font-size: 14px;
+    }
+    
+    .sign-category-badge {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+}
+
+/* Details button for reference page */
+.details-btn {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
+}
+
+.details-btn:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #2471a3 100%);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+    transform: translateY(-2px);
+}
+
+.details-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.2);
+}
+
+/* Reference item with button */
+.reference-item {
+    padding-bottom: 20px;
+    margin-bottom: 16px;
+}
+
     #seo-footer {
         margin-top: 20px;
         padding-top: 12px;

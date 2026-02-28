@@ -8,6 +8,7 @@ Allow: /
 Allow: /index.html
 Allow: /feedback.html
 Allow: /reference.html
+Allow: /signs/
 
 # CSS and JS
 Allow: /styles.css

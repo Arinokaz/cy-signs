@@ -29,6 +29,27 @@ export function getDisplayExplanation(sign, lang) {
 }
 
 /**
+ * Get category name in specified language
+ */
+export function getCategoryName(cat, lang) {
+    const translations = t[lang];
+    if (translations && translations.categories && translations.categories[cat]) {
+        return translations.categories[cat];
+    }
+    
+    // Fallback на English
+    const categories = {
+        warning: '⚠ Warning Signs',
+        regulatory: '🚫 Regulatory Signs',
+        mandatory: '🔵 Mandatory Signs',
+        information: 'ℹ Information Signs',
+        police: '👮 Police Signals',
+        markings: '🛣 Road Markings'
+    };
+    return categories[cat] || cat;
+}
+
+/**
  * Get current quiz language (respects translation toggle)
  */
 export function getCurrentQuizLang() {
