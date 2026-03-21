@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cyprus-signs-dynamic-v5.4';
+const CACHE_NAME = 'cyprus-signs-dynamic-v5.5';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -56,6 +56,25 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Network-first для HTML-сторінок
+  if (event.request.headers.get('accept')?.includes('text/html') || url.endsWith('.html')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+          return response;
+        })
+        .catch(() => {
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
+
+  // Cache-first для CSS, JS, зображень
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) return cachedResponse;
