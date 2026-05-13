@@ -67,23 +67,23 @@ function showSignContent(sign, interfaceLang) {
     const signImg = document.getElementById('sign-img');
     if (signImg) {
         signImg.src = `../img/${sign.file}`;
-        signImg.alt = getDisplayName(sign, AppState.settings.quizLang);
+        signImg.alt = getDisplayName(sign, interfaceLang);
         signImg.onerror = () => handleImageError(signImg);
     }
 
     const signName = document.getElementById('sign-name');
     if (signName) {
-        signName.textContent = getDisplayName(sign, AppState.settings.quizLang);
+        signName.textContent = getDisplayName(sign, interfaceLang);
     }
 
     const signCategory = document.getElementById('sign-category');
     if (signCategory) {
-        signCategory.textContent = getCategoryName(sign.cat, AppState.settings.quizLang);
+        signCategory.textContent = getCategoryName(sign.cat, interfaceLang);
     }
 
     const signExplanation = document.getElementById('sign-explanation');
     if (signExplanation) {
-        signExplanation.textContent = getDisplayExplanation(sign, AppState.settings.helperLang);
+        signExplanation.textContent = getDisplayExplanation(sign, interfaceLang);
     }
 
     const backBtn = document.getElementById('back-btn');
@@ -92,12 +92,12 @@ function showSignContent(sign, interfaceLang) {
         backBtn.textContent = translations.backToMenu || 'Back to List';
     }
 
-    const name = getDisplayName(sign, AppState.settings.quizLang);
+    const name = getDisplayName(sign, interfaceLang);
     document.title = `${name} Sign Cyprus — Meaning & Explanation`;
 
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
-        const hint = getDisplayExplanation(sign, AppState.settings.helperLang);
+        const hint = getDisplayExplanation(sign, interfaceLang);
         metaDesc.setAttribute('content', `${name}: ${hint.substring(0, 150)}...`);
     }
 }
