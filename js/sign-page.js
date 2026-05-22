@@ -86,6 +86,12 @@ function showSignContent(sign, interfaceLang) {
         signExplanation.textContent = getDisplayExplanation(sign, interfaceLang);
     }
 
+    const descriptionHeading = document.querySelector('h2[data-i18n="description"]');
+    if (descriptionHeading) {
+        const translations = t[interfaceLang];
+        descriptionHeading.textContent = translations.description || '📖 Description';
+    }
+
     const backBtn = document.getElementById('back-btn');
     if (backBtn) {
         const translations = t[interfaceLang];
