@@ -19,13 +19,19 @@ Notes for OpenCode sessions working in `cy-signs`. Only high-signal, repo-specif
 
 ## Bumping the version
 
-The current version is `5.6` and is duplicated in several places that must move together:
+The version lives in **one place**: the `/VERSION` file (plain text, e.g., `5.6`).
 
-1. `sw.js` — `CACHE_NAME = 'cyprus-signs-dynamic-vX.Y'`.
-2. Every `?v=5.6` query string in `index.html`, `feedback.html`, `reference.html`.
-3. Every `?v=5.6` query string in **all 227 files under `signs/`** (each loads `../styles.css`, `../translations.js`, `../signs-data.js`, `../js/sign-page.js` with the same version suffix). This is the easy-to-miss step — skipping it leaves per-sign pages on the old cache.
+To bump:
 
-A bulk in-place replace across `*.html` is the normal way to do it.
+1. Edit `VERSION` to the new value (e.g., `5.6` → `5.7`).
+2. Run `bash scripts/bump-version.sh` — the script reads `VERSION` and substitutes it into:
+   - `sw.js` → `CACHE_NAME = 'cyprus-signs-dynamic-vX.Y'`
+   - Every `?v=X.Y` in `index.html`, `feedback.html`, `reference.html` (3 root files)
+   - Every `?v=X.Y` in **all 227 files under `signs/`** (5 references per file: `styles.css`, `translations.js`, `signs-data.js`, `js/sign-page.js`, `manifest.json`)
+3. Verify: `grep -rE '\?v=5\.7' --include='*.html' . | wc -l` should report ~1150.
+4. Commit and push.
+
+The script is idempotent — running it twice with the same VERSION makes the same substitutions, no diff.
 
 ## Adding a new sign
 
