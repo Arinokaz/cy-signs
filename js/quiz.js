@@ -1,11 +1,11 @@
 /* ==================== QUIZ MODE ====================
-   Version: 5.3
+   Version: 5.6
    Last Updated: 2026-02-24
 ====================================================================== */
 
 import { AppState, AD_CONFIG } from './state.js';
 import { showScreen, cleanupQuiz } from './ui.js';
-import { getDisplayName, getCurrentQuizLang, updateUI, getDisplayHint, t } from './i18n.js';
+import { getDisplayName, getCurrentQuizLang, updateUI, getDisplayHint, t, SUPPORTED_LANGS } from './i18n.js';
 import { shuffle, handleImageError } from './utils.js';
 import { renderResultsList, renderResultHeader } from './results.js';
 
@@ -87,7 +87,7 @@ export function render() {
     let quizLangCurrent = getCurrentQuizLang();
     
     // Fallback to English if quiz language is not set
-    if (!quizLangCurrent || !['en', 'uk', 'el', 'ru'].includes(quizLangCurrent)) {
+    if (!quizLangCurrent || !SUPPORTED_LANGS.includes(quizLangCurrent)) {
         quizLangCurrent = 'en';
         AppState.settings.quizLang = 'en';
     }

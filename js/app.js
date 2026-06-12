@@ -1,12 +1,12 @@
 /* ==================== CYPRUS ROAD SIGNS - MAIN ENTRY POINT ====================
-   Version: 5.3
+   Version: 5.6
    Last Updated: 2026-02-24
    Refactored: ES6 Modules
 ====================================================================== */
 
 // Import modules
 import { AppState } from './state.js';
-import { detectLanguage, loadSavedLanguagePrefs, updateUI } from './i18n.js';
+import { detectLanguage, loadSavedLanguagePrefs, updateUI, SUPPORTED_LANGS } from './i18n.js';
 import { setupServiceWorker, showScreen } from './ui.js';
 import { setCat, start, backToMenu, retry, toggleTranslate, toggleHints } from './quiz.js';
 import { startFlashcard, showFlashcardAnswer, handleFlashcardAnswer } from './flashcard.js';
@@ -55,8 +55,6 @@ function setupEventListeners() {
     const interfaceLangSelect = document.getElementById('interface-lang');
     const quizLangSelect = document.getElementById('quiz-lang');
     const helperLangSelect = document.getElementById('helper-lang');
-    
-    const SUPPORTED_LANGS = ['en', 'uk', 'el', 'ru'];
 
     if (interfaceLangSelect) {
         interfaceLangSelect.addEventListener('change', () => {

@@ -2,7 +2,6 @@
 const UI_TRANSLATIONS = {
     uk: {
         title: "Дорожні знаки Кіпру",
-        favOnly: "Тільки обрані знаки ⭐",
         interfaceLang: "Мова інтерфейсу",
         quizLang: "Мова тесту",
         helperLang: "Мова підказок",
@@ -70,7 +69,6 @@ const UI_TRANSLATIONS = {
     },
     en: {
         title: "Cyprus Road Signs",
-        favOnly: "Favorite signs only ⭐",
         interfaceLang: "Interface Language",
         quizLang: "Quiz Language",
         helperLang: "Helper Language",
@@ -138,7 +136,6 @@ const UI_TRANSLATIONS = {
     },
     el: {
         title: "Οδικές Πινακίδες Κύπρου",
-        favOnly: "Μόνο αγαπημένες πινακίδες ⭐",
         interfaceLang: "Γλώσσα Περιβάλλοντος",
         quizLang: "Γλώσσα Κουίζ",
         helperLang: "Γλώσσα Βοήθειας",
@@ -206,7 +203,6 @@ const UI_TRANSLATIONS = {
     },
     ru: {
         title: "Дорожные знаки Кипра",
-        favOnly: "Только избранные знаки ⭐",
         interfaceLang: "Язык интерфейса",
         quizLang: "Язык теста",
         helperLang: "Язык подсказок",

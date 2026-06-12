@@ -1,5 +1,5 @@
 /* ==================== UTILITY FUNCTIONS ====================
-   Version: 5.3
+   Version: 5.6
    Last Updated: 2026-02-24
 ====================================================================== */
 
@@ -46,12 +46,15 @@ export function getTimeColor(seconds) {
 export function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
+    const translations = UI_TRANSLATIONS[AppState.settings.interfaceLang];
     if (mins > 0) {
         const minText = AppState.settings.interfaceLang === 'en' ? 'min' :
-                       AppState.settings.interfaceLang === 'el' ? 'λεπ' : 'хв';
-        return `${mins} ${minText} ${secs} ${UI_TRANSLATIONS[AppState.settings.interfaceLang].seconds}`;
+                       AppState.settings.interfaceLang === 'el' ? 'λεπ' :
+                       AppState.settings.interfaceLang === 'uk' ? 'хв' :
+                       'мин';
+        return `${mins} ${minText} ${secs} ${translations.seconds}`;
     }
-    return `${secs} ${UI_TRANSLATIONS[AppState.settings.interfaceLang].seconds}`;
+    return `${secs} ${translations.seconds}`;
 }
 
 /**

@@ -1,12 +1,12 @@
 /* ==================== RESULTS RENDERING ====================
-   Version: 5.3
+   Version: 5.6
    Last Updated: 2026-02-24
    Common logic for rendering quiz/flashcard results
 ====================================================================== */
 
 import { AppState } from './state.js';
 import { getDisplayName, getDisplayHint, t } from './i18n.js';
-import { handleImageError, getTimeColor, getAttemptText } from './utils.js';
+import { handleImageError, getTimeColor, getAttemptText, formatTime } from './utils.js';
 
 /**
  * Render results list for quiz or flashcard mode
@@ -146,22 +146,4 @@ export function renderResultHeader(points, total, totalTime, hintsUsed = 0, isFl
             resultTitle.appendChild(hintsSpan);
         }
     }
-}
-
-/**
- * Format time in seconds to readable string
- * @param {number} seconds
- * @returns {string}
- */
-function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    const translations = t[AppState.settings.interfaceLang];
-    
-    if (mins > 0) {
-        const minText = AppState.settings.interfaceLang === 'en' ? 'min' :
-                       AppState.settings.interfaceLang === 'el' ? 'λεπ' : 'хв';
-        return `${mins} ${minText} ${secs} ${translations.seconds}`;
-    }
-    return `${secs} ${translations.seconds}`;
 }

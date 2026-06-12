@@ -1,11 +1,13 @@
 /* ==================== I18N - INTERNATIONALIZATION ====================
-   Version: 5.3
+   Version: 5.6
    Last Updated: 2026-02-24
    Prepared for multi-page support
 ====================================================================== */
 
 import { AppState } from './state.js';
 import { sanitizeHTML } from './utils.js';
+
+export const SUPPORTED_LANGS = ['en', 'uk', 'el', 'ru'];
 
 /**
  * Get display name for a sign in specified language
@@ -75,14 +77,13 @@ export function getCurrentQuizLang() {
  * - other pages: detectLanguage(false) → read-only
  */
 export function detectLanguage(writeToLocalStorage = false) {
-    const supportedLangs = ['en', 'uk', 'el', 'ru'];
     let lang = 'en';
 
     // 1. URL parameter (PRIORITY)
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
 
-    if (urlLang && supportedLangs.includes(urlLang)) {
+    if (urlLang && SUPPORTED_LANGS.includes(urlLang)) {
         lang = urlLang;
         if (writeToLocalStorage) {
             localStorage.setItem('cy_interface_lang', lang);
@@ -92,7 +93,7 @@ export function detectLanguage(writeToLocalStorage = false) {
 
     // 2. localStorage (from previous visits)
     const storedLang = localStorage.getItem('cy_interface_lang');
-    if (storedLang && supportedLangs.includes(storedLang)) {
+    if (storedLang && SUPPORTED_LANGS.includes(storedLang)) {
         lang = storedLang;
         // Don't overwrite (already in localStorage)
         return lang;
@@ -100,7 +101,7 @@ export function detectLanguage(writeToLocalStorage = false) {
 
     // 3. Browser language (only save if not already in localStorage)
     const browserLang = navigator.language.slice(0, 2);
-    if (supportedLangs.includes(browserLang)) {
+    if (SUPPORTED_LANGS.includes(browserLang)) {
         lang = browserLang;
         if (writeToLocalStorage) {
             localStorage.setItem('cy_interface_lang', lang);
@@ -139,39 +140,22 @@ export function detectAndSetLanguage() {
 }
 
 /**
- * Save quiz language to localStorage
- * @deprecated - logic moved to app.js event listeners
- */
-export function saveQuizLang() {
-    // Deprecated
-}
-
-/**
- * Save helper language to localStorage
- * @deprecated - logic moved to app.js event listeners
- */
-export function saveHelperLang() {
-    // Deprecated
-}
-
-/**
  * Load saved language preferences from localStorage
  */
 export function loadSavedLanguagePrefs() {
     const interfaceLang = localStorage.getItem('cy_interface_lang');
     const quizLang = localStorage.getItem('cy_quiz_lang');
     const helperLang = localStorage.getItem('cy_helper_lang');
-    const supportedLangs = ['en', 'uk', 'el', 'ru'];
 
     // Load interface language
-    if (interfaceLang && supportedLangs.includes(interfaceLang)) {
+    if (interfaceLang && SUPPORTED_LANGS.includes(interfaceLang)) {
         AppState.settings.interfaceLang = interfaceLang;
         const interfaceLangSelect = document.getElementById('interface-lang');
         if (interfaceLangSelect) interfaceLangSelect.value = interfaceLang;
     }
 
     // Load quiz language
-    if (quizLang && supportedLangs.includes(quizLang)) {
+    if (quizLang && SUPPORTED_LANGS.includes(quizLang)) {
         AppState.settings.quizLang = quizLang;
         const quizLangSelect = document.getElementById('quiz-lang');
         if (quizLangSelect) quizLangSelect.value = quizLang;
@@ -181,49 +165,13 @@ export function loadSavedLanguagePrefs() {
     }
 
     // Load helper language
-    if (helperLang && supportedLangs.includes(helperLang)) {
+    if (helperLang && SUPPORTED_LANGS.includes(helperLang)) {
         AppState.settings.helperLang = helperLang;
         const helperLangSelect = document.getElementById('helper-lang');
         if (helperLangSelect) helperLangSelect.value = helperLang;
     } else {
         // Default to interface language
         AppState.settings.helperLang = AppState.settings.interfaceLang;
-    }
-}
-
-/**
- * Update UI language (for SPA)
- * For multi-page, use updateStaticPageUI() instead
- */
-export function updateUILanguage() {
-    const interfaceLangSelect = document.getElementById('interface-lang');
-    if (interfaceLangSelect) {
-        const lang = interfaceLangSelect.value;
-        AppState.settings.interfaceLang = lang;
-        document.documentElement.lang = lang;
-        localStorage.setItem('cy_interface_lang', lang);
-
-        // Update page title and meta description (SPA only)
-        const titles = {
-            en: 'Cyprus Road Signs Quiz — Free Driving Test Practice (227 Signs)',
-            uk: 'Дорожні знаки Кіпру — Безкоштовний онлайн тест (227 знаків)',
-            el: 'Οδικές Πινακίδες Κύπρου — Δωρεάν Θεωρητικό Τεστ (227 Σήματα)',
-            ru: 'Дорожные знаки Кипра — Бесплатный онлайн тест (227 знаков)'
-        };
-        document.title = titles[lang] || titles.en;
-
-        const descriptions = {
-            en: 'Interactive quiz app for learning Cyprus road signs. 227 signs, 4 languages, offline PWA support. Free driving test preparation.',
-            uk: 'Інтерактивний додаток для вивчення дорожніх знаків Кіпру. 227 знаків, 4 мови, офлайн режим. Безкоштовна підготовка до екзамену.',
-            el: 'Διαδραστική εφαρμογή για την εκμάθηση οδικών πινακίδων Κύπρου. 227 σήματα, 4 γλώσσες, υποστήριξη εκτός σύνδεσης.',
-            ru: 'Интерактивное приложение для изучения дорожных знаков Кипра. 227 знаков, 4 языка, офлайн режим. Бесплатная подготовка к экзамену.'
-        };
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) {
-            metaDesc.setAttribute('content', descriptions[lang] || descriptions.en);
-        }
-
-        updateUI();
     }
 }
 
@@ -235,7 +183,6 @@ export function updateUI() {
 
     const elements = {
         'ui-title': sanitizeHTML(t.title),
-        'ui-fav-only': sanitizeHTML(t.favOnly),
         'ui-interface-lang': sanitizeHTML(t.interfaceLang),
         'ui-quiz-lang': sanitizeHTML(t.quizLang),
         'ui-helper-lang': sanitizeHTML(t.helperLang),

@@ -1,5 +1,5 @@
 /* ==================== SHARE FUNCTIONALITY ====================
-   Version: 5.3
+   Version: 5.6
    Last Updated: 2026-02-24
    Share app functionality
 ====================================================================== */

@@ -1,5 +1,5 @@
 /* ==================== REFERENCE PAGE ====================
-   Version: 5.3
+   Version: 5.6
    Last Updated: 2026-02-26
 
    Uses translations from translations.js
@@ -121,6 +121,17 @@ function setupEventListeners() {
             window.location.href = 'index.html';
         });
     }
+
+    // Delegated handler for "Details" links: set scrollToSign before navigation
+    const referenceList = document.getElementById('reference-list');
+    if (referenceList) {
+        referenceList.addEventListener('click', (e) => {
+            const link = e.target.closest('a.details-btn');
+            if (link && link.dataset.signFile) {
+                localStorage.setItem('scrollToSign', link.dataset.signFile);
+            }
+        });
+    }
 }
 
 // ==================== RENDER ====================
@@ -159,7 +170,7 @@ function renderReferenceList() {
                 <div class="reference-category ${sign.cat}">${categoryName}</div>
                 <div class="reference-name">${signName}</div>
                 <div class="reference-hint">${signHint}</div>
-                <a href="signs/${signId}.html" class="details-btn" onclick="localStorage.setItem('scrollToSign', '${sign.file}')">
+                <a href="signs/${signId}.html" class="details-btn" data-sign-file="${sign.file}">
                     ${t[currentLang].detailsBtn || '📖 Details'}
                 </a>
             </div>

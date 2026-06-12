@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PWA](https://img.shields.io/badge/PWA-Certified-green)](https://cy-signs.com/)
-[![Version](https://img.shields.io/badge/version-5.3-blue)](https://cy-signs.com/)
+[![Version](https://img.shields.io/badge/version-5.6-blue)](https://cy-signs.com/)
 
 **Official website:** [cy-signs.com](https://cy-signs.com/)
 
@@ -281,7 +281,7 @@ This design supports language learners studying road signs in a non-native langu
 
 ```javascript
 // sw.js
-const CACHE_NAME = 'cyprus-signs-v5.3';
+const CACHE_NAME = 'cyprus-signs-v5.6';
 
 // Pre-cached assets (install event)
 const ASSETS = [
@@ -458,6 +458,6 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 ---
 
-**Version:** 5.3  
+**Version:** 5.6  
 **Last Updated:** March 2026  
 **Maintained By:** Cyprus Driving Test Team
