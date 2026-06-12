@@ -20,7 +20,6 @@ self.addEventListener('install', (event) => {
       'js/reference-page.js',
       'js/feedback.js',
       'js/feedback-page.js',
-      'js/sign-page.js',
       'js/utils.js',
       'js/results.js',
       'manifest.json'
